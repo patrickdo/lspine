@@ -1,8 +1,5 @@
 /*global window: false, REDIPS: true */
-<<<<<<< HEAD
-// gh-pages
-=======
->>>>>>> origin/refactor-conclusion
+
 /* enable strict mode */
 "use strict";
 
