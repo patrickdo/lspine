@@ -1,4 +1,3 @@
-
 /*global window: false, REDIPS: true */
 
 /* enable strict mode */
@@ -53,20 +52,10 @@ redipsInit = function () {
 			}
 		}
 		
-		// print message only if target and source table cell differ
-		/*if (rd.td.target !== rd.td.source) {
-			printMessage('Content has been changed!');
-		} */
 		report_update();	// update on dropping a DIV in a TD
 	};
 
 };
-
-
-// print message
-/* printMessage = function (message) {
-	document.getElementById('message').innerHTML = message;
-}; */
 
 
 // add onload event listener
@@ -116,7 +105,6 @@ getContent = function (id) {
 // ========================== //
 // ====== REPORT_UPDATE ===== //
 // ========================== //
-
 report_update = function () {
 	// define vars
 	var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curlevel, n_sev = [], s_sev, b_sev = [], other = [], p_text = [];
@@ -179,6 +167,7 @@ report_update = function () {
 		if (b_sev) {
 			b_text[curlevel] = 'is a ' + b_sev + ' broad-based disc bulge';
 		}
+		
 		
 		// PROTRUSIONS
 		p_text = [];
@@ -265,23 +254,15 @@ report_update = function () {
 		
 		
 		// OTHER COLUMN //
-/* 		other = [];
-		for (i=0; i<6; i++) {
-			if (document.getElementById(others[curlevel][i]).checked) {
-				other[other.length]=document.getElementById(others[curlevel][i]).name;
-			}
-		} */
 		other = [];
 		other = $(others[curlevel]).multipleSelect("getSelects", "text");
-		for (i = 0; i < other.length; i++) {				// for all checked boxes in the multipleSelect
+		for (i = 0; i < other.length; i++) {			// for all checked boxes in the multipleSelect
 			other[i] = other[i].replace(/(\[|\])/g, '');		// remove []
 			other[i] = other[i].replace(/(.+): (.+)/, '$2 $1');	// 'dd: mild' → 'mild dd'
 			other[i] = other[i].replace(/,  /, '-');			// 'mild,  mod dd' → 'mild-mod dd'
 			other[i] = other[i].replace(/mod/, 'moderate');		// 'mod' → 'moderate'
 			other[i] = other[i].replace(/sev/, 'severe');		// 'sev' → 'severe'
-		
 		}
-		
 		
 		// consolidate "other" findings into a comma-separated phrase
 		switch (other.length) {
@@ -296,7 +277,6 @@ report_update = function () {
 		}
 		
 		// X R FJH + X L FJH → X B FJH
-		//alert(o_text[curlevel]);
 		o_text[curlevel] = o_text[curlevel].replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy');
 		o_text[curlevel] = o_text[curlevel].replace(/\b(\w+) right.*\1 left/i, '$1 bilateral');
 		o_text[curlevel] = o_text[curlevel].replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral');
@@ -313,24 +293,25 @@ report_update = function () {
 	var sevs = [], concl, high_sev, high_sev_level = [], cl;
 	
 	// (NFN) checking NFN first //
+	// get a list of NFN severities, removing clone c*
 	for(i = 1; i <= 5; i++) {
-		sevs[i] = getContent(levels[i][0]).replace(/c[0-9]/g, '');	// remove clone c* from R NFN column
-		sevs[i+5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');	// remove clone c* from L NFN column
+		sevs[i] = getContent(levels[i][0]).replace(/c[0-9]/g, '');
+		sevs[i+5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');
 	}
 		
-	for(i = 4; i>= 0; i--) {							// iterate backwards from most severe
+	for(i = 4; i>= 0; i--) {					// iterate backwards from most severe
 		if (sevs.indexOf(refsevs[i]) > -1) {	// if there is a match ...
-			for(cl = 1; cl <= 5; cl++) {			// ... look through all levels ...
-				if (getContent(levels[cl][0]).replace(/c[0-9]/g, '') === refsevs[i] || getContent(levels[cl][6]).replace(/c[0-9]/g, '') === refsevs[i]) {	// ... if there are other matches
-					high_sev_level[high_sev_level.length] = lumbarlevels[cl];	// ... store them
+			for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
+				if (getContent(levels[cl][0]).replace(/c[0-9]/g, '') === refsevs[i] || getContent(levels[cl][6]).replace(/c[0-9]/g, '') === refsevs[i]) {	// ... if there are other levels with equivalent NFN severities
+					high_sev_level[high_sev_level.length] = lumbarlevels[cl];	// ... store them too
 				}
 			}
 			high_sev = refsevs[i];
-			i = -1;
+			i = -1;	// exit loop. if there is a match, don't look for lower severity matches
 		}
 	}
 	
-	// (NFN) list the levels where highest severity is present
+	// (NFN) create a string of the levels where highest NFN severity is present
 	switch(high_sev_level.length) {
 		case 1:
 			concl = high_sev_level + ' level.';	// maybe this converts it to a string
@@ -342,7 +323,7 @@ report_update = function () {
 			concl = high_sev_level.join(', ') + ' levels.';
 	}
 	
-	// (NFN) finalize conclusion depending on whether checkbox is checked
+	// (NFN) finalize conclusion depending on whether checkbox is checked --- should nest the entire conclusion function inside this...
 	// 'particularly'?
 	if (document.getElementById('conclusion').checked === true) {
 		if (high_sev) {
@@ -416,7 +397,6 @@ report_update = function () {
 		// o_text[i] = o_text[i].replace(/,(?=[^,]*$)/, ', and');
 		h_text[i] = h_text[i].replace(/,(?=[^,]*$)/, ', and');
 		
-		
 		// combine sentences
 		levels_text[i] = h_text[i]+'. '+n_text[i]+'. '+s_text[i]+o_text[i];
 
@@ -428,9 +408,7 @@ report_update = function () {
 
 		// convert first letter to lowercase because text starts with "There "
 		levels_text[i] = levels_text[i].substring(0,1).toLowerCase() + levels_text[i].substring(1);
-		
 	}
-	
 	
 	report_text =	'<b>L1-L2</b>: There ' + levels_text[1] + '.<br>' + 
 					'<b>L2-L3</b>: There ' + levels_text[2] + '.<br>' + 
@@ -439,7 +417,6 @@ report_update = function () {
 					'<b>L5-S1</b>: There ' + levels_text[5] + 
 					'.<br><br>' +
 					concl;
-
 
 	// ===== UPDATE REPORT PREVIEW ===== //
 	document.getElementById('report_textarea').innerHTML = report_text;
