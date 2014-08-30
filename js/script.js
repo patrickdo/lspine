@@ -1,5 +1,5 @@
 /*global window: false, REDIPS: true */
-// rfbranch
+// gh-pages
 /* enable strict mode */
 "use strict";
 
