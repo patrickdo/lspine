@@ -1,5 +1,8 @@
 /*global window: false, REDIPS: true */
+<<<<<<< HEAD
 // gh-pages
+=======
+>>>>>>> origin/refactor-conclusion
 /* enable strict mode */
 "use strict";
 
@@ -302,7 +305,7 @@ report_update = function () {
 			n_sevs[i+5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');
 		}
 		
-		// priority: 1) highest severity. 2) favor SS levels over NF levels
+		// priority: 1) highest severity. 2) favor SS over NF when enumerating levels
 		for(i = 4; i >= 0; i--) {					// iterate backwards from most severe
 			if (s_sevs.indexOf(refsevs[i]) > -1) {	// if there is an SS match ...
 				for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
