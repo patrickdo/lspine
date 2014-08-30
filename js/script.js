@@ -1,5 +1,5 @@
 /*global window: false, REDIPS: true */
-
+// rfbranch
 /* enable strict mode */
 "use strict";
 
@@ -288,80 +288,33 @@ report_update = function () {
 	
 	
 	// ===== CONCLUSION SENTENCE ===== //
-	var refsevs = "mild mild-moderate moderate moderate-severe severe".split(' ');
-	var lumbarlevels = " L1-2 L2-3 L3-4 L4-5 L5-S1".split(' ');
-	var sevs = [], concl, high_sev, high_sev_level = [], cl;
-	
-	// (NFN) checking NFN first //
-	// get a list of NFN severities, removing clone c*
-	for(i = 1; i <= 5; i++) {
-		sevs[i] = getContent(levels[i][0]).replace(/c[0-9]/g, '');
-		sevs[i+5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');
-	}
-		
-	for(i = 4; i>= 0; i--) {					// iterate backwards from most severe
-		if (sevs.indexOf(refsevs[i]) > -1) {	// if there is a match ...
-			for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
-				if (getContent(levels[cl][0]).replace(/c[0-9]/g, '') === refsevs[i] || getContent(levels[cl][6]).replace(/c[0-9]/g, '') === refsevs[i]) {	// ... if there are other levels with equivalent NFN severities
-					high_sev_level[high_sev_level.length] = lumbarlevels[cl];	// ... store them too
-				}
-			}
-			high_sev = refsevs[i];
-			i = -1;	// exit loop. if there is a match, don't look for lower severity matches
-		}
-	}
-	
-	// (NFN) create a string of the levels where highest NFN severity is present
-	switch(high_sev_level.length) {
-		case 1:
-			concl = high_sev_level + ' level.';	// maybe this converts it to a string
-			break;
-		case 2:
-			concl = high_sev_level.join(' and ') + ' levels.';
-			break;
-		default:
-			concl = high_sev_level.join(', ') + ' levels.';
-	}
-	
-	// (NFN) finalize conclusion depending on whether checkbox is checked --- should nest the entire conclusion function inside this...
-	// 'particularly'?
-	if (document.getElementById('conclusion').checked === true) {
-		if (high_sev) {
-			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
-			concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' lumbar spondylosis, most notably at the ' + concl.replace(/,(?=[^,]*$)/, ', and') + '<br><br>';
-			if (high_sev_level.length >= 3) {
-				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
-			}
-		} else {
-			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.';
-		}
-	} else {
+	if (!document.getElementById('conclusion').checked) {
 		concl = '';
-	}
-	
-	// (SS) then checking SS, which will supersede. (this block of code is essentially a duplicate...) 
-	high_sev = '';
-	sevs = [];
-	high_sev_level = [];
-	
-	for(i = 1; i <= 5; i++) {
-		sevs[i] = getContent(levels[i][7]).replace(/c[0-9]/g, '');	// remove clone c* from SS column
-	}
+	} else {
+		var refsevs = "mild mild-moderate moderate moderate-severe severe".split(' ');
+		var lumbarlevels = " L1-2 L2-3 L3-4 L4-5 L5-S1".split(' ');
+		var sevs = [], concl, high_sev, high_sev_level = [], cl;
 		
-	for(i = 4; i >= 0; i--) {							// iterate backwards from most severe
-		if (sevs.indexOf(refsevs[i]) > -1) {	// if there is a match ...
-			for(cl = 1; cl <= 5; cl++) {			// ... look through all levels ...
-				if (getContent(levels[cl][7]).replace(/c[0-9]/g, '') === refsevs[i]) {	// ... if there are other matches
-					high_sev_level[high_sev_level.length] = lumbarlevels[cl];	// ... store them
-				}
-			}
-			high_sev = refsevs[i];
-			i = -1;
+		// (NFN) checking NFN first //
+		// get a list of NFN severities, removing clone c*
+		for(i = 1; i <= 5; i++) {
+			sevs[i] = getContent(levels[i][0]).replace(/c[0-9]/g, '');
+			sevs[i+5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');
 		}
-	}
-	
-	// (SS) list the levels where highest severity is present
-	if (high_sev) {	// only overwrite if spinal stenosis is present
+			
+		for(i = 4; i>= 0; i--) {					// iterate backwards from most severe
+			if (sevs.indexOf(refsevs[i]) > -1) {	// if there is a match ...
+				for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
+					if (getContent(levels[cl][0]).replace(/c[0-9]/g, '') === refsevs[i] || getContent(levels[cl][6]).replace(/c[0-9]/g, '') === refsevs[i]) {	// ... if there are other levels with equivalent NFN severities
+						high_sev_level[high_sev_level.length] = lumbarlevels[cl];	// ... store them too
+					}
+				}
+				high_sev = refsevs[i];
+				i = -1;	// exit loop. if there is a match, don't look for lower severity matches
+			}
+		}
+		
+		// (NFN) create a string of the levels where highest NFN severity is present
 		switch(high_sev_level.length) {
 			case 1:
 				concl = high_sev_level + ' level.';	// maybe this converts it to a string
@@ -372,11 +325,57 @@ report_update = function () {
 			default:
 				concl = high_sev_level.join(', ') + ' levels.';
 		}
-	}
+		
+		// (NFN) finalize conclusion
+		// 'particularly'?
+		if (high_sev) {
+			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
+			concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' lumbar spondylosis, most notably at the ' + concl.replace(/,(?=[^,]*$)/, ', and') + '<br><br>';
+			if (high_sev_level.length >= 3) {
+				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
+			}
+		} else {
+			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.';
+		}
+		
+		
+		// (SS) then checking SS, which will supersede. (this block of code is essentially a duplicate...) 
+		high_sev = '';
+		sevs = [];
+		high_sev_level = [];
+		
+		for(i = 1; i <= 5; i++) {
+			sevs[i] = getContent(levels[i][7]).replace(/c[0-9]/g, '');	// remove clone c* from SS column
+		}
+			
+		for(i = 4; i >= 0; i--) {							// iterate backwards from most severe
+			if (sevs.indexOf(refsevs[i]) > -1) {	// if there is a match ...
+				for(cl = 1; cl <= 5; cl++) {			// ... look through all levels ...
+					if (getContent(levels[cl][7]).replace(/c[0-9]/g, '') === refsevs[i]) {	// ... if there are other matches
+						high_sev_level[high_sev_level.length] = lumbarlevels[cl];	// ... store them
+					}
+				}
+				high_sev = refsevs[i];
+				i = -1;
+			}
+		}
+		
+		// (SS) list the levels where highest severity is present
+		if (high_sev) {	// only overwrite if spinal stenosis is present
+			switch(high_sev_level.length) {
+				case 1:
+					concl = high_sev_level + ' level.';	// maybe this converts it to a string
+					break;
+				case 2:
+					concl = high_sev_level.join(' and ') + ' levels.';
+					break;
+				default:
+					concl = high_sev_level.join(', ') + ' levels.';
+			}
+		}
 
-	// (SS) finalize conclusion depending on whether checkbox is checked
-	// 'particularly'?
-	if (document.getElementById('conclusion').checked === true) {
+		// (SS) finalize conclusion depending on whether checkbox is checked
+		// 'particularly'?
 		if (high_sev) {
 			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
 			concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' lumbar spondylosis, most notably at the ' + concl.replace(/,(?=[^,]*$)/, ', and') + '<br><br>';
@@ -386,10 +385,9 @@ report_update = function () {
 		} /* else {
 			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.';
 		} */
-	} else {
-		concl = '';
+		
 	}
-
+	
 	
 	// ===== GENERATE REPORT ===== //
 	for (i = 1; i <= 5; i++) {
