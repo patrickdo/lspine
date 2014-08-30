@@ -291,11 +291,7 @@ report_update = function () {
 			case 1:
 				o_text[curlevel] = '. ' + other;
 				break;
-/* 			case 2:
-				o_text[curlevel] = '. ' + other.join(' and ');
-				break; */
 			default:
-/* 				o_text[curlevel] = '. ' + other.join(', '); */
 				o_text[curlevel] = '. ' + other.join('. ');
 		}
 		
