@@ -1,0 +1,204 @@
+							<col width="40"> 
+							<col width="80">
+							<col width="70" style="border-left-style:solid">
+							<col width="70" style="border-left-style:double">
+							<col width="70">
+							<col width="90" style="border-style:none">
+							<col width="70">
+							<col width="70" style="border-right-style:double">
+							<col width="70" style="border-right-style:solid">
+							<col width="70">
+							<col width="172">
+
+
+		<script>
+            $(document).ready(function () {
+                var a = "#o1 #o2 #o3 #o4 #o5".split(' ');	// identify the 5 multipleSelects
+				$('a.cb').colorbox({ opacity:0.5 });	// initialize colorbox for class "cb"
+				
+				for (var i = 0; i < a.length; i++) {
+					$(a[i]).multipleSelect({	// initialize the 5 multipleSelects
+						multiple: true,
+						multipleWidth: 50,
+						width: 170,
+						maxHeight: 280,
+						selectAll: false,
+						placeholder: "None",
+						minumimCountSelected: 99,	// [sic]
+						onOptgroupClick: function(view) {
+							report_update();
+						},
+						onClick: function(view) {
+							report_update();
+						}
+					});
+				}
+				
+			});
+        </script>
+
+		<!-- help pop-up → UglifyJS -->
+		<script>
+			function pseudo_popup(e){function s(){var e=document.createElement("div");e.style.position="fixed";e.style.top="0px";e.style.left="0px";e.style.width=r+"px";e.style.height=i+"px";e.style.background="#7f7f7f";if(navigator.userAgent.match(/msie/i)){e.style.background="#7f7f7f";e.style.filter="progid:DXImageTransform.Microsoft.Alpha(opacity=50)"}else{e.style.background="rgba(127, 127, 127, 0.5)"}e.onclick=function(){e.parentNode.removeChild(e);t.parentNode.removeChild(t)};document.body.appendChild(e)}var t=document.createElement("div");t.innerHTML=e;t.style.background="white";t.style.border="1px solid #888";if(navigator.userAgent.match(/msie/i)){function n(e){return"progid:DXImageTransform.Microsoft.Shadow("+e+")"}t.style.filter=[n("color=black, strength=5"),n("color=black, strength=2, direction=135"),n("color=black, strength=2, direction=315")].join(" ")}else{t.style.MozBoxShadow=t.style.webkitBoxShadow=t.style.BoxShadow="-4px 4px 11px black"}var r=window.innerWidth;var i=window.innerHeight;s();var o=r/2;var u=i/3;t.style.position="fixed";document.body.appendChild(t);o-=t.clientWidth/2;u-=t.clientHeight/2;t.style.top=u+"px";t.style.left=o+"px";return false}
+		</script>
+
+
+<h2 style=\ "font-variant:small-caps\">instructions</h2>
+<p>- Drag descriptors (e.g. \"Mild\") from the leftmost column to the disc level.
+    <br>- Create clones by holding the SHIFT key while dragging descriptors.
+    <br>- Select the \"link\" checkbox to copy a descriptor to the central and paracentral locations.</p>
+	
+
+ 					<table><!-- Global table -->
+						<tr>
+							<td>All levels:</td>
+							<td>
+								<input type="checkbox" id="g1"><input type="checkbox" id="g11">Disc space narrowing
+							</td>
+							<td>
+								<input type="checkbox" id="g2"><label for="g2">End-plate degenerative changes</label>
+							</td>
+							<td>
+								<input type="checkbox" id="g3"><label for="g3">Facet joint hypertrophy, Right</label>
+							</td>
+							<td>
+								<input type="checkbox" id="g4"><label for="g4">Facet joint hypertrophy, Left</label>
+							</td>
+							<td>
+								<input type="checkbox" id="g5"><label for="g5">Congenitally short pedicles</label>
+							</td>
+						</tr>
+					</table><!-- Global table -->
+
+
+
+		<script type="text/javascript"> <!-- google analytics asynchronous -->
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-53017751-1']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+		
+		
+
+<!-- immediately detecting changes to an INPUT
+http://stackoverflow.com/questions/1948332/detect-all-changes-to-a-input-type-text-immediately-using-jquer 
+http://stackoverflow.com/questions/574941/best-way-to-track-onchange-as-you-type-in-input-type-text
+onkeypress/onkeydown lag by 1 keystroke
+onchange updates only on blur (unfocus) -->
+
+
+// partial selection of textarea
+/*	var rta = document.getElementById('report_textarea');
+	var range = document.createRange();
+	range.setStart(rta, 0); // rta, 0 to start at beginning
+	range.setEnd(rta, 17); // rta, 17
+	var sel = window.getSelection();
+	sel.removeAllRanges();
+	sel.addRange(range); */
+
+// disable button
+/*	var btn=document.getElementById('report_transmitbtn');
+	btn.innerHTML='abc<br>123';
+	btn.disabled=true; */
+
+
+// report_update() - cycle through disc levels - PROTRUSIONS
+// deprecated protrusion text without comma-separation
+/* 		for(i=1; i<=5; i++) {
+			p_sev[i] = getContent(levels[curlevel][i]);
+			if (p_sev[i]) {
+				j++;
+				if (p_text[curlevel]==="")
+				{
+					p_text[curlevel] = 'a ' + p_sev[i] + ' ' + plocations[i] + ' disc protrusion';
+				} else {
+					p_text[curlevel] += ' and a ' + p_sev[i] +' ' + plocations[i] + ' disc protrusion';
+				}
+			}
+		} */
+		
+		
+// report_update() - cycle through disc levels - PROTRUSIONS
+		/*
+		// combine disc protrusion in all locations into bbdb
+		j=0;
+		for(i=1; i<=5; i++) {
+			h_sev[i]=h_sev[i].replace(/c[0-9]/g,'');	// remove clone c#
+			if (h_sev[i]===h_sev[1] && h_sev[i]) j++;	// count how many of the same word
+		}
+		if (j===5) h_text[curlevel]='a ' + h_sev[1] + ' broad-based disc bulge';	// change to bbdb
+		*/
+		
+	
+// report_update() - cycle - NFN
+/*									
+		n_sev[i]=getContent(levels[curlevel][6*i]);
+			
+ 			if (n_sev[i]) {
+				if (n_text[curlevel]==="no neuroforaminal narrowing")
+				{
+					n_text[curlevel] = n_sev[i] + ' ' + nlocations[i] + ' neuroforaminal narrowing';
+				} else {
+					n_text[curlevel] += ' and ' + n_sev[i] +' ' + nlocations[i] + ' neuroforaminal narrowing';
+				}
+			} 
+// combine 'X right NFN' and 'X left NFN' → 'X bilateral NFN'
+		if (n_sev[0]===n_sev[1] && n_sev[0]) n_text[curlevel] = n_sev[0] + ' bilateral neuroforaminal narrowing';
+*/
+
+
+
+<!-- 			<div>
+				<br><a style="font-variant:small-caps; font-size:medium; color:blue; padding-left:10px" onclick='pseudo_popup("<h2>Instructions</h2><p>- Drag descriptors (e.g. \"Mild\") from the leftmost column to the disc level.<br>- Create clones by holding the SHIFT key while dragging descriptors.<br>- Select the \"link\" checkbox to copy a descriptor to the central and paracentral locations.<br><table><tr><td><ul><li><b>Herniation</b>: <25% circumference<ul><li><b>Protrusion</b></li><li><b>Extrusion</b>: has a \"neck\"<ul><li><b>Sequestration</b></ul></li></ul><li><b>Bulge</b>: >25% circumference</li></ul></td><td><img src=\"img/protext.jpg\"></td></tr></table></p>")'>HELP?</a>
+			</div>
+			<br>
+			<div style="font-size:x-small;padding-left:10px">
+				Patrick Do | 2014
+			</div> -->
+			
+			
+			<!-- http://www.brianbarrett.net/book/export/html/10 -->
+			function expando() {
+			
+				//document.getElementById('expando').className='hiddenRow';	// works
+				//document.getElementById('expando').style.visibility='hidden';	// works
+				//document.getElementsByTagName('td').style.visibility='hidden';	// doesn't work
+				
+				document.getElementById('af').style.visibility='hidden';
+				var listing='r18 r28 r38 r48 r58'.split(' ');
+				if (document.getElementById('af').style.visibility==='hidden') {
+					for (var i=0;i<=4;i++) {
+						document.getElementById(listing[i]).style.visibility='hidden';
+						document.getElementById(listing[i]).style.width='0px';
+					}
+				}
+				//document.getElementById('r18').style.visibility='hidden';
+				
+				alert('hi');
+				/*alert(document.getElementsByTagName('td')[2]);
+				var summary=document.getElementsByTagName('td')[8];
+
+				mytd.style.width='300px'; */
+			/*	var mytd = document.getElementsbyTagName('td');
+				alert(mytd);
+				if (mytd.style.width==='200px') {
+					mytd.style.width='3px';
+				} else mytd.style.width='200px'; */
+			/* 	var mytd=document.getElementsByTagName('td')[1];
+				if (mytd.style.width==='200px') {
+					mytd.style.width='3px';
+				} else mytd.style.width='200px';
+					document.getElementsByTagName('td')[0].style.width = '200px';
+				*/
+				return;
+			};
+			
+			
+/* 					if (n_sev[0] === n_sev[1] && n_sev[0]) {
+						n_text[curlevel] = n_sev[0] + ' bilateral';
+					} */

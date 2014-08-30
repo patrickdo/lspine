@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="author" content="Patrick Do"/>
+		<meta name="description" content="Lumbar spondylosis reporting module"/>
+		<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=0.6"/><!-- "position: fixed" fix for Android 2.2+ -->
+		<meta charset="utf-8"/>
+		
+		<!-- LSpine/REDIPS http://www.redips.net/javascript/drag-and-drop-example-3/ -->
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
+		<script type="text/javascript" src="js/redips-drag-min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+				
+		<!-- JQuery http://jquery.com/ -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		
+		<!-- Multiple Select (JQuery) http://wenzhixin.net.cn/p/multiple-select/docs/ -->
+		<link rel="stylesheet" href="css/multiple-select.css" type="text/css" media="screen"/>
+		<script type="text/javascript" src="js/jquery.multiple.select.js"></script>
+		
+		<!-- Colorbox (JQuery) http://www.jacklmoore.com/colorbox/ -->
+		<link rel="stylesheet" href="css/colorbox.css" type="text/css" media="screen"/>
+		<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
+		
+		<!-- Initialization -->
+		<script type="text/javascript">
+            $(document).ready(function() {
+                var a = "#o1 #o2 #o3 #o4 #o5".split(' ');	// identify the 5 multipleSelects
+				$('a.cb').colorbox({ opacity:0.5 });	// initialize colorbox for class "cb"
+				
+				for (var i = 0; i < a.length; i++) {
+					$(a[i]).multipleSelect({	// initialize the 5 multipleSelects
+						multiple: true,
+						multipleWidth: 50,
+						width: 170,
+						maxHeight: 280,
+						selectAll: false,
+						placeholder: "None",
+						minumimCountSelected: 99,	// [sic]
+						onOptgroupClick: function(view) {
+							report_update();
+						},
+						onClick: function(view) {
+							report_update();
+						}
+					});
+				}
+				
+			});
+        </script>
+		
+		<title>Lumbar Spondylosis</title>
+		
+		<!-- Google Analytics asynchronous -->
+		<script type="text/javascript"> 
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-53017751-1']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+
+	</head>
+	
+	<body>
+	
+		<div style="float:right; font-size:small;text-align:right">
+			<b>Nomenclature Guidelines:</b> 
+			<a href="http://www.asnr.org/spine_nomenclature/" target="_blank">2001 <img src="img/open_in_new_window.png" height="12" width="12" alt="2001 Combined Task Force Nomenclature Guidelines"></a> / <a href="http://www.sciencedirect.com/science/article/pii/S1529943014004094" target="_blank">2014 <img src="img/open_in_new_window.png" height="12" width="12" alt="2014 Combined Task Force Nomenclature Guidelines"></a>
+				<br>
+			<a href="instructions.html" class="cb" style="font-variant:small-caps; font-size:medium; color:blue">instructions</a>
+				<br>
+			<a href="quickref.html" class="cb" style="font-variant:small-caps; font-size:medium; color:blue;">quick reference</a>
+		</div>
+		<div style="background-color:#eee; padding:20px; text-align:center; font-size:20px; font-weight:bold">
+			Lumbar Spondylosis
+		</div>
+	
+		<div id="main_container">
+		
+			<!-- tables inside this DIV could have draggable content -->
+			<div id="drag"> 
+	
+				<!-- left container (table with subjects) -->
+				<div id="left">
+					<table id="table1"><!-- LEFT TABLE -->
+						<colgroup>
+							<col style="width:80px">
+						</colgroup>
+						<tbody>
+						<!--	td class="dark" for overwritable
+								td class="single" for non-overwritable -->
+							<tr><td class="single"><div id="bl" class="drag clone bl"><input type="text" value="Minimal" style="width:60px; vertical-align:bottom; text-align:center" id="bl_text" onkeyup="report_update()" /></div></td></tr>
+							<tr><td class="single"><div id="mild" class="drag clone i">Mild</div></td></tr>
+							<tr><td class="single"><div id="mild-moderate" class="drag clone io">Mild-<br>moderate</div></td></tr>
+							<tr><td class="single"><div id="moderate" class="drag clone o">Moderate</div></td></tr>
+							<tr><td class="single"><div id="moderate-severe" class="drag clone os">Moderate-<br>severe</div></td></tr>
+							<tr><td class="single"><div id="severe" class="drag clone s">Severe</div></td></tr>
+							<tr><td class="trash" title="Trash" style="color:white; text-transform:uppercase; font-weight:bold; background-color:#6386BD;">Trash</td></tr>
+						</tbody>
+					</table><!-- LEFT TABLE -->
+				</div><!-- left container -->
+				
+				<!-- right container -->
+				<!-- http://stackoverflow.com/questions/4457506/css-how-to-set-the-table-column-width-constant-regardless-of-the-amount-of-text -->
+				<div id="right">
+					<table id="table2" style="table-layout:fixed; width:870px"><!-- RIGHT TABLE -->
+						<colgroup>
+							<col style="width:40px"> 
+							<col style="width:80px">
+							<col style="width:70px; border-left-style:solid">
+							<col style="width:70px; border-left-style:double">
+							<col style="width:70px">
+							<col style="width:90px; border-style:none">
+							<col style="width:70px">
+							<col style="width:70px; border-right-style:double">
+							<col style="width:70px; border-right-style:solid">
+							<col style="width:70px">
+							<col style="width:172px">
+						</colgroup>
+						
+						<tbody>
+							<tr>
+								<td class="mark blank trash" title="Apply severity to central and paracentral locations" >
+									<!-- if checked, clone severity to the central/paracentral  -->
+									<input id="entirelevel" type="checkbox"><label for="entirelevel">link</label>
+								</td>
+								<td class="mark dark trash" title="Broad-based disc bulge"><a>Broad-based</a><br>disc bulge</td>
+								<td class="mark dark trash" title="Right neuroforaminal narrowing"><a>Right NF<br>narrowing</a></td>
+								<td class="mark dark trash" title="Right foraminal disc protrusion"><a>Right<br>foraminal</a></td>
+								<td class="mark dark trash" title="Right central disc protrusion"><a>Right<br>central</a></td>
+								<td class="mark dark trash" title="Central disc protrusion"><a>Central</a></td>
+								<td class="mark dark trash" title="Left central disc protrusion"><a>Left<br>central</a></td>
+								<td class="mark dark trash" title="Left foraminal disc protrusion"><a>Left<br>foraminal</a></td>
+								<td class="mark dark trash" title="Left neuroforaminal narrowing"><a>Left NF<br>narrowing</a></td>
+								<td class="mark dark trash" title="Spinal canal stenosis">Spinal<br>stenosis</td>
+								<td class="mark dark trash" title="Other findings">Other<br>findings</td>
+							</tr>
+							<tr>
+								<td class="mark dark trash">L1-L2</td>
+								<td id="b1"></td>
+								<td id="r10"></td>
+								<td id="r11"></td>
+								<td id="r12"></td>
+								<td id="r13"></td>
+								<td id="r14"></td>
+								<td id="r15"></td>
+								<td id="r16"></td>
+								<td id="r17"></td>
+								<td id="r18" style="text-align:left" class="dark trash">
+									<select multiple="multiple" id="o1">
+										<optgroup label="Annular fissure">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc desiccation">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc space narrowing">
+											<option value="4">mild</option>
+											<option value="5">mod</option>
+											<option value="6">sev</option>
+										</optgroup>
+										<optgroup label="End-plate degenerative changes">
+											<option value="7">mild</option>
+											<option value="8">mod</option>
+											<option value="9">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Right">
+											<option value="10">mild</option>
+											<option value="11">mod</option>
+											<option value="12">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Left">
+											<option value="13">mild</option>
+											<option value="14">mod</option>
+											<option value="15">sev</option>
+										</optgroup>
+										<optgroup label="Ligamentum flavum thickening">
+											<option value="16">mild</option>
+											<option value="17">mod</option>
+											<option value="18">sev</option>
+										</optgroup>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="mark dark trash">L2-L3</td>
+								<td id="b2"></td>
+								<td id="r20"></td>
+								<td id="r21"></td>
+								<td id="r22"></td>
+								<td id="r23"></td>
+								<td id="r24"></td>
+								<td id="r25"></td>
+								<td id="r26"></td>
+								<td id="r27"></td>
+								<td id="r28" style="text-align:left" class="dark trash">
+									<select multiple="multiple" id="o2">
+										<optgroup label="Annular fissure">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc desiccation">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc space narrowing">
+											<option value="4">mild</option>
+											<option value="5">mod</option>
+											<option value="6">sev</option>
+										</optgroup>
+										<optgroup label="End-plate degenerative changes">
+											<option value="7">mild</option>
+											<option value="8">mod</option>
+											<option value="9">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Right">
+											<option value="10">mild</option>
+											<option value="11">mod</option>
+											<option value="12">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Left">
+											<option value="13">mild</option>
+											<option value="14">mod</option>
+											<option value="15">sev</option>
+										</optgroup>
+										<optgroup label="Ligamentum flavum thickening">
+											<option value="16">mild</option>
+											<option value="17">mod</option>
+											<option value="18">sev</option>
+										</optgroup>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="mark dark trash">L3-L4</td>
+								<td id="b3"></td>
+								<td id="r30"></td>
+								<td id="r31"></td>
+								<td id="r32"></td>
+								<td id="r33"></td>
+								<td id="r34"></td>
+								<td id="r35"></td>
+								<td id="r36"></td>
+								<td id="r37"></td>
+								<td id="r38" style="text-align:left" class="dark trash">
+									<select multiple="multiple" id="o3">
+										<optgroup label="Annular fissure">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc desiccation">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc space narrowing">
+											<option value="4">mild</option>
+											<option value="5">mod</option>
+											<option value="6">sev</option>
+										</optgroup>
+										<optgroup label="End-plate degenerative changes">
+											<option value="7">mild</option>
+											<option value="8">mod</option>
+											<option value="9">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Right">
+											<option value="10">mild</option>
+											<option value="11">mod</option>
+											<option value="12">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Left">
+											<option value="13">mild</option>
+											<option value="14">mod</option>
+											<option value="15">sev</option>
+										</optgroup>
+										<optgroup label="Ligamentum flavum thickening">
+											<option value="16">mild</option>
+											<option value="17">mod</option>
+											<option value="18">sev</option>
+										</optgroup>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="mark dark trash">L4-L5</td>
+								<td id="b4"></td>
+								<td id="r40"></td>
+								<td id="r41"></td>
+								<td id="r42"></td>
+								<td id="r43"></td>
+								<td id="r44"></td>
+								<td id="r45"></td>
+								<td id="r46"></td>
+								<td id="r47"></td>
+								<td id="r48" style="text-align:left" class="dark trash">
+									<select multiple="multiple" id="o4">
+										<optgroup label="Annular fissure">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc desiccation">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc space narrowing">
+											<option value="4">mild</option>
+											<option value="5">mod</option>
+											<option value="6">sev</option>
+										</optgroup>
+										<optgroup label="End-plate degenerative changes">
+											<option value="7">mild</option>
+											<option value="8">mod</option>
+											<option value="9">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Right">
+											<option value="10">mild</option>
+											<option value="11">mod</option>
+											<option value="12">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Left">
+											<option value="13">mild</option>
+											<option value="14">mod</option>
+											<option value="15">sev</option>
+										</optgroup>
+										<optgroup label="Ligamentum flavum thickening">
+											<option value="16">mild</option>
+											<option value="17">mod</option>
+											<option value="18">sev</option>
+										</optgroup>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="mark dark trash">L5-S1</td>
+								<td id="b5"></td>
+								<td id="r50"></td>
+								<td id="r51"></td>
+								<td id="r52"></td>
+								<td id="r53"></td>
+								<td id="r54"></td>
+								<td id="r55"></td>
+								<td id="r56"></td>
+								<td id="r57"></td>
+								<td id="r58" style="text-align:left" class="dark trash">
+									<select multiple="multiple" id="o5">
+										<optgroup label="Annular fissure">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc desiccation">
+											<option value="1">mild</option>
+											<option value="2">mod</option>
+											<option value="3">sev</option>
+										</optgroup>
+										<optgroup label="Disc space narrowing">
+											<option value="4">mild</option>
+											<option value="5">mod</option>
+											<option value="6">sev</option>
+										</optgroup>
+										<optgroup label="End-plate degenerative changes">
+											<option value="7">mild</option>
+											<option value="8">mod</option>
+											<option value="9">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Right">
+											<option value="10">mild</option>
+											<option value="11">mod</option>
+											<option value="12">sev</option>
+										</optgroup>
+										<optgroup label="Facet joint hypertrophy, Left">
+											<option value="13">mild</option>
+											<option value="14">mod</option>
+											<option value="15">sev</option>
+										</optgroup>
+										<optgroup label="Ligamentum flavum thickening">
+											<option value="16">mild</option>
+											<option value="17">mod</option>
+											<option value="18">sev</option>
+										</optgroup>
+									</select>
+								</td>
+							</tr>
+							<tr> <!-- 8/2/14 -->
+								<td colspan=3 class="mark blank trash"></td>
+								<td colspan=5 class="mark dark trash">location of disc protrusion</td>
+								<td colspan=3 class="mark blank trash"></td>
+							</tr>
+						</tbody>
+					</table><!-- RIGHT TABLE -->
+										
+				</div><!-- right container -->
+			</div><!-- drag container -->
+			
+			<!-- PREVIEW PANE -->
+			<div id="preview" style="margin-top:15px; clear:both">
+				<div class="editable" id="report_textarea" contenteditable style="padding-top:5px; float:left">
+					An error has occurred.
+				</div>
+				<div style="padding-left:10px; clear:both">
+					<button style="width:150px; height:50px" id="report_transmitbtn" onclick="report_transmit()" type="button" >
+						Select All
+					</button>
+					<button onclick="location.reload()" style="height:50px">
+						Reset
+					</button>
+					<input type="checkbox" id="conclusion" onclick="report_update()">
+						<label for="conclusion">Generate Conclusion</label>					
+					<br>Ctrl+C to copy
+				</div>
+			</div><!-- PREVIEW PANE -->
+			
+			<div style="clear:both; padding-left:10px; font-size:x-small; padding-top:10px">
+				Patrick Do | 2014
+			</div>
+		</div><!-- main container -->
+	</body>
+</html>

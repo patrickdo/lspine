@@ -1,0 +1,59 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<head>
+
+
+<title>PAGE TITLE</title>
+
+</head>
+
+<body>
+
+<!-- 1. Paste this somewhere near the top of your <body> -->
+
+<script type='text/javascript'>
+
+	
+	function tdwidthchanger() {
+		var mytd=document.getElementsByTagName('td')[1];
+		if (mytd.style.width==='200px') {
+			mytd.style.width='3px';
+		} else mytd.style.width='200px';
+<!-- 		document.getElementsByTagName('td')[0].style.width = '200px'; -->
+		
+		return;
+	};
+	
+	function pseudo_popup(e){function s(){var e=document.createElement("div");e.style.position="fixed";e.style.top="0px";e.style.left="0px";e.style.width=r+"px";e.style.height=i+"px";e.style.background="#7f7f7f";if(navigator.userAgent.match(/msie/i)){e.style.background="#7f7f7f";e.style.filter="progid:DXImageTransform.Microsoft.Alpha(opacity=50)"}else{e.style.background="rgba(127, 127, 127, 0.5)"}e.onclick=function(){e.parentNode.removeChild(e);t.parentNode.removeChild(t)};document.body.appendChild(e)}var t=document.createElement("div");t.innerHTML=e;t.style.background="white";t.style.border="1px solid #888";if(navigator.userAgent.match(/msie/i)){function n(e){return"progid:DXImageTransform.Microsoft.Shadow("+e+")"}t.style.filter=[n("color=black, strength=5"),n("color=black, strength=2, direction=135"),n("color=black, strength=2, direction=315")].join(" ")}else{t.style.MozBoxShadow=t.style.webkitBoxShadow=t.style.BoxShadow="-4px 4px 11px black"}var r=window.innerWidth;var i=window.innerHeight;s();var o=r/2;var u=i/2;t.style.position="fixed";document.body.appendChild(t);o-=t.clientWidth/2;u-=t.clientHeight/2;t.style.top=u+"px";t.style.left=o+"px";return false}
+</script>
+ 
+<!-- 2. Set up something to make the popup -->
+ 
+<a onclick='pseudo_popup("<h2>Hello World!</h2><p>This is a basic popup! now lets customise it a bit!</p>")' style="cursor:pointer">Click here!<img src="img/open_in_new_window.png" height="12" width="12"></a>
+
+<table style="table-layout:fixed;
+		overflow:hidden;
+		white-space:nowrap;
+		width:0px;
+		border-style:solid;
+		background-color:lightblue;">
+	<tr>
+		<td style="width:10px">interesting</td>
+		<td id="expcol">question</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>2</td>
+	</tr>
+</table>
+
+<button onclick='tdwidthchanger()'>tdwidthchanger</button>
+<button onclick='location.reload()'>Reload</button>
+
+
+<h2>Instructions</h2><p>Drag descriptors to the disc level.<br>Create clones by holding the SHIFT key while dragging descriptors.<br><table><tr><td><ul><li><b>Herniation</b>: <25% circumference<ul><li><b>Protrusion</b></li><li><b>Extrusion</b>: has a \"neck\"<ul><li><b>Sequestration</b></ul></li></ul><li><b>Bulge</b>: >25% circumference</li></ul></td><td><img src="images/protext.jpg"></td></tr></table></p>
+
+</body>
+
+</html>

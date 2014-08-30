@@ -1,0 +1,223 @@
+body{
+	font-family: arial;
+	margin: 0px; /* for IE6 / IE7 */
+}
+
+a{
+	text-decoration:none;
+	cursor:pointer;
+}
+
+/* drag container */
+#main_container{
+	margin: auto;
+	/* the following line centers the tables */
+	/* width: 730px; */
+}
+		/* container for the left table */
+		#main_container #left{
+			width: 72px; /* 7/27/14 130px → 100px → 80px */
+			height: 260px;
+			float: left;
+			margin-right: 5px; /* space between left and right tables */
+		}
+		/* container for the main table and message line below */
+		#main_container #right{
+			/* padding-left:auto; */ /* doesn't do much? */
+			padding-right:0px;
+			/* width: 675px; */
+			/* float: left; */
+			/* padding-right: 0px; */
+			/* align div to the right */
+			margin-left: 10px; /* doesn't do much? */
+		}
+
+/* drag objects (DIV inside table cells) */
+.drag{
+	cursor: move;
+	margin: auto;
+	z-index: 10;
+	color: black; /* was #222 */
+	text-align: center;
+	font-size: 10pt; /* needed for cloned object */
+	opacity: 0.9; /* was 0.7 */
+	filter: alpha(opacity=70); /* was 70 */
+	/* without width, IE6/7 will not apply filter/opacity to the element ?! */
+	/* IE needs element layout */
+	width: 63px;	/* was 87px, then 75px, then 69px */
+	height: 30px; /* was 20px */
+	line-height: 15px; /* was 20px, then 30px */
+	/* border */
+	border: 1px solid #555;
+	/* round corners */
+	border-radius: 3px;
+	-moz-border-radius: 3px; /* FF */
+}
+
+/* tables */
+div#drag table { /* left table */
+	background-color: #eee;
+	border-collapse: collapse;
+}
+	/* right table */
+	div#drag #table2 {
+		/* align table to the right */
+		/* margin-left: auto; */
+		/* table-layout:fixed; */
+		/* overflow:hidden; */
+		/* white-space:nowrap; */
+		/* width:0px; */
+	}
+
+/* table cells */
+div#drag td{
+	border-style: solid;
+	border-width: 1px;
+	border-color: white;
+	height: 32px;
+	text-align: center;
+	font-size: 10pt;
+	padding: 1px; /* was 2px */
+}
+
+		/* overwrite border settings for left tables */
+		/* set all borders to 0px except border-bottom */
+		div#drag #table1 td{
+			border-width: 0px 0px 1px 0px;
+		}
+
+			/* styles for clone DIV elements in left table */
+			div#drag #table1 div {
+				margin-left: auto;
+				/*float: center;*/
+			}
+
+			/* DEFINE STYLES FOR BUTTONS */
+			div#drag #table1 input {
+				/* float: right; */
+				width: 15px;
+				height: 23px;
+				/* margin-right: 5px; */
+				border-width: 1px;
+				/* round corners */
+				border-radius: 3px;
+				/* default visibility is hidden */
+				/* visibility: hidden; */
+			}
+			
+/* input elements in dragging container */
+div#drag input {
+	cursor: auto;
+}
+
+	/* height for input text in DIV element */
+	div#drag #bl input {
+		height: 15px; /* was 13px */
+		float:middle; /* 7/27/14 */
+		display:table-cell;
+		vertical-align:middle;
+	}
+
+	/* height for dropdown menu in DIV element */
+	div#drag #d5 select {
+		height: 20px;
+	}
+	
+			
+/* descriptor DIV colors */
+.bl {
+/*	background-color: #AAC8E2;*/
+	background-color: lightgreen;
+}
+.i {
+/* 	background-color: #E7D783; */
+	background-color: #89B3FB;
+}
+.io {
+	/* background-color: #E99AE6; */
+	background-color: #a69ed5;
+}
+.o {
+	/* background-color: #C4AFFF; */
+	background-color: #c488ae;
+}
+.os {
+	/* background-color: #91DEC5; */
+	background-color: #e17288;
+}
+.s {
+	/* background-color: #CFE17F; */
+	background-color: #fe5d62;
+}
+/* blank cells (upper left corner) */
+.blank {
+	background-color: white;
+}
+
+/* trash cell */
+/* .trash {
+	color: white;
+	text-transform:uppercase; /* 7/27/14 */
+	font-weight:bold; /* 7/27/14 */
+	background-color: #6386BD;
+} */
+
+/* message line */
+#message{
+	color: navy;
+	background-color: #white;
+	text-align: left;
+	margin-top: 350px; /* was 10px */
+}
+
+/* preview pane */
+#preview{
+	background-color: white;
+}
+
+/* dark cells (first column and table header) */
+.dark{
+	color: #444;
+	background-color: #e0e0e0;
+}
+.button_container{
+	padding-top: 10px;
+	text-align: right;
+}
+
+		/* "Save" button (deprecated 7/29/14) */
+		.button_container input{
+			background-color: #6A93D4;
+			color: white; 
+			border-width: 1px;
+			width: 40px;
+			padding: 0px;
+		}
+		
+		
+.t2 {
+	border: 2px solid SteelBlue;
+}
+
+/* single content, non-overwritable left table of severities */
+.single {
+	background-color: #e0e0e0;
+}
+		
+/* ===== */
+
+#report_textarea{
+	text-align: justified;
+	width: 50em;
+	height: 17em;
+}
+
+div.editable {
+    width: 750px;
+	max-width: 750px;
+    height: 200px;
+    border: 1px solid #ccc;
+    padding: 5px;
+	margin-left:10px;
+	color: black;
+}
