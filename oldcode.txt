@@ -1,3 +1,20 @@
+		// consolidate "other" findings into a comma-separated phrase
+		switch (other.length) {
+			case 0:
+				o_text[curlevel] = '';
+				break;
+			case 1:
+				o_text[curlevel] = '. ' + other;
+				break;
+/* 			case 2:
+				o_text[curlevel] = '. ' + other.join(' and ');
+				break; */
+			default:
+/* 				o_text[curlevel] = '. ' + other.join(', '); */
+				o_text[curlevel] = '. ' + other.join('. ');
+		}
+
+
 							<col width="40"> 
 							<col width="80">
 							<col width="70" style="border-left-style:solid">
