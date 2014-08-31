@@ -359,7 +359,6 @@ report_update = function () {
 	// ===== GENERATE REPORT ===== //
 	for (i = 1; i <= 5; i++) {
 		// add 'and' and oxford commas
-		// o_text[i] = o_text[i].replace(/,(?=[^,]*$)/, ', and');
 		h_text[i] = h_text[i].replace(/,(?=[^,]*$)/, ', and');
 		
 		// combine sentences
