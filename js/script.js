@@ -363,7 +363,7 @@ report_update = function () {
 		h_text[i] = h_text[i].replace(/,(?=[^,]*$)/, ', and');
 		
 		// combine sentences
-		levels_text[i] = h_text[i]+'. '+n_text[i]+'. '+s_text[i]+o_text[i];
+		levels_text[i] = h_text[i] + '. ' + n_text[i] + '. ' + s_text[i] + o_text[i] + '.';
 
 		// remove clones' 'c#'
 		levels_text[i] = levels_text[i].replace(/c[0-9]/g, '');
@@ -375,12 +375,12 @@ report_update = function () {
 		levels_text[i] = levels_text[i].substring(0,1).toLowerCase() + levels_text[i].substring(1);
 	}
 	
-	report_text =	'<b>L1-L2</b>: There ' + levels_text[1] + '.<br>' + 
-					'<b>L2-L3</b>: There ' + levels_text[2] + '.<br>' + 
-					'<b>L3-L4</b>: There ' + levels_text[3] + '.<br>' + 
-					'<b>L4-L5</b>: There ' + levels_text[4] + '.<br>' + 
+	report_text =	'<b>L1-L2</b>: There ' + levels_text[1] + '<br>' + 
+					'<b>L2-L3</b>: There ' + levels_text[2] + '<br>' + 
+					'<b>L3-L4</b>: There ' + levels_text[3] + '<br>' + 
+					'<b>L4-L5</b>: There ' + levels_text[4] + '<br>' + 
 					'<b>L5-S1</b>: There ' + levels_text[5] + 
-					'.<br><br>' +
+					'<br><br>' +
 					concl;
 
 	// ===== UPDATE REPORT PREVIEW ===== //
