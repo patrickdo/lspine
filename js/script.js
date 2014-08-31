@@ -350,7 +350,7 @@ report_update = function () {
 				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
 			}
 		} else {
-			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.';
+			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.<br><br>';
 		}
 		
 	}
