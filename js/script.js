@@ -350,7 +350,7 @@ report_update = function () {
 				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
 			}
 		} else {
-			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.<br><br>';
+			concl = '<b>CONCLUSION:</b><br>No significant degenerative change.<br><br>';
 		}
 		
 	}
@@ -359,7 +359,6 @@ report_update = function () {
 	// ===== GENERATE REPORT ===== //
 	for (i = 1; i <= 5; i++) {
 		// add 'and' and oxford commas
-		// o_text[i] = o_text[i].replace(/,(?=[^,]*$)/, ', and');
 		h_text[i] = h_text[i].replace(/,(?=[^,]*$)/, ', and');
 		
 		// combine sentences
