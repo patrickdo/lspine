@@ -374,9 +374,11 @@ report_update = function () {
 		// convert first letter to lowercase because text starts with "There "
 		levels_text[i] = levels_text[i].substring(0,1).toLowerCase() + levels_text[i].substring(1);
 		
+		// add [brackets] for easier editing in Talk
 		levels_text[i] = levels_text[i].replace(/(mild|moderate|severe|minimal)/ig, '[$1]');
 		levels_text[i] = levels_text[i].replace(/(\[mild\]-\[moderate\]|\[moderate\]-\[severe\]|\[mild\]-\[severe\])/ig, '[$1]');
 		levels_text[i] = levels_text[i].replace(/(no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/g, '[$1]');
+		concl = '[' + concl + ']';
 	}
 	
 	report_text =	'<b>L1-L2</b>: There ' + levels_text[1] + '<br>' + 
