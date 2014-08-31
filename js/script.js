@@ -350,7 +350,7 @@ report_update = function () {
 				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
 			}
 		} else {
-			concl = '<b>CONCLUSION:</b><br> No significant degenerative change.<br><br>';
+			concl = '<b>CONCLUSION:</b><br>No significant degenerative change.<br><br>';
 		}
 		
 	}
@@ -374,15 +374,14 @@ report_update = function () {
 		// convert first letter to lowercase because text starts with "There "
 		levels_text[i] = levels_text[i].substring(0,1).toLowerCase() + levels_text[i].substring(1);
 		
-		// add [brackets] for easier editing in Talk
-		levels_text[i] = levels_text[i].replace(/(mild|moderate|severe|minimal)/ig, '[$1]');
+		// add [brackets] to main report for easier editing in Talk
+		levels_text[i] = levels_text[i].replace(/(mild|moderate|severe|minimal|no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/ig, '[$1]');
 		levels_text[i] = levels_text[i].replace(/(\[mild\]-\[moderate\]|\[moderate\]-\[severe\]|\[mild\]-\[severe\])/ig, '[$1]');
-		levels_text[i] = levels_text[i].replace(/(no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/g, '[$1]');
 	}
 	
-	// add [brackets] to conclusion sentence
+	// add [brackets] to conclusion sentence for easier editing in Talk
 	if (concl) {
-		concl = concl.replace(/> (.*\.$)/igm, '> [$1]');
+		concl = concl.replace(/b><br>(.*\.)<br>/igm, 'b><br> [$1]<br>');
 	}
 	
 	report_text =	'<b>L1-L2</b>: There ' + levels_text[1] + '<br>' + 
