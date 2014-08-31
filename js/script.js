@@ -378,7 +378,11 @@ report_update = function () {
 		levels_text[i] = levels_text[i].replace(/(mild|moderate|severe|minimal)/ig, '[$1]');
 		levels_text[i] = levels_text[i].replace(/(\[mild\]-\[moderate\]|\[moderate\]-\[severe\]|\[mild\]-\[severe\])/ig, '[$1]');
 		levels_text[i] = levels_text[i].replace(/(no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/g, '[$1]');
-		concl = '[' + concl + ']';
+	}
+	
+	// add [brackets] to conclusion sentence
+	if (concl) {
+		concl = concl.replace(/> (.*\.$)/igm, '> [$1]');
 	}
 	
 	report_text =	'<b>L1-L2</b>: There ' + levels_text[1] + '<br>' + 
