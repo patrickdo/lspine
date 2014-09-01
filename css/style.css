@@ -203,18 +203,19 @@ div#drag input {
 .single {
 	background-color: #e0e0e0;
 }
-		
+
 /* ===== */
 
 #report_textarea{
 	text-align: justified;
 	width: 50em;
 	height: 17em;
+	margin-bottom: 4px;
 }
 
 div.editable {
-    width: 750px;
-	max-width: 750px;
+    width: 1000px;
+	max-width: 1000px;
     height: 200px;
     border: 1px solid #ccc;
     padding: 5px;

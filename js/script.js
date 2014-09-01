@@ -106,11 +106,11 @@ getContent = function (id) {
 // ====== REPORT_UPDATE ===== //
 // ========================== //
 report_update = function () {
-	// define vars
-	var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curlevel, n_sev = [], s_sev, b_sev = [], other = [], p_text = [];
+	//===DEFINE VARIABLES===//
+	var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curlevel, n_sev = [], s_sev, b_sev = [], other = [], p_text = [],
 
 	// IDs of right table cells. first row blank so that levels[1] = L1-2 level
-	var levels =
+	levels =
 		[
 		' / / / / '.split('/'),
 		'r10 r11 r12 r13 r14 r15 r16 r17'.split(' '),	// L1-2
@@ -118,37 +118,31 @@ report_update = function () {
 		'r30 r31 r32 r33 r34 r35 r36 r37'.split(' '),	// L3-4
 		'r40 r41 r42 r43 r44 r45 r46 r47'.split(' '),	// L4-5
 		'r50 r51 r52 r53 r54 r55 r56 r57'.split(' ')	// L5-S1
-		];
+		],
 	
 	// IDs of right table - 'Other' column - multipleSelect
-	var others =
-		' #o1 #o2 #o3 #o4 #o5'.split(' ');
-/* 		[
-		' / / / / / '.split('/'),
-		'o10 o11 o12 o13 o14 o15'.split(' '),   // L1-2
-		'o20 o21 o22 o23 o24 o25'.split(' '),   // L2-3
-		'o30 o31 o32 o33 o34 o35'.split(' '),   // L3-4
-		'o40 o41 o42 o43 o44 o45'.split(' '),   // L4-5
-		'o50 o51 o52 o53 o54 o55'.split(' ')    // L5-S1
-		]; */
+	others =
+		' #o1 #o2 #o3 #o4 #o5'.split(' '),
 	
 	// IDs of right table 'BBDB' cells - combine with var levels eventually?
-	var b_levels = 
-		' /b1/b2/b3/b4/b5'.split('/');
+	b_levels = 
+		' /b1/b2/b3/b4/b5'.split('/'),
 	
 	// first col blank so that plocations[1] = 'R foraminal' (skipping 'R NF narrowing')
-	var plocations =
+	plocations =
 	['',
 	'right foraminal',
 	'right central',
 	'central',
 	'left central',
-	'left foraminal'];
+	'left foraminal'],
 	
-	var nlocations =
+	// NFN locations
+	nlocations =
 	['right','left'];
+
 	
-	// set negative initial state at all 5 levels
+	//===INITIALIZATION===//
 	for (i = 1; i <= 5; i++) {
 		b_text[i] = '';
 		h_text[i] = '';
@@ -158,7 +152,7 @@ report_update = function () {
 	}		
 	
 	
-	// CYCLE through all disc space levels
+	//===CYCLE THROUGH DISC SPACES===//
 	for (curlevel = 1; curlevel <= 5; curlevel++) {
 
 		// DISC HERNIATIONS //
@@ -168,8 +162,7 @@ report_update = function () {
 			b_text[curlevel] = 'is a ' + b_sev + ' broad-based disc bulge';
 		}
 		
-		
-		// PROTRUSIONS
+		// protrusions
 		p_text = [];
 		for(i = 1; i <= 5; i++) {
 			if (getContent(levels[curlevel][i])) {
@@ -293,13 +286,13 @@ report_update = function () {
 	} else {
 		var refsevs = "mild mild-moderate moderate moderate-severe severe".split(' ');
 		var lumbarlevels = " L1-2 L2-3 L3-4 L4-5 L5-S1".split(' ');
-		var n_sevs = [], s_sevs = [], concl, high_sev, high_sev_level = [], cl, s_match = false;
+		var n_sevs = [], s_sevs = [], concl = '', high_sev, high_sev_level = [], cl, s_match = false;
 		
 		// get a list of SS + NFN severities, removing clone c*
 		for(i = 1; i <= 5; i++) {
 			s_sevs[i] = getContent(levels[i][7]).replace(/c[0-9]/g, '');
 			n_sevs[i] = getContent(levels[i][0]).replace(/c[0-9]/g, '');
-			n_sevs[i+5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');
+			n_sevs[i + 5] = getContent(levels[i][6]).replace(/c[0-9]/g, '');
 		}
 		
 		// priority: 1) highest severity. 2) favor SS over NF when enumerating levels
@@ -326,9 +319,9 @@ report_update = function () {
 			}			
 			
 		}
-		
+
 		// list the levels where highest severity is present
-		if (high_sev) {	
+		if (high_sev) {
 			switch(high_sev_level.length) {
 				case 1:
 					concl = high_sev_level + ' level.';	// maybe this converts it to a string
@@ -339,19 +332,26 @@ report_update = function () {
 				default:
 					concl = high_sev_level.join(', ') + ' levels.';
 			}
-		}
-
-		// generate conclusion sentence
-		if (high_sev) {
-			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
-			concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' lumbar spondylosis, particularly at the ' + concl.replace(/,(?=[^,]*$)/, ', and') + '<br><br>';
 			
-			if (high_sev_level.length >= 3) {
-				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
-			}
+			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
+			
+			// generate conclusion sentence
+			concl =
+				capitalizer(high_sev) + 
+				(
+					high_sev_level.length < 3 ?
+						' lumbar spondylosis, particularly at the ' +
+						concl.replace(/,(?=[^,]*$)/, ', and')
+					:
+						' multi-level lumbar spondylosis as described above.'
+				) +
+				'<br><br>'			
+				;
+				
 		} else {
-			concl = '<b>CONCLUSION:</b><br>No significant degenerative change.<br><br>';
+			concl = 'No significant degenerative change.<br><br>';
 		}
+		concl = '<b>CONCLUSION:</b><br>' + concl;			
 		
 	}
 	
