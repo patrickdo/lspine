@@ -332,19 +332,26 @@ report_update = function () {
 				default:
 					concl = high_sev_level.join(', ') + ' levels.';
 			}
-		}
-
-		// generate conclusion sentence
-		if (high_sev) {
-			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
-			concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' lumbar spondylosis, particularly at the ' + concl.replace(/,(?=[^,]*$)/, ', and') + '<br><br>';
 			
-			if (high_sev_level.length >= 3) {
-				concl = '<b>CONCLUSION:</b><br>' + capitalizer(high_sev) + ' multi-level lumbar spondylosis as described above.<br><br>';
-			}
+			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
+			
+			// generate conclusion sentence
+			concl =
+				capitalizer(high_sev) + 
+				(
+					high_sev_level.length < 3 ?
+						' lumbar spondylosis, particularly at the ' +
+						concl.replace(/,(?=[^,]*$)/, ', and')
+					:
+						' multi-level lumbar spondylosis as described above.'
+				) +
+				'<br><br>'			
+				;
+				
 		} else {
-			concl = '<b>CONCLUSION:</b><br>No significant degenerative change.<br><br>';
+			concl = 'No significant degenerative change.<br><br>';
 		}
+		concl = '<b>CONCLUSION:</b><br>' + concl;			
 		
 	}
 	
