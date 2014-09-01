@@ -214,8 +214,8 @@ div#drag input {
 }
 
 div.editable {
-    width: 750px;
-	max-width: 750px;
+    width: 1000px;
+	max-width: 1000px;
     height: 200px;
     border: 1px solid #ccc;
     padding: 5px;
