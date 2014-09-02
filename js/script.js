@@ -7,7 +7,6 @@ var redipsInit,		// define redipsInit
 	report_update,	// update report
 	report_transmit,// transmit report
 	capitalizer,	// capitalize first word of every sentence
-	printMessage,	// print message
 	getContent,		// get content (DIV elements in TD)
 	divNodeList;	// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
 
