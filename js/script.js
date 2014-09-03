@@ -3,12 +3,12 @@
 /* enable strict mode */
 "use strict";
 
-var redipsInit,		// define redipsInit 
-	report_update,	// update report
-	report_transmit,// transmit report
-	capitalizer,	// capitalize first word of every sentence
-	getContent,		// get content (DIV elements in TD)
-	divNodeList;	// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
+var redipsInit,			// define redipsInit 
+	report_update,		// update report
+	report_selectAll,	// transmit report
+	capitalizer,		// capitalize first word of every sentence
+	getContent,			// get content (DIV elements in TD)
+	divNodeList;		// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
 
 // redips initialization
 redipsInit = function () {
@@ -355,7 +355,7 @@ report_update = function () {
 	}
 	
 	
-	// ===== GENERATE REPORT ===== //
+	// ===== GENERATE SENTENCE FOR EACH LEVEL ===== //
 	for (i = 1; i <= 5; i++) {
 		// add 'and' and oxford commas
 		h_text[i] = h_text[i].replace(/,(?=[^,]*$)/, ', and');
@@ -398,16 +398,18 @@ report_update = function () {
 					'<br><br>' +
 					concl;
 
+					
 	// ===== UPDATE REPORT PREVIEW ===== //
 	document.getElementById('report_textarea').innerHTML = report_text;
+	
 	
 	return false;
 };
 
 
 
-// ===== TRANSMIT BUTTON ===== //
-report_transmit = function() {
+// ===== SELECT ALL BUTTON ===== //
+report_selectAll = function() {
 	document.getElementById('report_textarea').focus();
 	document.execCommand('SelectAll');
 };
