@@ -6,6 +6,7 @@
 var redipsInit,			// define redipsInit 
 	report_update,		// update report
 	report_selectAll,	// transmit report
+	report_reset,		// reset report
 	capitalizer,		// capitalize first word of every sentence
 	getContent,			// get content (DIV elements in TD)
 	divNodeList;		// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
@@ -412,6 +413,30 @@ report_update = function () {
 report_selectAll = function() {
 	document.getElementById('report_textarea').focus();
 	document.execCommand('SelectAll');
+};
+
+
+
+// ===== RESET BUTTON ===== //
+report_reset = function() {
+	var i, j, 
+	table = 
+		[
+		'b1 r10 r11 r12 r13 r14 r15 r16 r17 #o1'.split(' '),	// L1-2
+		'b2 r20 r21 r22 r23 r24 r25 r26 r27 #o2'.split(' '),	// L2-3
+		'b3 r30 r31 r32 r33 r34 r35 r36 r37 #o3'.split(' '),	// L3-4
+		'b4 r40 r41 r42 r43 r44 r45 r46 r47 #o4'.split(' '),	// L4-5
+		'b5 r50 r51 r52 r53 r54 r55 r56 r57 #o5'.split(' ')		// L5-S1
+		];
+	
+	for (i = 0; i < 5; i++) {
+		for (j = 0; j < 9; j++) {
+			REDIPS.drag.emptyCell(eval(table[i][j]));	// clear main table
+		}
+		$(table[i][9]).multipleSelect('uncheckAll');	// clear multipleSelects
+	}
+	
+	report_update();
 };
 
 
