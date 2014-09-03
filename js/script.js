@@ -1,5 +1,4 @@
 /*global window: false, REDIPS: true */
-
 /* enable strict mode */
 "use strict";
 
