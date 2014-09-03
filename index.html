@@ -411,15 +411,30 @@
 				<div class="editable" id="report_textarea" contenteditable style="padding-top:5px; float:left">
 					An error has occurred.
 				</div>
+				
 				<div style="padding-left:10px; clear:both">
-					<button style="width:150px; height:50px" id="report_transmitbtn" onclick="report_transmit()" type="button">
-						Select All
-					</button>
-					<button onclick="location.reload()" style="height:50px">
-						Reset
-					</button>
-					<input type="checkbox" id="conclusion" onclick="report_update()"><label for="conclusion">Generate Conclusion</label>					
-					<br>Ctrl+C to copy
+					<table>
+						<tr>
+							<td>
+								<button style="width:150px; height:50px" onclick="report_selectAll()" type="button">
+								Select All
+								</button>
+							</td>
+							<td>
+								<button onclick="location.reload()" style="height:50px">
+								Reset
+								</button>
+							</td>
+							<td>
+								<input type="checkbox" id="conclusion" onclick="report_update()"><label for="conclusion">Generate <b>CONCLUSION:</b> sentence</label>
+									<br>
+								<input type="checkbox" id="talk-brackets" onClick="report_update()"><label for="talk-brackets">Add [brackets] for editing in TalkStation</label>
+							</td>
+						</tr>
+						<tr>
+							<td>Ctrl+C to copy</td>
+						</tr>
+					</table>
 				</div>
 			</div><!-- PREVIEW PANE -->
 			
