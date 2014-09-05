@@ -369,6 +369,10 @@ report_update = function () {
 		// toLowerCase() first to include editable DIV, then apply sentence case
 		levels_text[i] = capitalizer(levels_text[i].toLowerCase());
 
+        // fix for listheses
+        levels_text[i] = levels_text[i].replace(/(i+-?i*) (\w+listhesis)/ig, 'Grade $1 $2');
+        levels_text[i] = levels_text[i].replace(/ (i+-?i*) /ig, String.call.bind(levels_text[1].toUpperCase));
+        
 		// convert first letter to lowercase because text starts with "There "
 		levels_text[i] = levels_text[i].substring(0,1).toLowerCase() + levels_text[i].substring(1);
 	}
