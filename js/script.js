@@ -455,6 +455,123 @@ $(document).ready(function() {
 		lspine.update();
 	};
 
+	// ===== RANDOM REPORT ===== //
+	lspine.random = function() {
+		var rd = REDIPS.drag,	// reference to the REDIPS.drag objectr_sevs =
+			r_sevs =
+			[
+			'mild mild-moderate moderate moderate-severe severe'.split(' '),
+			'i io o os s'.split(' ')
+			],
+			i,
+			j,
+			k,
+			l,
+			r_row,
+			r_col,
+			r_sev,
+			r_count = 7,	// max # of severity descriptors to attempt to place
+			r_level = [],
+			r_levels =
+			[
+			'b1 n11 r11 r12 r13 r14 r15 r16 r17 n12 s1'.split(' '),	// L1-2
+			'b2 n21 r21 r22 r23 r24 r25 r26 r27 n22 s2'.split(' '),	// L2-3
+			'b3 n31 r31 r32 r33 r34 r35 r36 r37 n32 s3'.split(' '),	// L3-4
+			'b4 n41 r41 r42 r43 r44 r45 r46 r47 n42 s4'.split(' '),	// L4-5
+			'b5 n51 r51 r52 r53 r54 r55 r56 r57 n52 s5'.split(' ')		// L5-S1
+			],
+			r_olevels = '#o1 #o2 #o3 #o4 #o5'.split(' '),
+			r_olist = [];
+
+		// empty the table
+		lspine.reset();
+
+		// semi-randomly place severity descriptors
+		k = Math.floor(r_count * Math.random());	// r_count dictates how many to place
+		for (i = 0; i < k; i++) {
+
+			// favor lower lumbar levels
+			var rand = Math.random();
+			switch(true) {
+				case rand < 0.01:
+					r_row = 0;
+					break;
+				case rand < 0.03:
+					r_row = 1;
+					break;
+				case rand < 0.06:
+					r_row = 2;
+					break;
+				case rand < 0.56:
+					r_row = 3;
+					break;
+				default:
+					r_row = 4;
+			}
+
+			// favor both sides (BBDB, SS, NFN) and middle (central, paracentral) of table
+			// r_col = Math.floor( (r_levels[1].length/2) * (1 + Math.cos(1 + 4 * Math.PI * Math.random())) );
+			rand = Math.random();
+			switch(true) {
+				case rand < 0.20:	// % BBDB
+					r_col = 0;
+					break;
+				case rand < 0.38:	// % NFN
+					if (Math.random() < 0.50) {
+						r_col = 1;
+					} else {
+						r_col = 9;
+					}
+					break;
+				case rand < 0.42:	// % foraminal disc protrusion
+					if (Math.random() < 0.50) {
+						r_col = 2;
+					} else {
+						r_col = 8;
+					}
+					break;
+				case rand < 0.48:	// % subarticular disc protrusion
+					if (Math.random() < 0.50) {
+						r_col = 3;
+					} else {
+						r_col = 7;
+					}
+					break;
+				case rand < 0.66:	// % paracentral disc protrusion
+					if (Math.random() < 0.50) {
+						r_col = 4;
+					} else {
+						r_col = 6;
+					}
+					break;
+				case rand < 0.80:	// % central disc protrusion
+					r_col = 5;
+					break;
+				default:	// % spinal stenosis
+					r_col = 10;
+			}
+
+			// place a random severity descriptor
+			r_sev = Math.floor(5 * Math.random());	// choose a random severity
+			document.getElementById(r_levels[r_row][r_col]).innerHTML =
+				'<div id="' + r_sevs[0][r_sev] +
+				'c0" class="drag clone ' + r_sevs[1][r_sev] +
+				'">' + r_sevs[0][r_sev] +
+				'</div>';
+
+			// randomly select 'Other findings'
+			l = Math.floor(4 * Math.random());						// choose [0, n-1] findings to select
+			r_olist = [];											// reset the list
+			for (j = 0; j < l; j++) {
+				r_olist[j] = Math.floor(1 + (27 * Math.random()));	// choose one of the 27 checkboxes, add to list
+			}
+			$(r_olevels[r_row]).multipleSelect('setSelects', r_olist);	// select the checkboxes
+		}
+
+		// update the report text
+		lspine.update();
+	};
+
 	// ===== CAPITALIZE FIRST LETTER OF SENTENCE ===== //
 	lspine.helpers.capitalizer = function(myString) {
 		return myString.replace(/(^\w{1}|\.\s*\w{1})/gi, function(toReplace) {
@@ -504,6 +621,10 @@ $(document).ready(function() {
 
 	$('#selectAllbtn').click(function() {
 		lspine.selectAll();
+	});
+
+	$('#randombtn').click(function() {
+		lspine.random();
 	});
 
 	// hover over first row labels to display reference image
