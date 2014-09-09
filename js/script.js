@@ -269,12 +269,14 @@ report_update = function () {
 		}
 		
 		// X R FJH + X L FJH → X B FJH
+		// Grade X-Y -listhesis
 		o_text[curlevel] = o_text[curlevel].replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy');
 		o_text[curlevel] = o_text[curlevel].replace(/\b(\w+) right.*\1 left/i, '$1 bilateral');
 		o_text[curlevel] = o_text[curlevel].replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral');
 		o_text[curlevel] = o_text[curlevel].replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet');
 		o_text[curlevel] = o_text[curlevel].replace(/\. right and (.*) left facet/i, '. $1 bilateral facet');
 		o_text[curlevel] = o_text[curlevel].replace(/right and left /i, 'bilateral ');
+		o_text[curlevel] = o_text[curlevel].replace(/(i+-?i*) (\w+listhesis)/ig, 'Grade $1 $2');
 		
 	} // END OF CYCLE THROUGH DISC LEVELS
 	
@@ -316,7 +318,6 @@ report_update = function () {
 				high_sev = refsevs[i];
 				i = -1;	// exit loop. if there is a match, don't look for lower severity matches
 			}			
-			
 		}
 
 		// list the levels where highest severity is present
@@ -332,7 +333,7 @@ report_update = function () {
 					concl = high_sev_level.join(', ') + ' levels.';
 			}
 			
-			concl = concl.replace(/-(\d).*\1/g,'');	// combine Lx-y and Ly-z → Lx-z
+			concl = concl.replace(/-(\d).*\1/g, '');	// combine Lx-y and Ly-z → Lx-z
 			
 			// generate conclusion sentence
 			concl =
@@ -369,12 +370,13 @@ report_update = function () {
 		// toLowerCase() first to include editable DIV, then apply sentence case
 		levels_text[i] = capitalizer(levels_text[i].toLowerCase());
 
-        // fix for listheses
-        levels_text[i] = levels_text[i].replace(/(i+-?i*) (\w+listhesis)/ig, 'Grade $1 $2');
+        // fixes for listheses
         levels_text[i] = levels_text[i].replace(/ (i+-?i*) /ig, String.call.bind(levels_text[1].toUpperCase));
-        
+		levels_text[i] = levels_text[i].replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1));
+		levels_text[i] = levels_text[i].replace(/L6/g, 'S1');
+		
 		// convert first letter to lowercase because text starts with "There "
-		levels_text[i] = levels_text[i].substring(0,1).toLowerCase() + levels_text[i].substring(1);
+		levels_text[i] = levels_text[i].substring(0, 1).toLowerCase() + levels_text[i].substring(1);
 	}
 	
 	
@@ -405,7 +407,6 @@ report_update = function () {
 					
 	// ===== UPDATE REPORT PREVIEW ===== //
 	document.getElementById('report_textarea').innerHTML = report_text;
-	
 	
 	return false;
 };
