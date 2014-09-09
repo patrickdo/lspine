@@ -22,7 +22,8 @@ $(document).ready(function() {
 			'b3 n31 r31 r32 r33 r34 r35 r36 r37 n32 s3'.split(' '),	// L3-4
 			'b4 n41 r41 r42 r43 r44 r45 r46 r47 n42 s4'.split(' '),	// L4-5
 			'b5 n51 r51 r52 r53 r54 r55 r56 r57 n52 s5'.split(' ')	// L5-S1
-			]
+			],
+		random: {}
 	};
 
 	dd = {
@@ -397,6 +398,123 @@ $(document).ready(function() {
 		lspine.update();
 	};
 
+	// ===== RANDOM REPORT ===== //
+	lspine.random.run = function() {
+		var r_sevs =
+				[
+				'mild mild-moderate moderate moderate-severe severe'.split(' '),
+				'i io o os s'.split(' ')
+				],
+			i,
+			j,
+			k,
+			curLevel,
+			row,
+			col,
+			r_sev,
+			r_count = 7;	// max # of severity descriptors to attempt to place
+
+		// empty the table
+		lspine.reset();
+
+		// semi-randomly place severity descriptors
+		k = Math.floor(r_count * Math.random());	// r_count dictates how many to place
+		for (i = 0; i < k; i++) {
+			row = lspine.random.pickRow();
+			col = lspine.random.pickCol();
+
+			// place a random severity descriptor
+			r_sev = Math.floor(5 * Math.random());	// choose a random severity
+			document.getElementById(lspine.table[row][col]).innerHTML =
+				'<div id="' + r_sevs[0][r_sev] +
+				'c0" class="drag clone ' + r_sevs[1][r_sev] +
+				'">' + r_sevs[0][r_sev] +
+				'</div>';
+		}
+
+		// initialize dd.sliders at all rows
+		for (curLevel = 1; curLevel <= 5; curLevel++) {
+			if (!dd.levelEnabled[curLevel]) {
+				dd.init(curLevel);						// initialize dd.sliders at curLevel if not already done
+			}
+		}
+
+		j = Math.floor(6 * Math.random());	// number of other findings
+		for (i = 0; i < j; i++) {
+			row = lspine.random.pickRow();	// [0-4]
+			k = Math.floor(dd.types.length * Math.random());	// pick type of other finding
+			dd.sliders[dd.types[k] + (row+1).toString()].setValue(Math.random());
+		}
+
+		// update the report text
+		lspine.update();
+	};
+
+	lspine.random.pickRow = function() {
+		var row, rand = Math.random();
+		switch(true) {
+			case rand < 0.01:
+				row = 0;
+				break;
+			case rand < 0.03:
+				row = 1;
+				break;
+			case rand < 0.06:
+				row = 2;
+				break;
+			case rand < 0.56:
+				row = 3;
+				break;
+			default:
+				row = 4;
+		}
+		return row;
+	};
+
+	lspine.random.pickCol = function() {
+		var col, rand = Math.random();
+		// favor both sides (BBDB, SS, NFN) and middle (central, paracentral) of table
+		switch(true) {
+			case rand < 0.20:	// % BBDB
+				col = 0;
+				break;
+			case rand < 0.38:	// % NFN
+				if (Math.random() < 0.50) {
+					col = 1;
+				} else {
+					col = 9;
+				}
+				break;
+			case rand < 0.42:	// % foraminal disc protrusion
+				if (Math.random() < 0.50) {
+					col = 2;
+				} else {
+					col = 8;
+				}
+				break;
+			case rand < 0.48:	// % subarticular disc protrusion
+				if (Math.random() < 0.50) {
+					col = 3;
+				} else {
+					col = 7;
+				}
+				break;
+			case rand < 0.66:	// % paracentral disc protrusion
+				if (Math.random() < 0.50) {
+					col = 4;
+				} else {
+					col = 6;
+				}
+				break;
+			case rand < 0.80:	// % central disc protrusion
+				col = 5;
+				break;
+			default:	// % spinal stenosis
+				col = 10;
+		}
+		return col;
+	};
+
 	// ===== CAPITALIZE FIRST LETTER OF SENTENCE ===== //
 	lspine.helpers.capitalizer = function(myString) {
 		return myString.replace(/(^\w{1}|\.\s*\w{1})/gi, function(toReplace) {
@@ -507,6 +625,10 @@ $(document).ready(function() {
 
 	$('#selectAllbtn').click(function() {
 		lspine.selectAll();
+	});
+
+	$('#randombtn').click(function() {
+		lspine.random.run();
 	});
 
 	// hover over first row labels to display reference image
