@@ -106,7 +106,7 @@ getContent = function (id) {
 // ========================== //
 report_update = function () {
 	//===DEFINE VARIABLES===//
-	var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curlevel, n_sev = [], s_sev, b_sev = [], other = [], p_text = [],
+	var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curlevel, n_sev = [], s_sev, b_sev = [], other = [], p_text = [], concl = '',
 
 	// IDs of right table cells. first row blank so that levels[1] = L1-2 level
 	levels =
@@ -286,7 +286,7 @@ report_update = function () {
 	} else {
 		var refsevs = 'mild mild-moderate moderate moderate-severe severe'.split(' '),
 			lumbarlevels = ' L1-2 L2-3 L3-4 L4-5 L5-S1'.split(' '),
-			n_sevs = [], s_sevs = [], concl = '', high_sev, high_sev_level = [], cl, s_match = false;
+			n_sevs = [], s_sevs = [], high_sev, high_sev_level = [], cl, s_match = false;
 		
 		// get a list of SS + NFN severities, removing clone c*
 		for(i = 1; i <= 5; i++) {
