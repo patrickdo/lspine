@@ -120,25 +120,24 @@ report_update = function () {
 		],
 	
 	// IDs of right table - 'Other' column - multipleSelect
-	others =
-		' #o1 #o2 #o3 #o4 #o5'.split(' '),
+	others = ' #o1 #o2 #o3 #o4 #o5'.split(' '),
 	
 	// IDs of right table 'BBDB' cells - combine with var levels eventually?
-	b_levels = 
-		' /b1/b2/b3/b4/b5'.split('/'),
+	b_levels = ' /b1/b2/b3/b4/b5'.split('/'),
 	
 	// first col blank so that plocations[1] = 'R foraminal' (skipping 'R NF narrowing')
 	plocations =
-	['',
-	'right foraminal',
-	'right central',
-	'central',
-	'left central',
-	'left foraminal'],
+		[
+		'',
+		'right foraminal',
+		'right central',
+		'central',
+		'left central',
+		'left foraminal'
+		],
 	
 	// NFN locations
-	nlocations =
-	['right','left'];
+	nlocations = ['right','left'];
 
 	
 	//===INITIALIZATION===//
@@ -194,9 +193,9 @@ report_update = function () {
 		}
 	
 		// combine BBDB and protrusion into one sentence
-		if(h_text[curlevel] === "") {
+		if(h_text[curlevel] === '') {
 			if(b_text[curlevel] === '') {	// no protrusion, no bulge
-				h_text[curlevel] = "is no disc bulge or protrusion";
+				h_text[curlevel] = 'is no disc bulge or protrusion';
 			} else {	// no protrusion, + bulge
 				h_text[curlevel] = b_text[curlevel];
 			}
@@ -247,8 +246,8 @@ report_update = function () {
 		
 		// OTHER COLUMN //
 		other = [];
-		other = $(others[curlevel]).multipleSelect("getSelects", "text");
-		for (i = 0; i < other.length; i++) {			// for all checked boxes in the multipleSelect
+		other = $(others[curlevel]).multipleSelect('getSelects', 'text');
+		for (i = 0; i < other.length; i++) {				// for all checked boxes in the multipleSelect
 			other[i] = other[i].replace(/(\[|\])/g, '');		// remove []
 			other[i] = other[i].replace(/(.+): (.+)/, '$2 $1');	// 'dd: mild' → 'mild dd'
 			other[i] = other[i].replace(/,  /, '-');			// 'mild,  mod dd' → 'mild-mod dd'
@@ -285,9 +284,9 @@ report_update = function () {
 	if (!document.getElementById('conclusion').checked) {
 		concl = '';	// blank conclusion sentence if checkbox is unchecked
 	} else {
-		var refsevs = "mild mild-moderate moderate moderate-severe severe".split(' ');
-		var lumbarlevels = " L1-2 L2-3 L3-4 L4-5 L5-S1".split(' ');
-		var n_sevs = [], s_sevs = [], concl = '', high_sev, high_sev_level = [], cl, s_match = false;
+		var refsevs = 'mild mild-moderate moderate moderate-severe severe'.split(' '),
+			lumbarlevels = ' L1-2 L2-3 L3-4 L4-5 L5-S1'.split(' '),
+			n_sevs = [], s_sevs = [], concl = '', high_sev, high_sev_level = [], cl, s_match = false;
 		
 		// get a list of SS + NFN severities, removing clone c*
 		for(i = 1; i <= 5; i++) {
@@ -404,10 +403,10 @@ report_update = function () {
 					'<br><br>' +
 					concl;
 
-					
+
 	// ===== UPDATE REPORT PREVIEW ===== //
 	document.getElementById('report_textarea').innerHTML = report_text;
-	
+
 	return false;
 };
 
@@ -432,14 +431,14 @@ report_reset = function() {
 		'b4 r40 r41 r42 r43 r44 r45 r46 r47 #o4'.split(' '),	// L4-5
 		'b5 r50 r51 r52 r53 r54 r55 r56 r57 #o5'.split(' ')		// L5-S1
 		];
-	
+
 	for (i = 0; i < 5; i++) {
 		for (j = 0; j < 9; j++) {
 			REDIPS.drag.emptyCell(eval(table[i][j]));	// clear main table
 		}
 		$(table[i][9]).multipleSelect('uncheckAll');	// clear multipleSelects
 	}
-	
+
 	report_update();
 };
 
