@@ -25,9 +25,13 @@
 		
 		<!-- Initialization -->
 		<script type="text/javascript">
-            $(document).ready(function() {
-                // Colorbox
-				$('a.cb').colorbox({ opacity:0.5 });		// initialize colorbox for class "cb"
+			$(document).ready(function() {
+				// Colorbox
+				$('a.cb').colorbox({		// initialize colorbox for class "cb"
+					opacity: 0.5,
+					width: "750px",
+					height: "350px"
+				});
 				
 				// Multiple Select
 				var a = "#o1 #o2 #o3 #o4 #o5".split(' ');	// identify the 5 multipleSelects
@@ -50,7 +54,7 @@
 				}
 				
 			});
-        </script>
+		</script>
 		
 		<title>Lumbar Spondylosis Reporting Module</title>
 		
