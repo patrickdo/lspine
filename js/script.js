@@ -252,7 +252,6 @@ report_update = function () {
 			other[i] = other[i].replace(/(.+): (.+)/, '$2 $1');	// 'dd: mild' → 'mild dd'
 			other[i] = other[i].replace(/,  /, '-');			// 'mild,  mod dd' → 'mild-mod dd'
 			other[i] = other[i].replace(/mod/, 'moderate');		// 'mod' → 'moderate'
-			other[i] = other[i].replace(/sev/, 'severe');		// 'sev' → 'severe'
 		}
 		
 		// consolidate "other" findings into a comma-separated phrase
