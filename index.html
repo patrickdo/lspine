@@ -9,11 +9,11 @@
 
 		<!-- JQuery: http://jquery.com/ -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		
+
 		<!-- Multiple Select (JQuery): http://wenzhixin.net.cn/p/multiple-select/docs/ -->
 		<link rel="stylesheet" href="css/multiple-select.css" type="text/css" media="screen"/>
 		<script type="text/javascript" src="js/jquery.multiple.select.js"></script>
-		
+
 		<!-- Colorbox (JQuery): http://www.jacklmoore.com/colorbox/ -->
 		<link rel="stylesheet" href="css/colorbox.css" type="text/css" media="screen"/>
 		<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
@@ -23,10 +23,8 @@
 		<script type="text/javascript" src="js/redips-drag-min.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
 
-
-		
 		<title>Lumbar Spondylosis Reporting Module</title>
-		
+
 		<!-- Google Analytics -->
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -38,11 +36,11 @@
 			ga('send', 'pageview');
 		</script>
 	</head>
-	
+
 	<body>
-	
+
 		<div style="float:right; font-size:small; text-align:right">
-			<b>Nomenclature Guidelines:</b> 
+			<b>Nomenclature Guidelines:</b>
 			<a href="http://www.asnr.org/spine_nomenclature/" target="_blank">2001 <img src="img/open_in_new_window.png" height="12" width="12" alt="2001 Combined Task Force Nomenclature Guidelines" /></a> / <a href="http://www.sciencedirect.com/science/article/pii/S1529943014004094" target="_blank">2014 <img src="img/open_in_new_window.png" height="12" width="12" alt="2014 Combined Task Force Nomenclature Guidelines" /></a>
 				<br />
 			<a href="instructions.html" class="cb" style="font-variant:small-caps; font-size:medium; color:blue">instructions</a>
@@ -52,12 +50,12 @@
 		<div style="background-color:#eee; padding:20px; text-align:center; font-size:20px; font-weight:bold">
 			Lumbar Spondylosis
 		</div>
-	
+
 		<div id="main_container">
-		
+
 			<!-- tables inside this DIV could have draggable content -->
-			<div id="drag"> 
-	
+			<div id="drag">
+
 				<!-- left container (table with subjects) -->
 				<div id="left">
 					<br />
@@ -89,13 +87,13 @@
 						</tbody>
 					</table><!-- LEFT TABLE -->
 				</div><!-- left container -->
-				
+
 				<!-- right container -->
 				<!-- http://stackoverflow.com/questions/4457506/css-how-to-set-the-table-column-width-constant-regardless-of-the-amount-of-text -->
 				<div id="right">
 					<table id="table2" style="table-layout:fixed; width:870px"><!-- RIGHT TABLE -->
 						<colgroup>
-							<col style="width:40px" /> 
+							<col style="width:40px" />
 							<col style="width:80px" />
 							<col style="width:70px; border-left-style:solid" />
 							<col style="width:70px; border-left-style:double" />
@@ -107,7 +105,7 @@
 							<col style="width:70px" />
 							<col style="width:172px" />
 						</colgroup>
-						
+
 						<tbody>
 							<tr>
 								<td class="mark blank trash" title="Apply severity to central and paracentral locations" >
@@ -125,6 +123,7 @@
 								<td class="mark dark trash" title="Spinal canal stenosis"><a>Spinal<br />stenosis</a></td>
 								<td class="mark dark trash" title="Other findings"><a>Other<br />findings</a></td>
 							</tr>
+
 							<tr>
 								<td class="mark dark trash">L1-L2</td>
 								<td id="b1"></td>
@@ -186,6 +185,7 @@
 									</select>
 								</td>
 							</tr>
+
 							<tr>
 								<td class="mark dark trash">L2-L3</td>
 								<td id="b2"></td>
@@ -247,6 +247,7 @@
 									</select>
 								</td>
 							</tr>
+
 							<tr>
 								<td class="mark dark trash">L3-L4</td>
 								<td id="b3"></td>
@@ -308,6 +309,7 @@
 									</select>
 								</td>
 							</tr>
+
 							<tr>
 								<td class="mark dark trash">L4-L5</td>
 								<td id="b4"></td>
@@ -369,6 +371,7 @@
 									</select>
 								</td>
 							</tr>
+
 							<tr>
 								<td class="mark dark trash">L5-S1</td>
 								<td id="b5"></td>
@@ -430,23 +433,24 @@
 									</select>
 								</td>
 							</tr>
-							<tr> <!-- 8/2/14 -->
+
+							<tr>
 								<td colspan="3" class="mark blank trash"></td>
 								<td colspan="5" class="mark dark trash" style="font-variant:small-caps; font-size:medium">location of disc protrusion</td>
 								<td colspan="3" class="mark blank trash"></td>
 							</tr>
 						</tbody>
 					</table><!-- RIGHT TABLE -->
-										
+
 				</div><!-- right container -->
 			</div><!-- drag container -->
-			
+
 			<!-- PREVIEW PANE -->
 			<div id="preview" style="margin-top:15px; clear:both">
 				<div class="editable" id="report_textarea" contenteditable="true" style="padding-top:5px; float:left">
 					An error has occurred.
 				</div>
-				
+
 				<div style="padding-left:10px; clear:both">
 					<table>
 						<tr>
@@ -472,7 +476,7 @@
 					</table>
 				</div>
 			</div><!-- PREVIEW PANE -->
-			
+
 			<div style="clear:both; padding-left:10px; font-size:x-small; padding-top:20px">
 				Patrick Do | 2014
 			</div>

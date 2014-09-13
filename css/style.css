@@ -104,7 +104,7 @@ div#drag td{
 				/* default visibility is hidden */
 				/* visibility: hidden; */
 			}
-			
+
 /* input elements in dragging container */
 div#drag input {
 	cursor: auto;
@@ -122,8 +122,8 @@ div#drag input {
 	div#drag #d5 select {
 		height: 20px;
 	}
-	
-			
+
+
 /* descriptor DIV colors */
 .bl {
 	background-color: lightgreen;
@@ -152,8 +152,8 @@ div#drag input {
 /* trash cell */
 /* .trash {
 	color: white;
-	text-transform:uppercase; 
-	font-weight:bold; 
+	text-transform:uppercase;
+	font-weight:bold;
 	background-color: #6386BD;
 } */
 
@@ -175,13 +175,13 @@ div#drag input {
 		/* "Save" button (deprecated 7/29/14) */
 		.button_container input{
 			background-color: #6A93D4;
-			color: white; 
+			color: white;
 			border-width: 1px;
 			width: 40px;
 			padding: 0px;
 		}
-		
-		
+
+
 .t2 {
 	border: 2px solid SteelBlue;
 }
