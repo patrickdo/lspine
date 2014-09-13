@@ -6,12 +6,7 @@
 		<meta name="keywords" content="lumbar spine, degenerative disease, radiology, reporting, module, spondylosis, neuroradiology, nomenclature, disc"/>
 		<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=0.6"/><!-- "position: fixed" fix for Android 2.2+ -->
 		<meta charset="utf-8"/>
-		
-		<!-- LSpine/REDIPS: http://www.redips.net/javascript/drag-and-drop-example-3/ -->
-		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
-		<script type="text/javascript" src="js/redips-drag-min.js"></script>
-		<script type="text/javascript" src="js/script.js"></script>
-				
+
 		<!-- JQuery: http://jquery.com/ -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		
@@ -22,39 +17,13 @@
 		<!-- Colorbox (JQuery): http://www.jacklmoore.com/colorbox/ -->
 		<link rel="stylesheet" href="css/colorbox.css" type="text/css" media="screen"/>
 		<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
-		
-		<!-- Initialization -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				// Colorbox
-				$('a.cb').colorbox({		// initialize colorbox for class "cb"
-					opacity: 0.5,
-					width: "750px",
-					height: "350px"
-				});
-				
-				// Multiple Select
-				var a = "#o1 #o2 #o3 #o4 #o5".split(' ');	// identify the 5 multipleSelects
-				for (var i = 0; i < a.length; i++) {
-					$(a[i]).multipleSelect({		// initialize the 5 multipleSelects
-						multiple: true,
-						multipleWidth: 70,			// width of each checkbox + label
-						width: 170,					// width of entire row
-						maxHeight: 380,
-						selectAll: false,			// "Select All" checkbox row
-						placeholder: "None",		// what to display when no options are selected
-						minumimCountSelected: 99,	// [sic] when to display "x of y selected"
-						onOptgroupClick: function(view) {
-							report_update();
-						},
-						onClick: function(view) {
-							report_update();
-						}
-					});
-				}
-				
-			});
-		</script>
+
+		<!-- LSpine/REDIPS: http://www.redips.net/javascript/drag-and-drop-example-3/ -->
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
+		<script type="text/javascript" src="js/redips-drag-min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+
+
 		
 		<title>Lumbar Spondylosis Reporting Module</title>
 		
@@ -99,7 +68,7 @@
 						<tbody>
 							<tr><td class="single">
 								<div id="bl" class="drag clone bl">
-									<input type="text" value="Minimal" style="width:60px; vertical-align:bottom; text-align:center" id="bl_text" onkeyup="report_update()" />
+									<input type="text" value="Minimal" style="width:60px; vertical-align:bottom; text-align:center" id="bl_text" class="bl_text_class" />
 								</div>
 							</td></tr>
 							<tr><td class="single">
@@ -482,19 +451,19 @@
 					<table>
 						<tr>
 							<td>
-								<button style="width:150px; height:50px" onclick="report_selectAll()" type="button">
+								<button style="width:150px; height:50px" id="selectAllbtn" type="button">
 								Select All
 								</button>
 							</td>
 							<td>
-								<button onclick="report_reset()" style="height:50px">
+								<button id="resetbtn" style="height:50px">
 								Reset
 								</button>
 							</td>
 							<td>
-								<label><input type="checkbox" id="conclusion" onclick="report_update()" />Generate <b>CONCLUSION:</b> sentence</label>
+								<label><input type="checkbox" id="conclusion" />Generate <b>CONCLUSION:</b> sentence</label>
 									<br />
-								<label><input type="checkbox" id="talk-brackets" onclick="report_update()" />Add [brackets] for editing in TalkStation</label>
+								<label><input type="checkbox" id="talk-brackets" />Add [brackets] for editing in TalkStation</label>
 							</td>
 						</tr>
 						<tr>
