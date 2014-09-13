@@ -1,3 +1,46 @@
+var color = function (i) {
+	if (i === 0) {
+		$('.i').css('background-color', '#89B3FB');		// 175
+		$('.io').css('background-color', '#a69ed5');	// 167
+		$('.o').css('background-color', '#c488ae');		// 158
+		$('.os').css('background-color', '#e17288');	// 150
+		$('.s').css('background-color', '#fe5d62');		// 142
+	}
+
+	if (i === 12) {
+		$('.i').css('background-color', '#A3C4FD');		// 193
+		$('.io').css('background-color', '#B0A9D6');	// 176
+		$('.o').css('background-color', '#c488ae');		// 158
+		$('.os').css('background-color', '#E26780');	// 143
+		$('.s').css('background-color', '#FF454B');		// 125
+	}
+
+	if (i === 13) {
+		$('.i').css('background-color', '#B0CDFE');		// 202
+		$('.io').css('background-color', '#B0A9D6');	// 176
+		$('.o').css('background-color', '#c488ae');		// 158
+		$('.os').css('background-color', '#E26780');	// 143
+		$('.s').css('background-color', '#FF383F');		// 116
+	}	
+
+	if (i === 23) {
+		$('.i').css('background-color', '#B0CDFE');		// 202
+		$('.io').css('background-color', '#BAB4D7');	// 186
+		$('.o').css('background-color', '#c488ae');		// 158
+		$('.os').css('background-color', '#E35C77');	// 135
+		$('.s').css('background-color', '#FF383F');		// 116
+	}
+
+	if (i === 24) {
+		$('.i').css('background-color', '#BDD5FF');		// 211
+		$('.io').css('background-color', '#BAB4D7');	// 186
+		$('.o').css('background-color', '#c488ae');		// 158
+		$('.os').css('background-color', '#E35C77');	// 135
+		$('.s').css('background-color', '#FF2B33');		// 107
+	}
+}
+
+
 		// consolidate "other" findings into a comma-separated phrase
 		switch (other.length) {
 			case 0:
