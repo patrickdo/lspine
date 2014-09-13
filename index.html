@@ -19,6 +19,10 @@
 	<link rel="stylesheet" href="css/colorbox.css" type="text/css" media="screen"/>
 	<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
 
+	<!-- Dragdealer: http://skidding.github.io/dragdealer/ -->
+	<link rel="stylesheet" href="css/dragdealer.css" type="text/css" media="screen"/>
+	<script type="text/javascript" src="js/dragdealer-min.js"></script>
+
 	<!-- LSpine/REDIPS: http://www.redips.net/javascript/drag-and-drop-example-3/ -->
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
 	<script type="text/javascript" src="js/redips-drag-min.js"></script>
@@ -108,7 +112,7 @@
 						<col style="width:70px; border-right-style:double" />
 						<col style="width:70px; border-right-style:solid" />
 						<col style="width:70px" />
-						<col style="width:172px" />
+						<col style="width:70px" />
 					</colgroup>
 
 					<tbody>
@@ -144,54 +148,47 @@
 							<td id="r17"></td>
 							<td id="n12"></td>
 							<td id="s1"></td>
-							<td id="r18" style="text-align:left" class="dark trash">
-								<select multiple="multiple" id="o1">
-									<optgroup label="Annular fissure">
-										<option value="1">mild</option>
-										<option value="2">mod</option>
-										<option value="3">severe</option>
-									</optgroup>
-									<optgroup label="Disc desiccation">
-										<option value="4">mild</option>
-										<option value="5">mod</option>
-										<option value="6">severe</option>
-									</optgroup>
-									<optgroup label="Disc space narrowing">
-										<option value="7">mild</option>
-										<option value="8">mod</option>
-										<option value="9">severe</option>
-									</optgroup>
-									<optgroup label="End-plate degenerative changes">
-										<option value="10">mild</option>
-										<option value="11">mod</option>
-										<option value="12">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Right">
-										<option value="13">mild</option>
-										<option value="14">mod</option>
-										<option value="15">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Left">
-										<option value="16">mild</option>
-										<option value="17">mod</option>
-										<option value="18">severe</option>
-									</optgroup>
-									<optgroup label="Ligamentum flavum thickening">
-										<option value="19">mild</option>
-										<option value="20">mod</option>
-										<option value="21">severe</option>
-									</optgroup>
-									<optgroup label="Anterolisthesis">
-										<option value="22">I</option>
-										<option value="23">II</option>
-										<option value="24">III</option>
-									</optgroup>
-									<optgroup label="Retrolisthesis">
-										<option value="25">I</option>
-										<option value="26">II</option>
-										<option value="27">III</option>
-									</optgroup>
-								</select>
+							<td id="r18" style="text-align:center; color:white; background-color:#7f8c8d; padding:0px; border:0px" class="dark trash">
+								<a class="inline" href="#inline_content1" id="of1"><div style="line-height:32px">L1 - L2</div></a>
+								<div style='display:none'>
+									<div id='inline_content1' style='padding:10px; background:#fff; width:250px'>
+										<h3 style="margin:5px; text-align:center">L1 - L2</h3>
+										Annular fissure
+										<div id="ddAf1" class="dragdealer">
+											<div id="ddAf1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Disc desiccation
+										<div id="ddDd1" class="dragdealer">
+											<div id="ddDd1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										End-plate degenerative changes
+										<div id="ddEp1" class="dragdealer">
+											<div id="ddEp1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Right
+										<div id="ddFjhR1" class="dragdealer">
+											<div id="ddFjhR1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Left
+										<div id="ddFjhL1" class="dragdealer">
+											<div id="ddFjhL1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Ligamentum flavum thickening
+										<div id="ddLft1" class="dragdealer">
+											<div id="ddLft1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Listhesis
+										<div id="ddL1" class="dragdealer">
+											<div id="ddL1_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 
@@ -208,54 +205,47 @@
 							<td id="r27"></td>
 							<td id="n22"></td>
 							<td id="s2"></td>
-							<td id="r28" style="text-align:left" class="dark trash">
-								<select multiple="multiple" id="o2">
-									<optgroup label="Annular fissure">
-										<option value="1">mild</option>
-										<option value="2">mod</option>
-										<option value="3">severe</option>
-									</optgroup>
-									<optgroup label="Disc desiccation">
-										<option value="4">mild</option>
-										<option value="5">mod</option>
-										<option value="6">severe</option>
-									</optgroup>
-									<optgroup label="Disc space narrowing">
-										<option value="7">mild</option>
-										<option value="8">mod</option>
-										<option value="9">severe</option>
-									</optgroup>
-									<optgroup label="End-plate degenerative changes">
-										<option value="10">mild</option>
-										<option value="11">mod</option>
-										<option value="12">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Right">
-										<option value="13">mild</option>
-										<option value="14">mod</option>
-										<option value="15">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Left">
-										<option value="16">mild</option>
-										<option value="17">mod</option>
-										<option value="18">severe</option>
-									</optgroup>
-									<optgroup label="Ligamentum flavum thickening">
-										<option value="19">mild</option>
-										<option value="20">mod</option>
-										<option value="21">severe</option>
-									</optgroup>
-									<optgroup label="Anterolisthesis">
-										<option value="22">I</option>
-										<option value="23">II</option>
-										<option value="24">III</option>
-									</optgroup>
-									<optgroup label="Retrolisthesis">
-										<option value="25">I</option>
-										<option value="26">II</option>
-										<option value="27">III</option>
-									</optgroup>
-								</select>
+							<td id="r28" style="text-align:center; color:white; background-color:#7f8c8d" class="dark trash">
+								<a class="inline" href="#inline_content2" id="of2"><div style="line-height:32px">L2 - L3</div></a>
+								<div style='display:none'>
+									<div id='inline_content2' style='padding:10px; background:#fff; width:250px'>
+										<h3 style="margin:5px; text-align:center">L2 - L3</h3>
+										Annular fissure
+										<div id="ddAf2" class="dragdealer">
+											<div id="ddAf2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Disc desiccation
+										<div id="ddDd2" class="dragdealer">
+											<div id="ddDd2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										End-plate degenerative changes
+										<div id="ddEp2" class="dragdealer">
+											<div id="ddEp2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Right
+										<div id="ddFjhR2" class="dragdealer">
+											<div id="ddFjhR2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Left
+										<div id="ddFjhL2" class="dragdealer">
+											<div id="ddFjhL2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Ligamentum flavum thickening
+										<div id="ddLft2" class="dragdealer">
+											<div id="ddLft2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Listhesis
+										<div id="ddL2" class="dragdealer">
+											<div id="ddL2_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 
@@ -272,54 +262,47 @@
 							<td id="r37"></td>
 							<td id="n32"></td>
 							<td id="s3"></td>
-							<td id="r38" style="text-align:left" class="dark trash">
-								<select multiple="multiple" id="o3">
-									<optgroup label="Annular fissure">
-										<option value="1">mild</option>
-										<option value="2">mod</option>
-										<option value="3">severe</option>
-									</optgroup>
-									<optgroup label="Disc desiccation">
-										<option value="4">mild</option>
-										<option value="5">mod</option>
-										<option value="6">severe</option>
-									</optgroup>
-									<optgroup label="Disc space narrowing">
-										<option value="7">mild</option>
-										<option value="8">mod</option>
-										<option value="9">severe</option>
-									</optgroup>
-									<optgroup label="End-plate degenerative changes">
-										<option value="10">mild</option>
-										<option value="11">mod</option>
-										<option value="12">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Right">
-										<option value="13">mild</option>
-										<option value="14">mod</option>
-										<option value="15">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Left">
-										<option value="16">mild</option>
-										<option value="17">mod</option>
-										<option value="18">severe</option>
-									</optgroup>
-									<optgroup label="Ligamentum flavum thickening">
-										<option value="19">mild</option>
-										<option value="20">mod</option>
-										<option value="21">severe</option>
-									</optgroup>
-									<optgroup label="Anterolisthesis">
-										<option value="22">I</option>
-										<option value="23">II</option>
-										<option value="24">III</option>
-									</optgroup>
-									<optgroup label="Retrolisthesis">
-										<option value="25">I</option>
-										<option value="26">II</option>
-										<option value="27">III</option>
-									</optgroup>
-								</select>
+							<td id="r38" style="text-align:center; color:white; background-color:#7f8c8d" class="dark trash">
+								<a class="inline" href="#inline_content3" id="of3"><div style="line-height:32px">L3 - L4</div></a>
+								<div style='display:none'>
+									<div id='inline_content3' style='padding:10px; background:#fff; width:250px'>
+										<h3 style="margin:5px; text-align:center">L3 - L4</h3>
+										Annular fissure
+										<div id="ddAf3" class="dragdealer">
+											<div id="ddAf3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Disc desiccation
+										<div id="ddDd3" class="dragdealer">
+											<div id="ddDd3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										End-plate degenerative changes
+										<div id="ddEp3" class="dragdealer">
+											<div id="ddEp3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Right
+										<div id="ddFjhR3" class="dragdealer">
+											<div id="ddFjhR3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Left
+										<div id="ddFjhL3" class="dragdealer">
+											<div id="ddFjhL3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Ligamentum flavum thickening
+										<div id="ddLft3" class="dragdealer">
+											<div id="ddLft3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Listhesis
+										<div id="ddL3" class="dragdealer">
+											<div id="ddL3_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 
@@ -336,54 +319,47 @@
 							<td id="r47"></td>
 							<td id="n42"></td>
 							<td id="s4"></td>
-							<td id="r48" style="text-align:left" class="dark trash">
-								<select multiple="multiple" id="o4">
-									<optgroup label="Annular fissure">
-										<option value="1">mild</option>
-										<option value="2">mod</option>
-										<option value="3">severe</option>
-									</optgroup>
-									<optgroup label="Disc desiccation">
-										<option value="4">mild</option>
-										<option value="5">mod</option>
-										<option value="6">severe</option>
-									</optgroup>
-									<optgroup label="Disc space narrowing">
-										<option value="7">mild</option>
-										<option value="8">mod</option>
-										<option value="9">severe</option>
-									</optgroup>
-									<optgroup label="End-plate degenerative changes">
-										<option value="10">mild</option>
-										<option value="11">mod</option>
-										<option value="12">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Right">
-										<option value="13">mild</option>
-										<option value="14">mod</option>
-										<option value="15">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Left">
-										<option value="16">mild</option>
-										<option value="17">mod</option>
-										<option value="18">severe</option>
-									</optgroup>
-									<optgroup label="Ligamentum flavum thickening">
-										<option value="19">mild</option>
-										<option value="20">mod</option>
-										<option value="21">severe</option>
-									</optgroup>
-									<optgroup label="Anterolisthesis">
-										<option value="22">I</option>
-										<option value="23">II</option>
-										<option value="24">III</option>
-									</optgroup>
-									<optgroup label="Retrolisthesis">
-										<option value="25">I</option>
-										<option value="26">II</option>
-										<option value="27">III</option>
-									</optgroup>
-								</select>
+							<td id="r48" style="text-align:center; color:white; background-color:#7f8c8d" class="dark trash">
+								<a class="inline" href="#inline_content4" id="of4"><div style="line-height:32px">L4 - L5</div></a>
+								<div style='display:none'>
+									<div id='inline_content4' style='padding:10px; background:#fff; width:250px'>
+										<h3 style="margin:5px; text-align:center">L4 - L5</h3>
+										Annular fissure
+										<div id="ddAf4" class="dragdealer">
+											<div id="ddAf4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Disc desiccation
+										<div id="ddDd4" class="dragdealer">
+											<div id="ddDd4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										End-plate degenerative changes
+										<div id="ddEp4" class="dragdealer">
+											<div id="ddEp4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Right
+										<div id="ddFjhR4" class="dragdealer">
+											<div id="ddFjhR4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Left
+										<div id="ddFjhL4" class="dragdealer">
+											<div id="ddFjhL4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Ligamentum flavum thickening
+										<div id="ddLft4" class="dragdealer">
+											<div id="ddLft4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Listhesis
+										<div id="ddL4" class="dragdealer">
+											<div id="ddL4_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 
@@ -400,54 +376,47 @@
 							<td id="r57"></td>
 							<td id="n52"></td>
 							<td id="s5"></td>
-							<td id="r58" style="text-align:left" class="dark trash">
-								<select multiple="multiple" id="o5">
-									<optgroup label="Annular fissure">
-										<option value="1">mild</option>
-										<option value="2">mod</option>
-										<option value="3">severe</option>
-									</optgroup>
-									<optgroup label="Disc desiccation">
-										<option value="4">mild</option>
-										<option value="5">mod</option>
-										<option value="6">severe</option>
-									</optgroup>
-									<optgroup label="Disc space narrowing">
-										<option value="7">mild</option>
-										<option value="8">mod</option>
-										<option value="9">severe</option>
-									</optgroup>
-									<optgroup label="End-plate degenerative changes">
-										<option value="10">mild</option>
-										<option value="11">mod</option>
-										<option value="12">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Right">
-										<option value="13">mild</option>
-										<option value="14">mod</option>
-										<option value="15">severe</option>
-									</optgroup>
-									<optgroup label="Facet joint hypertrophy, Left">
-										<option value="16">mild</option>
-										<option value="17">mod</option>
-										<option value="18">severe</option>
-									</optgroup>
-									<optgroup label="Ligamentum flavum thickening">
-										<option value="19">mild</option>
-										<option value="20">mod</option>
-										<option value="21">severe</option>
-									</optgroup>
-									<optgroup label="Anterolisthesis">
-										<option value="22">I</option>
-										<option value="23">II</option>
-										<option value="24">III</option>
-									</optgroup>
-									<optgroup label="Retrolisthesis">
-										<option value="25">I</option>
-										<option value="26">II</option>
-										<option value="27">III</option>
-									</optgroup>
-								</select>
+							<td id="r58" style="text-align:center; color:white; background-color:#7f8c8d" class="dark trash">
+								<a class="inline" href="#inline_content5" id="of5"><div style="line-height:32px">L5 - S1</div></a>
+								<div style='display:none'>
+									<div id='inline_content5' style='padding:10px; background:#fff; width:250px'>
+										<h3 style="margin:5px; text-align:center">L5 - S1</h3>
+										Annular fissure
+										<div id="ddAf5" class="dragdealer">
+											<div id="ddAf5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Disc desiccation
+										<div id="ddDd5" class="dragdealer">
+											<div id="ddDd5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										End-plate degenerative changes
+										<div id="ddEp5" class="dragdealer">
+											<div id="ddEp5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Right
+										<div id="ddFjhR5" class="dragdealer">
+											<div id="ddFjhR5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Facet joint hypertrophy, Left
+										<div id="ddFjhL5" class="dragdealer">
+											<div id="ddFjhL5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Ligamentum flavum thickening
+										<div id="ddLft5" class="dragdealer">
+											<div id="ddLft5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+										<hr>
+										Listhesis
+										<div id="ddL5" class="dragdealer">
+											<div id="ddL5_handle" class="handle red-bar" style="width:40px">None</div>
+										</div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr style="border-top-style:solid"> <!-- 8/2/14 -->

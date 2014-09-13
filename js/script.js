@@ -1,4 +1,4 @@
-/*global window: false, REDIPS: true, document, $ */
+/*global window: false, REDIPS: true, document, $, Dragdealer */
 /*jshint globalstrict: true*/
 /* enable strict mode */
 "use strict";
@@ -468,6 +468,101 @@ $(document).ready(function() {
 		opacity: 0.5,
 		width: "750px",
 		height: "350px"
+	});
+
+	var ddLevelEnabled = [false, false, false, false, false];
+
+	$('.inline').colorbox({
+		inline: true,
+		width: "280px",
+		opacity: 0.4,
+		speed: 0,
+		left: "500px",
+		top: "50px",
+		onComplete:function() {
+			var i = 0,
+				curlevel = this.id.substring(2),
+				ddSliderSevs = 'None Mild Mod Sev'.split(' '),
+				n = ddSliderSevs.length - 1;
+
+			if (ddLevelEnabled[parseInt(curlevel)]) return;	// return if Dragdealers at this level have already been initialized
+
+			// if not yet done, initialize Dragdealers at this level
+			new Dragdealer('ddAf' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddAf' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddAf' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			new Dragdealer('ddDd' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddDd' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddDd' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			new Dragdealer('ddEp' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddEp' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddEp' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			new Dragdealer('ddFjhR' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddFjhR' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddFjhR' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			new Dragdealer('ddFjhL' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddFjhL' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddFjhL' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			new Dragdealer('ddLft' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddLft' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddLft' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			new Dragdealer('ddL' + curlevel,
+			{
+				steps: 4,
+				snap: false,
+				animationCallback: function(x, y) {
+					$('#ddL' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+					$('#ddL' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				}
+			});
+
+			ddLevelEnabled[parseInt(curlevel)] = true;
+
+			lspine.update();
+
+		}
 	});
 
 	// Multiple Select
