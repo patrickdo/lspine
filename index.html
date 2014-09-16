@@ -39,6 +39,7 @@
 
 	<body>
 
+		<!-- HEADER -->
 		<div style="float:right; font-size:small; text-align:right">
 			<b>Nomenclature Guidelines:</b>
 			<a href="http://www.asnr.org/spine_nomenclature/" target="_blank">2001 <img src="img/open_in_new_window.png" height="12" width="12" alt="2001 Combined Task Force Nomenclature Guidelines" /></a> / <a href="http://www.sciencedirect.com/science/article/pii/S1529943014004094" target="_blank">2014 <img src="img/open_in_new_window.png" height="12" width="12" alt="2014 Combined Task Force Nomenclature Guidelines" /></a>
@@ -50,11 +51,12 @@
 		<div style="background-color:#eee; padding:20px; text-align:center; font-size:20px; font-weight:bold">
 			Lumbar Spondylosis
 		</div>
+		<!-- /HEADER -->
 
+		<!-- MAIN CONTAINER -->
 		<div id="main_container">
-
 			<!-- tables inside this DIV could have draggable content -->
-			<div id="drag">
+			<div id="drag"><!-- DRAG CONTAINER -->
 
 				<!-- left container (table with subjects) -->
 				<div id="left">
@@ -441,45 +443,52 @@
 							</tr>
 						</tbody>
 					</table><!-- RIGHT TABLE -->
-
 				</div><!-- right container -->
-			</div><!-- drag container -->
 
-			<!-- PREVIEW PANE -->
-			<div id="preview" style="margin-top:15px; clear:both">
-				<div class="editable" id="report_textarea" contenteditable="true" style="padding-top:5px; float:left">
-					An error has occurred.
-				</div>
+			</div><!-- DRAG CONTAINER -->
+		</div>
+		<!-- /MAIN CONTAINER -->
 
-				<div style="padding-left:10px; clear:both">
-					<table>
-						<tr>
-							<td>
-								<button style="width:150px; height:50px" id="selectAllbtn" type="button">
-								Select All
-								</button>
-							</td>
-							<td>
-								<button id="resetbtn" style="height:50px">
-								Reset
-								</button>
-							</td>
-							<td>
-								<label><input type="checkbox" id="conclusion" />Generate <b>CONCLUSION:</b> sentence</label>
-									<br />
-								<label><input type="checkbox" id="talk-brackets" />Add [brackets] for editing in TalkStation</label>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">Ctrl+C to copy</td>
-						</tr>
-					</table>
-				</div>
-			</div><!-- PREVIEW PANE -->
-
-			<div style="clear:both; padding-left:10px; font-size:x-small; padding-top:20px">
-				Patrick Do | 2014
+		<!-- PREVIEW PANE -->
+		<div id="preview" style="margin-top:15px; clear:both">
+			<!-- REPORT AREA -->
+			<div class="editable" id="report_textarea" contenteditable="true" style="padding-top:5px; float:left">
+				An error has occurred.
 			</div>
-		</div><!-- main container -->
+
+			<!-- BUTTONS -->
+			<div style="padding-left:10px; clear:both">
+				<table>
+					<tr>
+						<td>
+							<button style="width:150px; height:50px" id="selectAllbtn" type="button">
+							Select All
+							</button>
+						</td>
+						<td>
+							<button id="resetbtn" style="height:50px">
+							Reset
+							</button>
+						</td>
+						<td>
+							<label><input type="checkbox" id="conclusion" />Generate <b>CONCLUSION:</b> sentence</label>
+								<br />
+							<label><input type="checkbox" id="talk-brackets" />Add [brackets] for editing in TalkStation</label>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">Ctrl+C to copy</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- /PREVIEW PANE -->
+
+		<!-- FOOTER -->
+		<div style="clear:both; padding-left:15px; font-size:x-small; padding-top:20px">
+			Patrick Do | 2014
+		</div>
+		<!-- /FOOTER -->
+
 	</body>
 </html>
