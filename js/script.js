@@ -99,11 +99,11 @@ $(document).ready(function() {
 		levels =
 			[
 			' / / / / '.split('/'),
-			'r10 r11 r12 r13 r14 r15 r16 r17'.split(' '),	// L1-2
-			'r20 r21 r22 r23 r24 r25 r26 r27'.split(' '),	// L2-3
-			'r30 r31 r32 r33 r34 r35 r36 r37'.split(' '),	// L3-4
-			'r40 r41 r42 r43 r44 r45 r46 r47'.split(' '),	// L4-5
-			'r50 r51 r52 r53 r54 r55 r56 r57'.split(' ')	// L5-S1
+			'n11 r11 r12 r13 r14 r15 r16 r17 n12 s1'.split(' '),	// L1-2
+			'n21 r21 r22 r23 r24 r25 r26 r27 n22 s2'.split(' '),	// L2-3
+			'n31 r31 r32 r33 r34 r35 r36 r37 n32 s3'.split(' '),	// L3-4
+			'n41 r41 r42 r43 r44 r45 r46 r47 n42 s4'.split(' '),	// L4-5
+			'n51 r51 r52 r53 r54 r55 r56 r57 n52 s5'.split(' ')	// L5-S1
 			],
 
 		// IDs of right table - 'Other' column - multipleSelect
@@ -117,9 +117,11 @@ $(document).ready(function() {
 			[
 			'',
 			'right foraminal',
+			'right subarticular',
 			'right central',
 			'central',
 			'left central',
+			'left subarticular',
 			'left foraminal'
 			],
 
@@ -149,7 +151,7 @@ $(document).ready(function() {
 
 			// protrusions
 			p_text = [];
-			for(i = 1; i <= 5; i++) {
+			for(i = 1; i <= 7; i++) {
 				if (getContent(levels[curlevel][i])) {
 					p_text[p_text.length] = getContent(levels[curlevel][i]) + ' ' + plocations[i];
 				}
@@ -198,10 +200,10 @@ $(document).ready(function() {
 			// NEUROFORAMINAL NARROWING //
 			var n_temp = [];
 			for(i = 0; i <= 1; i++) {
-				n_sev[i] = getContent(levels[curlevel][6*i]).replace(/c[0-9]/g, '');
+				n_sev[i] = getContent(levels[curlevel][8*i]).replace(/c[0-9]/g, '');
 
 				if (n_sev[i]) {
-					n_temp[n_temp.length] = getContent(levels[curlevel][6*i]) + ' ' + nlocations[i];
+					n_temp[n_temp.length] = getContent(levels[curlevel][8*i]) + ' ' + nlocations[i];
 				}
 
 				// consolidate NFNs into a phrase
@@ -225,7 +227,7 @@ $(document).ready(function() {
 
 
 			// SPINAL CANAL STENOSIS //
-			s_sev = getContent(levels[curlevel][7]);
+			s_sev = getContent(levels[curlevel][9]);
 			if (s_sev) {
 				s_text[curlevel] = s_sev + ' spinal canal stenosis';
 			}
@@ -407,11 +409,11 @@ $(document).ready(function() {
 		var i, j,
 		table =
 			[
-			'b1 r10 r11 r12 r13 r14 r15 r16 r17 #o1'.split(' '),	// L1-2
-			'b2 r20 r21 r22 r23 r24 r25 r26 r27 #o2'.split(' '),	// L2-3
-			'b3 r30 r31 r32 r33 r34 r35 r36 r37 #o3'.split(' '),	// L3-4
-			'b4 r40 r41 r42 r43 r44 r45 r46 r47 #o4'.split(' '),	// L4-5
-			'b5 r50 r51 r52 r53 r54 r55 r56 r57 #o5'.split(' ')		// L5-S1
+			'b1 n11 r11 r12 r13 r14 r15 r16 r17 n12 s1 #o1'.split(' '),	// L1-2
+			'b2 n21 r21 r22 r23 r24 r25 r26 r27 n22 s2 #o2'.split(' '),	// L2-3
+			'b3 n31 r31 r32 r33 r34 r35 r36 r37 n32 s3 #o3'.split(' '),	// L3-4
+			'b4 n41 r41 r42 r43 r44 r45 r46 r47 n42 s4 #o4'.split(' '),	// L4-5
+			'b5 n51 r51 r52 r53 r54 r55 r56 r57 n52 s5 #o5'.split(' ')		// L5-S1
 			];
 
 		for (i = 0; i < 5; i++) {
@@ -483,9 +485,11 @@ $(document).ready(function() {
 				{
 					"Broad-based disc bulge"			: "bbdb",
 					"Right foraminal disc protrusion"	: "rfdp",
+					"Right subarticular disc protrusion": "rsadp",
 					"Right central disc protrusion"		: "rcdp",
 					"Central disc protrusion"			: "cdp",
 					"Left central disc protrusion"		: "lcdp",
+					"Left subarticular disc protrusion"	: "lsadp",
 					"Left foraminal disc protrusion"	: "lfdp"
 				};
 
