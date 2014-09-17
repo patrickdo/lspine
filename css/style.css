@@ -40,7 +40,7 @@ a{
 	color: black; /* was #222 */
 	text-align: center;
 	font-size: 10pt; /* needed for cloned object */
-	opacity: 0.9; /* was 0.7 */
+	opacity: 1.0; /* was 0.7 */
 	/* filter: alpha(opacity=70);  was 70 */
 	/* without width, IE6/7 will not apply filter/opacity to the element ?! */
 	/* IE needs element layout */
