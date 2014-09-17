@@ -29,6 +29,10 @@ td > a {
 		#main_container #right {
 			padding-right: 0px;
 			margin-left: 10px; /* doesn't do much? */
+			margin-right: 5px;
+		}
+		#main_container #farright{
+			margin-left: 10px;
 		}
 
 /* drag objects (DIV inside table cells) */

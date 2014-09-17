@@ -60,43 +60,11 @@
 		<!-- tables inside this DIV could have draggable content -->
 		<div id="drag"><!-- DRAG CONTAINER -->
 
-			<!-- left container (table with subjects) -->
-			<div id="left">
-				<br />
-				<table id="table1"><!-- LEFT TABLE -->
-					<colgroup>
-						<col style="width:80px" />
-					</colgroup>
-					<tbody>
-						<tr><td class="single">
-							<div id="bl" class="drag clone bl">
-								<input type="text" value="Minimal" style="width:60px; text-align:center" id="bl_text" class="bl_text_class" onclick="this.select()" />
-							</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="mild" class="drag clone i">Mild</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="mild-moderate" class="drag clone io">Mild-<br />moderate</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="moderate" class="drag clone o">Moderate</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="moderate-severe" class="drag clone os">Moderate-<br />severe</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="severe" class="drag clone s">Severe</div>
-						</td></tr>
-					</tbody>
-				</table><!-- LEFT TABLE -->
-			</div><!-- left container -->
-
-			<!-- right container -->
 			<!-- http://stackoverflow.com/questions/4457506/css-how-to-set-the-table-column-width-constant-regardless-of-the-amount-of-text -->
 			<div id="right">
 				<table id="table2"><!-- RIGHT TABLE -->
 					<colgroup>
+						<col style="width:70px; border-style:solid; border-color:#2980b9" />
 						<col style="width:40px" />
 						<col style="width:80px" />
 						<col style="width:70px; border-left-style:solid" />
@@ -109,11 +77,17 @@
 						<col style="width:70px; border-right-style:double" />
 						<col style="width:70px; border-right-style:solid" />
 						<col style="width:70px" />
+						<col style="width:70px; border-style:solid; border-color:#2980b9" />
 						<col style="width:70px" />
 					</colgroup>
 
 					<tbody>
 						<tr>
+							<td class="single">
+								<div id="bl" class="drag clone bl">
+									<input type="text" value="Minimal" style="width:60px; vertical-align:bottom; text-align:center" id="bl_text" class="bl_text_class" />
+								</div>
+							</td>
 							<td class="mark blank trash" title="Apply severity to central and paracentral locations" >
 								<!-- if checked, clone severity to central/paracentral  -->
 								<label style="font-variant:small-caps; font-size:medium"><input id="entirelevel" type="checkbox" />link</label>
@@ -129,10 +103,14 @@
 							<td class="mark dark trash hover" title="Left foraminal disc protrusion"><a>Left<br />foraminal</a></td>
 							<td class="mark dark trash" title="Left neuroforaminal narrowing"><a style="cursor: auto">Left NF<br />narrowing</a></td>
 							<td class="mark dark trash" title="Spinal canal stenosis"><a style="cursor: auto">Spinal<br />stenosis</a></td>
+							<td class="mark dark trash"><div id="bl" class="drag clone bl">
+								<input type="text" value="Minimal" style="width:60px; vertical-align:bottom; text-align:center" id="bl_text" class="bl_text_class" />
+							</div></td>
 							<td class="mark dark trash" title="Other findings"><a style="cursor: auto">Other<br />findings</a></td>
 						</tr>
 
 						<tr>
+							<td class="single"><div id="mild" class="drag clone i">Mild</div></td>
 							<td class="mark dark trash">L1-L2</td>
 							<td id="b1"></td>
 							<td id="n11"></td>
@@ -145,6 +123,7 @@
 							<td id="r17"></td>
 							<td id="n12"></td>
 							<td id="s1"></td>
+							<td class="single"><div id="mild" class="drag clone i">Mild</div></td>
 							<td id="r18" class="dark trash other">
 								<a class="inline" href="#inline_content1" id="of1"><div>L1 - L2</div></a>
 								<div style='display:none'>
@@ -199,6 +178,7 @@
 						</tr>
 
 						<tr>
+							<td class="single"><div id="mild-moderate" class="drag clone io">Mild-<br />moderate</div></td>
 							<td class="mark dark trash">L2-L3</td>
 							<td id="b2"></td>
 							<td id="n21"></td>
@@ -211,6 +191,7 @@
 							<td id="r27"></td>
 							<td id="n22"></td>
 							<td id="s2"></td>
+							<td class="single"><div id="mild-moderate" class="drag clone io">Mild-<br />moderate</div></td>
 							<td id="r28" class="dark trash other">
 								<a class="inline" href="#inline_content2" id="of2"><div>L2 - L3</div></a>
 								<div style='display:none'>
@@ -265,6 +246,7 @@
 						</tr>
 
 						<tr>
+							<td class="single"><div id="moderate" class="drag clone o">Moderate</div></td>
 							<td class="mark dark trash">L3-L4</td>
 							<td id="b3"></td>
 							<td id="n31"></td>
@@ -277,6 +259,7 @@
 							<td id="r37"></td>
 							<td id="n32"></td>
 							<td id="s3"></td>
+							<td class="single"><div id="moderate" class="drag clone o">Moderate</div></td>
 							<td id="r38" class="dark trash other">
 								<a class="inline" href="#inline_content3" id="of3"><div>L3 - L4</div></a>
 								<div style='display:none'>
@@ -331,6 +314,7 @@
 						</tr>
 
 						<tr>
+							<td class="single"><div id="moderate-severe" class="drag clone os">Moderate-<br />severe</div></td>
 							<td class="mark dark trash">L4-L5</td>
 							<td id="b4"></td>
 							<td id="n41"></td>
@@ -343,6 +327,7 @@
 							<td id="r47"></td>
 							<td id="n42"></td>
 							<td id="s4"></td>
+							<td class="single"><div id="moderate-severe" class="drag clone os">Moderate-<br />severe</div></td>
 							<td id="r48" class="dark trash other">
 								<a class="inline" href="#inline_content4" id="of4"><div>L4 - L5</div></a>
 								<div style='display:none'>
@@ -397,6 +382,7 @@
 						</tr>
 
 						<tr>
+							<td class="single"><div id="severe" class="drag clone s">Severe</div></td>
 							<td class="mark dark trash">L5-S1</td>
 							<td id="b5"></td>
 							<td id="n51"></td>
@@ -409,6 +395,7 @@
 							<td id="r57"></td>
 							<td id="n52"></td>
 							<td id="s5"></td>
+							<td class="single"><div id="severe" class="drag clone s">Severe</div></td>
 							<td id="r58" class="dark trash other">
 								<a class="inline" href="#inline_content5" id="of5"><div>L5 - S1</div></a>
 								<div style='display:none'>
@@ -461,19 +448,41 @@
 								</div>
 							</td>
 						</tr>
-						<tr style="border-top-style:solid"> <!-- 8/2/14 -->
-							<td class ="mark dark trash" style="font-variant:small-caps">all<br />levels</td>
-							<td colspan="2" class="mark trash" style="text-align:left">
-								Spondylosis:<br />
-								<label><input type="checkbox" id="mild-spon" />Mild</label>
-								<label><input type="checkbox" id="mod-spon" />Mod</label>
-								<label><input type="checkbox" id="sev-spon" />Sev</label>
-							</td>
-							<td colspan="7" class="mark dark trash" style="font-variant:small-caps; font-size:medium">location of disc protrusion</td>
-							<td colspan="3" class="mark trash"></td>
-						</tr>
+
 					</tbody>
 				</table><!-- RIGHT TABLE -->
+
+				<table>
+					<colgroup>
+						<col style="width:70px" />
+						<col style="width:40px" />
+						<col style="width:80px" />
+						<col style="width:70px; border-left-style:solid" />
+						<col style="width:70px; border-left-style:double" />
+						<col style="width:70px" />
+						<col style="width:70px" />
+						<col style="width:90px; border-style:none" />
+						<col style="width:70px" />
+						<col style="width:70px" />
+						<col style="width:70px; border-right-style:double" />
+						<col style="width:70px; border-right-style:solid" />
+						<col style="width:70px" />
+						<col style="width:70px" />
+						<col style="width:70px" />
+					</colgroup>
+					<tr style="border-top-style:solid"> <!-- 8/2/14 -->
+						<td class="mark dark trash" style="font-variant:small-caps">all<br />levels</td>
+						<td colspan="3" class="mark trash" style="text-align:left; overflow:none">
+							Spondylosis:<br />
+							<label><input type="checkbox" id="mild-spon" />Mild</label>
+							<label><input type="checkbox" id="mod-spon" />Mod</label>
+							<label><input type="checkbox" id="sev-spon" />Sev</label>
+						</td>
+						<td colspan="7" class="mark dark trash" style="font-variant:small-caps; font-size:medium">location of disc protrusion</td>
+						<td colspan="3" class="mark trash"></td>
+						<td class="mark dark trash"></td>
+					</tr>
+				</table>
 			</div><!-- right container -->
 		</div><!-- DRAG CONTAINER -->
 	</div>
