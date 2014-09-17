@@ -360,8 +360,8 @@ $(document).ready(function() {
 			// toLowerCase() first to include editable DIV, then apply sentence case
 			levels_text[i] = lspine.helpers.capitalizer(levels_text[i].toLowerCase());
 
-	        // fixes for listheses
-	        levels_text[i] = levels_text[i].replace(/ (i+-?i*) /ig, String.call.bind(levels_text[1].toUpperCase));
+			// fixes for listheses
+			levels_text[i] = levels_text[i].replace(/ (i+-?i*) /ig, String.call.bind(levels_text[1].toUpperCase));
 			levels_text[i] = levels_text[i].replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1));
 			levels_text[i] = levels_text[i].replace(/L6/g, 'S1');
 
