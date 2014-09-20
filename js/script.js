@@ -480,36 +480,27 @@ $(document).ready(function() {
 	$(".hover").hover(
 		//hover() fn 1 = onmouseover
 		function (e) {
-			var images =
-				[
-					"bbdb",
-					"rfdp",
-					"rcdp",
-					"cdp",
-					"lcdp",
-					"lfdp"
-				],
-			titles =
-				[
-					"Broad-based disc bulge",
-					"Right foraminal disc protrusion",
-					"Right central disc protrusion",
-					"Central disc protrusion",
-					"Left central disc protrusion",
-					"Left foraminal disc protrusion"
-				];
+			var imageFilenames =
+				{
+					"Broad-based disc bulge"			: "bbdb",
+					"Right foraminal disc protrusion"	: "rfdp",
+					"Right central disc protrusion"		: "rcdp",
+					"Central disc protrusion"			: "cdp",
+					"Left central disc protrusion"		: "lcdp",
+					"Left foraminal disc protrusion"	: "lfdp"
+				};
 
 			$("body").append(
 				"<p id='hoverImage'><img src='img/" +
-				images[titles.indexOf(this.title)] +
+				imageFilenames[this.title] +
 				".jpg'/></p>");
 			$("#hoverImage")
 				.css("position", "absolute")
 				.css("top", (e.pageY - 15) + "px")
 				.css("left", (e.pageX - 50) + "px")
+				.css("transform", "scale(0.75)")
 				.fadeIn("fast");
 		},
-
 		// hover() fn 2 = onmouseout
 		function () {
 			$("#hoverImage").remove();
