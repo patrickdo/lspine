@@ -50,11 +50,6 @@ $(document).ready(function() {
 					targetRow.cells[i].appendChild(objNew);
 				}
 			}
-
-			$('.bl_text_class').keyup(function() {
-				lspine.update();
-			})
-
 			lspine.update();	// update on dropping a DIV in a TD
 		};
 	};
@@ -463,6 +458,10 @@ $(document).ready(function() {
 			}
 		});
 	};
+
+	$('body').on('keyup', '.bl_text_class', function() {
+		lspine.update();
+	});
 
 	$('#conclusion, #talk-brackets').click(function() {
 		lspine.update();
