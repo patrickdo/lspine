@@ -417,10 +417,10 @@ $(document).ready(function() {
 			];
 
 		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 9; j++) {
+			for (j = 0; j < 11; j++) {
 				REDIPS.drag.emptyCell(eval(table[i][j]));	// clear main table
 			}
-			$(table[i][9]).multipleSelect('uncheckAll');	// clear multipleSelects
+			$(table[i][11]).multipleSelect('uncheckAll');	// clear multipleSelects
 		}
 
 		lspine.update();
