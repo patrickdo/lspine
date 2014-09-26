@@ -1,4 +1,5 @@
-/*global window: false, REDIPS: true */
+/*global window: false, REDIPS: true, document, $ */
+/*jshint globalstrict: true*/
 /* enable strict mode */
 "use strict";
 
@@ -78,10 +79,10 @@ $(document).ready(function() {
 
 			// return INPUT value if the editable DIV named 'bl' is found
 			if (cn.className.indexOf('bl') === 5) {
-				return content = document.getElementById(cn.id).getElementsByTagName('input')[0].value;
+				return document.getElementById(cn.id).getElementsByTagName('input')[0].value;
 			}
 
-		};
+		}
 
 		// 7/18/14 get rid of the trailing "_c0"
 		content = content.substring(0, content.length - 3);
@@ -418,7 +419,7 @@ $(document).ready(function() {
 
 		for (i = 0; i < 5; i++) {
 			for (j = 0; j < 11; j++) {
-				REDIPS.drag.emptyCell(eval(table[i][j]));	// clear main table
+				REDIPS.drag.emptyCell(document.getElementById(table[i][j]));	// clear main table
 			}
 			$(table[i][11]).multipleSelect('uncheckAll');	// clear multipleSelects
 		}
@@ -459,7 +460,7 @@ $(document).ready(function() {
 				lspine.update();
 			}
 		});
-	};
+	}
 
 	$('body').on('keyup', '.bl_text_class', function() {
 		lspine.update();
