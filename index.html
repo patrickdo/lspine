@@ -59,39 +59,6 @@
 	<div id="main_container">
 		<!-- tables inside this DIV could have draggable content -->
 		<div id="drag"><!-- DRAG CONTAINER -->
-
-			<!-- left container (table with subjects) -->
-			<div id="left">
-				<br />
-				<table id="table1"><!-- LEFT TABLE -->
-					<colgroup>
-						<col style="width:80px" />
-					</colgroup>
-					<tbody>
-						<tr><td class="single">
-							<div id="bl" class="drag clone bl">
-								<input type="text" value="Minimal" style="width:60px; text-align:center" id="bl_text" class="bl_text_class" onclick="this.select()" />
-							</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="mild" class="drag clone i">Mild</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="mild-moderate" class="drag clone io">Mild-<br />moderate</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="moderate" class="drag clone o">Moderate</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="moderate-severe" class="drag clone os">Moderate-<br />severe</div>
-						</td></tr>
-						<tr><td class="single">
-							<div id="severe" class="drag clone s">Severe</div>
-						</td></tr>
-					</tbody>
-				</table><!-- LEFT TABLE -->
-			</div><!-- left container -->
-
 			<!-- right container -->
 			<!-- http://stackoverflow.com/questions/4457506/css-how-to-set-the-table-column-width-constant-regardless-of-the-amount-of-text -->
 			<div id="right">
@@ -471,6 +438,15 @@
 							</td>
 							<td colspan="7" class="mark dark trash" style="font-variant:small-caps; font-size:medium">location of disc protrusion</td>
 							<td colspan="3" class="mark trash"></td>
+						</tr>
+						<tr>
+							<td colspan="4" class="mark blank trash"></td>
+							<td class="single"><div id="mild" class="drag clone i">Mild</div></td>
+							<td class="single"><div id="mild-moderate" class="drag clone io">Mild-<br />moderate</div></td>
+							<td class="single"><div id="moderate" class="drag clone o">Moderate</div></td>
+							<td class="single"><div id="moderate-severe" class="drag clone os">Moderate-<br />severe</div></td>
+							<td class="single"><div id="severe" class="drag clone s">Severe</div></td>
+							<td colspan="4" class="mark blank trash"></td>
 						</tr>
 					</tbody>
 				</table><!-- RIGHT TABLE -->
