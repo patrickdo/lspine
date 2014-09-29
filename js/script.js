@@ -1,4 +1,4 @@
-/*global window: false, REDIPS: true, document, $, Dragdealer */
+/*global window: false, REDIPS: true, document, $, Dragdealer, ddSliders */
 /*jshint globalstrict: true*/
 /* enable strict mode */
 "use strict";
@@ -6,10 +6,12 @@
 $(document).ready(function() {
 	var redipsInit,			// define redipsInit
 		getContent,			// get content (DIV elements in TD)
-		divNodeList;		// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
+		divNodeList,		// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
+		lspine = {},		// main function container
+		ddLevelEnabled = [false, false, false, false, false];	// keep track of which levels have initialized ddSliders
 
-	var lspine = {};
 	lspine.helpers = {};
+	window.ddSliders = {};	// set ddSliders as a global container of sliders
 
 	// redips initialization
 	redipsInit = function () {
@@ -135,7 +137,7 @@ $(document).ready(function() {
 			b_text[i] = '';
 			h_text[i] = '';
 			n_text[i] = '';
-			s_text[i] = 'no spinal canal stenosis';
+			s_text[i] = 'no spinal canal stenosis.';
 			o_text[i] = '';
 		}
 
@@ -230,34 +232,46 @@ $(document).ready(function() {
 			// SPINAL CANAL STENOSIS //
 			s_sev = getContent(levels[curlevel][9]);
 			if (s_sev) {
-				s_text[curlevel] = s_sev + ' spinal canal stenosis';
+				s_text[curlevel] = s_sev + ' spinal canal stenosis.';
 			}
 
 
 			// OTHER COLUMN //
-			other = [];
-			other = $(others[curlevel]).multipleSelect('getSelects', 'text');
-			for (i = 0; i < other.length; i++) {				// for all checked boxes in the multipleSelect
-				other[i] = other[i].replace(/(\[|\])/g, '');		// remove []
-				other[i] = other[i].replace(/(.+): (.+)/, '$2 $1');	// 'dd: mild' → 'mild dd'
-				other[i] = other[i].replace(/,  /, '-');			// 'mild,  mod dd' → 'mild-mod dd'
-				other[i] = other[i].replace(/mod/, 'moderate');		// 'mod' → 'moderate'
+			var ddSliderTypes =
+					[
+					'ddAf',
+					'ddDd',
+					'ddEp',
+					'ddFjhR',
+					'ddFjhL',
+					'ddLft',
+					'ddL'
+					],
+				ddSliderText =
+					{
+					'ddAf': 'annular fissure',
+					'ddDd': 'disc desiccation',
+					'ddEp': 'end-plate degenerative changes',
+					'ddFjhR': 'right facet joint hypertrophy',
+					'ddFjhL': 'left facet joint hypertrophy',
+					'ddLft': 'ligamentum flavum thickening',
+					'ddL': 'listhesis'
+					};
+
+			for (i = 0; i <= ddSliderTypes.length; i++) {	// cycle through all sliders at each level
+				var curSlider = ddSliders[ddSliderTypes[i] + curlevel.toString()];
+				if (curSlider) {
+					var curSliderText = $('#' + ddSliderTypes[i] + curlevel.toString() + '_handle').text();
+					if (curSliderText != 'None') {
+						o_text[curlevel] +=
+							' ' + $('#' + ddSliderTypes[i] + curlevel.toString() + '_handle').text() +
+							' ' + ddSliderText[ddSliderTypes[i]] + '. ';
+					}
+				}
 			}
 
-			// consolidate "other" findings into a comma-separated phrase
-			switch (other.length) {
-				case 0:
-					o_text[curlevel] = '';
-					break;
-				case 1:
-					o_text[curlevel] = '. ' + other;
-					break;
-				default:
-					o_text[curlevel] = '. ' + other.join('. ');
-			}
 
-			// X R FJH + X L FJH → X B FJH
-			// Grade X-Y -listhesis
+			// STRING MANIPULATION
 			o_text[curlevel] = o_text[curlevel].replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy');
 			o_text[curlevel] = o_text[curlevel].replace(/\b(\w+) right.*\1 left/i, '$1 bilateral');
 			o_text[curlevel] = o_text[curlevel].replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral');
@@ -265,6 +279,8 @@ $(document).ready(function() {
 			o_text[curlevel] = o_text[curlevel].replace(/\. right and (.*) left facet/i, '. $1 bilateral facet');
 			o_text[curlevel] = o_text[curlevel].replace(/right and left /i, 'bilateral ');
 			o_text[curlevel] = o_text[curlevel].replace(/(i+-?i*) (\w+listhesis)/ig, 'Grade $1 $2');
+			o_text[curlevel] = o_text[curlevel].replace(/sev/ig, 'severe');
+			o_text[curlevel] = o_text[curlevel].replace(/mod/ig, 'moderate');
 
 		} // END OF CYCLE THROUGH DISC LEVELS
 
@@ -340,7 +356,6 @@ $(document).ready(function() {
 				concl = 'No significant degenerative change.<br><br>';
 			}
 			concl = '<b>CONCLUSION:</b><br>' + concl;
-
 		}
 
 
@@ -350,7 +365,7 @@ $(document).ready(function() {
 			h_text[i] = h_text[i].replace(/,(?=[^,]*$)/, ', and');
 
 			// combine sentences
-			levels_text[i] = h_text[i] + '. ' + n_text[i] + '. ' + s_text[i] + o_text[i] + '.';
+			levels_text[i] = h_text[i] + '. ' + n_text[i] + '. ' + s_text[i] + o_text[i];
 
 			// remove clones' 'c#'
 			levels_text[i] = levels_text[i].replace(/c[0-9]/g, '');
@@ -419,8 +434,6 @@ $(document).ready(function() {
 
 		// ===== UPDATE REPORT PREVIEW ===== //
 		document.getElementById('report_textarea').innerHTML = report_text;
-
-		return false;
 	};
 
 	// ===== SELECT ALL BUTTON ===== //
@@ -462,16 +475,14 @@ $(document).ready(function() {
 		});
 	};
 
-	// initialize
-	// Colorbox
-	$('a.cb').colorbox({		// initialize colorbox for class "cb"
+	// initialize 'instructions' / 'quick ref' Colorboxes
+	$('a.cb').colorbox({
 		opacity: 0.5,
 		width: "750px",
 		height: "350px"
 	});
 
-	var ddLevelEnabled = [false, false, false, false, false];
-
+	// initialize 'Other findings' Colorbox
 	$('.inline').colorbox({
 		inline: true,
 		width: "280px",
@@ -480,90 +491,101 @@ $(document).ready(function() {
 		left: "500px",
 		top: "50px",
 		onComplete:function() {
-			var i = 0,
-				curlevel = this.id.substring(2),
-				ddSliderSevs = 'None Mild Mod Sev'.split(' '),
-				n = ddSliderSevs.length - 1;
+			var curlevel = this.id.substring(2);	// this.id = 'of2'
 
-			if (ddLevelEnabled[parseInt(curlevel)]) return;	// return if Dragdealers at this level have already been initialized
+			if (!ddLevelEnabled[parseInt(curlevel)]) {
+				ddInit(curlevel);						// initialize ddSliders at curlevel if not already done
+				ddLevelEnabled[parseInt(curlevel)] = true;	// only do it once per session so values aren't lost
+			}
+		}
+	});
 
-			// if not yet done, initialize Dragdealers at this level
-			new Dragdealer('ddAf' + curlevel,
+	// initialize ddSliders
+	var ddInit = function(curlevel) {	// called by $('.inline').colorbox
+		// if not yet done, initialize Dragdealers at this level
+		var i = 0,
+			ddSliderSevs = 'None Mild Mod Sev'.split(' '),
+			n = ddSliderSevs.length - 1;
+
+		ddSliders['ddAf' + curlevel] = new Dragdealer('ddAf' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddAf' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddAf' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			new Dragdealer('ddDd' + curlevel,
+		ddSliders['ddDd' + curlevel] = new Dragdealer('ddDd' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddDd' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddDd' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			new Dragdealer('ddEp' + curlevel,
+		ddSliders['ddEp' + curlevel] = new Dragdealer('ddEp' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddEp' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddEp' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			new Dragdealer('ddFjhR' + curlevel,
+		ddSliders['ddFjhR' + curlevel] = new Dragdealer('ddFjhR' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddFjhR' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddFjhR' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			new Dragdealer('ddFjhL' + curlevel,
+		ddSliders['ddFjhL' + curlevel] = new Dragdealer('ddFjhL' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddFjhL' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddFjhL' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			new Dragdealer('ddLft' + curlevel,
+		ddSliders['ddLft' + curlevel] = new Dragdealer('ddLft' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddLft' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddLft' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			new Dragdealer('ddL' + curlevel,
+		ddSliders['ddL' + curlevel] = new Dragdealer('ddL' + curlevel,
 			{
 				steps: 4,
 				snap: false,
 				animationCallback: function(x, y) {
 					$('#ddL' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
 					$('#ddL' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					lspine.update();
 				}
 			});
 
-			ddLevelEnabled[parseInt(curlevel)] = true;
-
-			lspine.update();
-
-		}
-	});
+		// ddLevelEnabled[parseInt(curlevel)] = true;
+	};
 
 	// Multiple Select
 	var a = "#o1 #o2 #o3 #o4 #o5".split(' ');	// identify the 5 multipleSelects
