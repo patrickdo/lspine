@@ -367,6 +367,30 @@ $(document).ready(function() {
 			levels_text[i] = levels_text[i].substring(0, 1).toLowerCase() + levels_text[i].substring(1);
 		}
 
+		// ===== GLOBAL TEXT ===== //
+		var global_text = '';
+		if ($('#mild-spon').is(':checked')) {
+			global_text = '<br><br>Mild spondylosis throughout.';
+		}
+		if ($('#mod-spon').is(':checked')) {
+			global_text = '<br><br>Moderate spondylosis throughout.';
+		}
+		if ($('#sev-spon').is(':checked')) {
+			global_text = '<br><br>Severe spondylosis throughout.';
+		}
+		if ($('#mild-spon').is(':checked') && $('#mod-spon').is(':checked')) {
+			global_text = '<br><br>Mild-moderate spondylosis throughout.';
+		}
+		if ($('#mod-spon').is(':checked') && $('#sev-spon').is(':checked')) {
+			global_text = '<br><br>Moderate-severe spondylosis throughout.';
+		}
+		if ($('#mild-spon').is(':checked') && $('#mod-spon').is(':checked') && $('#sev-spon').is(':checked')) {
+			global_text = '<br><br>Lumbar spondylosis throughout.';
+		}
+		if ($('#mild-spon').is(':checked') && $('#sev-spon').is(':checked')) {
+			global_text = '<br><br>Lumbar spondylosis throughout.';
+		}
+		levels_text[5] += global_text;
 
 		// ===== ADD TALKSTATION [BRACKETS] ===== //
 		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
@@ -407,7 +431,7 @@ $(document).ready(function() {
 
 	// ===== RESET BUTTON ===== //
 	lspine.reset = function() {
-		var i, j,
+		var i, j, allLevelCBs = ['mild-spon', 'mod-spon', 'sev-spon'],
 		table =
 			[
 			'b1 n11 r11 r12 r13 r14 r15 r16 r17 n12 s1 #o1'.split(' '),	// L1-2
@@ -422,6 +446,10 @@ $(document).ready(function() {
 				REDIPS.drag.emptyCell(document.getElementById(table[i][j]));	// clear main table
 			}
 			$(table[i][11]).multipleSelect('uncheckAll');	// clear multipleSelects
+		}
+
+		for (i = 0; i < allLevelCBs.length; i++) {
+			document.getElementById(allLevelCBs[i]).checked = false;	// clear "all levels" checkboxes
 		}
 
 		lspine.update();
@@ -466,7 +494,7 @@ $(document).ready(function() {
 		lspine.update();
 	});
 
-	$('#conclusion, #talk-brackets').click(function() {
+	$('#conclusion, #talk-brackets, #mild-spon, #mod-spon, #sev-spon').click(function() {
 		lspine.update();
 	});
 
