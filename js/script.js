@@ -8,8 +8,27 @@ $(document).ready(function() {
 		getContent,			// get content (DIV elements in TD)
 		divNodeList,		// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
 		lspine = {},		// main function container
-		ddLevelEnabled = [false, false, false, false, false];	// keep track of which levels have initialized ddSliders
-
+		ddLevelEnabled = [false, false, false, false, false],	// keep track of which levels have initialized ddSliders
+		ddSliderTypes =
+			[
+			'ddAf',
+			'ddDd',
+			'ddEp',
+			'ddFjhR',
+			'ddFjhL',
+			'ddLft',
+			'ddL'
+			],
+		ddSliderText =
+			{
+			'ddAf': 'annular fissure',
+			'ddDd': 'disc desiccation',
+			'ddEp': 'end-plate degenerative changes',
+			'ddFjhR': 'right facet joint hypertrophy',
+			'ddFjhL': 'left facet joint hypertrophy',
+			'ddLft': 'ligamentum flavum thickening',
+			'ddL': 'listhesis'
+			};
 	lspine.helpers = {};
 	window.ddSliders = {};	// set ddSliders as a global container of sliders
 
@@ -237,27 +256,6 @@ $(document).ready(function() {
 
 
 			// OTHER COLUMN //
-			var ddSliderTypes =
-					[
-					'ddAf',
-					'ddDd',
-					'ddEp',
-					'ddFjhR',
-					'ddFjhL',
-					'ddLft',
-					'ddL'
-					],
-				ddSliderText =
-					{
-					'ddAf': 'annular fissure',
-					'ddDd': 'disc desiccation',
-					'ddEp': 'end-plate degenerative changes',
-					'ddFjhR': 'right facet joint hypertrophy',
-					'ddFjhL': 'left facet joint hypertrophy',
-					'ddLft': 'ligamentum flavum thickening',
-					'ddL': 'listhesis'
-					};
-
 			for (i = 0; i <= ddSliderTypes.length; i++) {	// cycle through all sliders at each level
 				var curSlider = ddSliders[ddSliderTypes[i] + curlevel.toString()];
 				if (curSlider) {
@@ -281,6 +279,8 @@ $(document).ready(function() {
 			o_text[curlevel] = o_text[curlevel].replace(/(i+-?i*) (\w+listhesis)/ig, 'Grade $1 $2');
 			o_text[curlevel] = o_text[curlevel].replace(/sev/ig, 'severe');
 			o_text[curlevel] = o_text[curlevel].replace(/mod/ig, 'moderate');
+			o_text[curlevel] = o_text[curlevel].replace(/Gr ([0-9])/, 'Grade $1');
+			o_text[curlevel] = o_text[curlevel].replace(/o list/, 'olist');
 
 		} // END OF CYCLE THROUGH DISC LEVELS
 
@@ -413,6 +413,7 @@ $(document).ready(function() {
 				// add [brackets] to main report for easier editing in Talk
 				levels_text[i] = levels_text[i].replace(/(mild|moderate|severe|minimal|no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/ig, '[$1]');
 				levels_text[i] = levels_text[i].replace(/(\[mild\]-\[moderate\]|\[moderate\]-\[severe\]|\[mild\]-\[severe\])/ig, '[$1]');
+				levels_text[i] = levels_text[i].replace(/Grade ([0-9])/i, 'Grade [$1]');
 			}
 
 			// add [brackets] to conclusion sentence for easier editing in Talk
@@ -455,10 +456,19 @@ $(document).ready(function() {
 			];
 
 		for (i = 0; i < 5; i++) {
+			// clear main table
 			for (j = 0; j < 11; j++) {
-				REDIPS.drag.emptyCell(document.getElementById(table[i][j]));	// clear main table
+				REDIPS.drag.emptyCell(document.getElementById(table[i][j]));
 			}
-			$(table[i][11]).multipleSelect('uncheckAll');	// clear multipleSelects
+
+			if (ddLevelEnabled[parseInt(i + 1)]) {	// check if level is initialized, else will get error
+				// reset sliders to 'none'
+				for (j = 0; j < ddSliderTypes.length - 1; j++) {
+					ddSliders[ddSliderTypes[j] + parseInt(i + 1)].setValue(0, 0, true);
+				}
+				// reset -listhesis to 'none'
+				ddSliders[ddSliderTypes[ddSliderTypes.length - 1] + parseInt(i + 1)].setValue(0.5, 0, true);
+			}
 		}
 
 		for (i = 0; i < allLevelCBs.length; i++) {
@@ -486,6 +496,7 @@ $(document).ready(function() {
 	$('.inline').colorbox({
 		inline: true,
 		width: "280px",
+		height: "540px",
 		opacity: 0.4,
 		speed: 0,
 		left: "500px",
@@ -575,11 +586,26 @@ $(document).ready(function() {
 
 		ddSliders['ddL' + curlevel] = new Dragdealer('ddL' + curlevel,
 			{
-				steps: 4,
+				steps: 7,
 				snap: false,
+				x: 0.5,
 				animationCallback: function(x, y) {
-					$('#ddL' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddL' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+					var ddLSevs = 'Gr 3 Antero|Gr 2 Antero|Gr 1 Antero|None|Gr 1 Retro|Gr 2 Retro|Gr 3 Retro'.split('|'),
+					nL = ddLSevs.length - 1;
+					var rgb = [];
+					$('#ddL' + curlevel + '_handle').html(ddLSevs[Math.floor((x + (1/(2*nL))) * nL)]);
+					switch(true) {
+						case (x < 0.5):
+							rgb = [41 + 428*x, 128 + 254*x, 185 + 140*x];
+							break;
+						case (x === 0.5):
+							rgb = [255, 255, 255];
+							break;
+						case (x > 0.5):
+							rgb = [255 - 126*(x-0.5), 255 - 396*(x-0.5), 255 - 424*(x-0.5)];
+							break;
+					}
+					$('#ddL' + curlevel + '_handle').css('background-color', 'rgb(' + parseInt(rgb[0]) + ', ' + parseInt(rgb[1]) + ', ' + parseInt(rgb[2]) + ')');
 					lspine.update();
 				}
 			});
