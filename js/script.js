@@ -128,9 +128,6 @@ $(document).ready(function() {
 			'n51 r51 r52 r53 r54 r55 r56 r57 n52 s5'.split(' ')	// L5-S1
 			],
 
-		// IDs of right table - 'Other' column - multipleSelect
-		others = ' #o1 #o2 #o3 #o4 #o5'.split(' '),
-
 		// IDs of right table 'BBDB' cells - combine with var levels eventually?
 		b_levels = ' /b1/b2/b3/b4/b5'.split('/'),
 
@@ -612,26 +609,6 @@ $(document).ready(function() {
 
 		// ddLevelEnabled[parseInt(curlevel)] = true;
 	};
-
-	// Multiple Select
-	var a = "#o1 #o2 #o3 #o4 #o5".split(' ');	// identify the 5 multipleSelects
-	for (var i = 0; i < a.length; i++) {
-		$(a[i]).multipleSelect({		// initialize the 5 multipleSelects
-			multiple: true,
-			multipleWidth: 70,			// width of each checkbox + label
-			width: 170,					// width of entire row
-			maxHeight: 380,
-			selectAll: false,			// "Select All" checkbox row
-			placeholder: "None",		// what to display when no options are selected
-			minumimCountSelected: 99,	// [sic] when to display "x of y selected"
-			onOptgroupClick: function(view) {
-				lspine.update();
-			},
-			onClick: function(view) {
-				lspine.update();
-			}
-		});
-	}
 
 	$('body').on('keyup', '.bl_text_class', function() {
 		lspine.update();
