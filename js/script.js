@@ -44,8 +44,6 @@ $(document).ready(function() {
 		// prepare node list of DIV elements in table2
 		divNodeList = document.getElementById('table2').getElementsByTagName('div');
 
-		lspine.update();	// update on initialization
-
 		rd.event.deleted = function () {
 			lspine.update();	// update on deleting DIV
 		};
@@ -666,4 +664,5 @@ $(document).ready(function() {
 	});
 
 	redipsInit();
+	lspine.update();
 });
