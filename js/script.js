@@ -271,7 +271,6 @@ $(document).ready(function() {
 			o_text[curlevel] = o_text[curlevel].replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet');
 			o_text[curlevel] = o_text[curlevel].replace(/\. right and (.*) left facet/i, '. $1 bilateral facet');
 			o_text[curlevel] = o_text[curlevel].replace(/right and left /i, 'bilateral ');
-			o_text[curlevel] = o_text[curlevel].replace(/(i+-?i*) (\w+listhesis)/ig, 'Grade $1 $2');
 			o_text[curlevel] = o_text[curlevel].replace(/sev/ig, 'severe');
 			o_text[curlevel] = o_text[curlevel].replace(/mod/ig, 'moderate');
 			o_text[curlevel] = o_text[curlevel].replace(/Gr ([0-9])/, 'Grade $1');
@@ -443,11 +442,11 @@ $(document).ready(function() {
 		var i, j, allLevelCBs = ['mild-spon', 'mod-spon', 'sev-spon'],
 		table =
 			[
-			'b1 n11 r11 r12 r13 r14 r15 r16 r17 n12 s1 #o1'.split(' '),	// L1-2
-			'b2 n21 r21 r22 r23 r24 r25 r26 r27 n22 s2 #o2'.split(' '),	// L2-3
-			'b3 n31 r31 r32 r33 r34 r35 r36 r37 n32 s3 #o3'.split(' '),	// L3-4
-			'b4 n41 r41 r42 r43 r44 r45 r46 r47 n42 s4 #o4'.split(' '),	// L4-5
-			'b5 n51 r51 r52 r53 r54 r55 r56 r57 n52 s5 #o5'.split(' ')		// L5-S1
+			'b1 n11 r11 r12 r13 r14 r15 r16 r17 n12 s1'.split(' '),	// L1-2
+			'b2 n21 r21 r22 r23 r24 r25 r26 r27 n22 s2'.split(' '),	// L2-3
+			'b3 n31 r31 r32 r33 r34 r35 r36 r37 n32 s3'.split(' '),	// L3-4
+			'b4 n41 r41 r42 r43 r44 r45 r46 r47 n42 s4'.split(' '),	// L4-5
+			'b5 n51 r51 r52 r53 r54 r55 r56 r57 n52 s5'.split(' ')	// L5-S1
 			];
 
 		for (i = 0; i < 5; i++) {
