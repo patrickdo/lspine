@@ -499,7 +499,7 @@ $(document).ready(function() {
 		height: "540px",
 		opacity: 0.4,
 		speed: 0,
-		left: "500px",
+		left: "700px",
 		top: "50px",
 		onComplete:function() {
 			var curlevel = this.id.substring(2);	// this.id = 'of2'
