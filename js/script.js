@@ -500,112 +500,76 @@ $(document).ready(function() {
 
 			if (!ddLevelEnabled[parseInt(curlevel)]) {
 				ddInit(curlevel);						// initialize ddSliders at curlevel if not already done
-				ddLevelEnabled[parseInt(curlevel)] = true;	// only do it once per session so values aren't lost
 			}
 		}
 	});
 
 	// initialize ddSliders
-	var ddInit = function(curlevel) {	// called by $('.inline').colorbox
-		// if not yet done, initialize Dragdealers at this level
-		var i = 0,
-			ddSliderSevs = 'None Mild Mod Sev'.split(' '),
+	var ddInit = function(curlevel) {	// called by $('.inline').colorbox only if curlevel isn't yet initialized
+		var i;
+
+		// call helper function to create ddSliders with default parameters
+		for (i = 0; i < ddSliderTypes.length - 1; i++) {
+			ddInitHelper(i, curlevel);
+		}
+
+		// create listhesis ddSliders
+		ddSliders['ddL' + curlevel] = new Dragdealer ('ddL' + curlevel, {
+			steps: 7,
+			snap: false,
+			x: 0.5,
+			animationCallback: function(x, y) {
+				var ddLSevs = 'Gr 3 Antero|Gr 2 Antero|Gr 1 Antero|None|Gr 1 Retro|Gr 2 Retro|Gr 3 Retro'.split('|'),
+				nL = ddLSevs.length - 1,
+				anteroColor =	[41, 128, 185],
+				noneColor =		[255, 255, 255],
+				retroColor =	[192, 57, 43],
+				rgb = [],
+				i;
+				$('#ddL' + curlevel + '_handle').html(ddLSevs[Math.floor((x + (1/(2*nL))) * nL)]);
+				switch(true) {
+					case (x < 0.5):
+						for (i = 0; i < 3; i++) {
+							rgb[i] = anteroColor[i] + (255 - anteroColor[i]) * x;
+						}
+						break;
+					case (x === 0.5):
+						rgb = noneColor;
+						break;
+					case (x > 0.5):
+						for (i = 0; i < 3; i++) {
+							rgb[i] = 255 - 2 * (255 - retroColor[i]) * (x - 0.5);
+						}
+						break;
+				}
+				$('#ddL' + curlevel + '_handle').css('background-color', 'rgb(' + parseInt(rgb[0]) + ', ' + parseInt(rgb[1]) + ', ' + parseInt(rgb[2]) + ')');
+				lspine.update();
+			}
+		});
+
+		ddLevelEnabled[parseInt(curlevel)] = true;	// only do it once per session so values aren't lost
+	};
+
+	// helper function to deal with closure inside loops while creating ddSliders
+	var ddInitHelper = function(_i, _curlevel) {
+		var ddSliderSevs = 'None Mild Mod Sev'.split(' '),
 			n = ddSliderSevs.length - 1;
 
-		ddSliders['ddAf' + curlevel] = new Dragdealer('ddAf' + curlevel,
-			{
-				steps: 4,
-				snap: false,
-				animationCallback: function(x, y) {
-					$('#ddAf' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddAf' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
-					lspine.update();
-				}
-			});
+		// create ddSliders with default parameters
+		ddSliders[ddSliderTypes[_i] + _curlevel] = new Dragdealer (ddSliderTypes[_i] + _curlevel, {
+			steps: 4,
+			snap: false,
+			animationCallback: function(x, y) {
+				$('#' + ddSliderTypes[_i] + _curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
+				$('#' + ddSliderTypes[_i] + _curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				lspine.update();
+			}
+		});
 
-		ddSliders['ddDd' + curlevel] = new Dragdealer('ddDd' + curlevel,
-			{
-				steps: 4,
-				snap: false,
-				animationCallback: function(x, y) {
-					$('#ddDd' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddDd' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
-					lspine.update();
-				}
-			});
 
-		ddSliders['ddEp' + curlevel] = new Dragdealer('ddEp' + curlevel,
-			{
-				steps: 4,
-				snap: false,
-				animationCallback: function(x, y) {
-					$('#ddEp' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddEp' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
-					lspine.update();
-				}
-			});
-
-		ddSliders['ddFjhR' + curlevel] = new Dragdealer('ddFjhR' + curlevel,
-			{
-				steps: 4,
-				snap: false,
-				animationCallback: function(x, y) {
-					$('#ddFjhR' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddFjhR' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
-					lspine.update();
-				}
-			});
-
-		ddSliders['ddFjhL' + curlevel] = new Dragdealer('ddFjhL' + curlevel,
-			{
-				steps: 4,
-				snap: false,
-				animationCallback: function(x, y) {
-					$('#ddFjhL' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddFjhL' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
-					lspine.update();
-				}
-			});
-
-		ddSliders['ddLft' + curlevel] = new Dragdealer('ddLft' + curlevel,
-			{
-				steps: 4,
-				snap: false,
-				animationCallback: function(x, y) {
-					$('#ddLft' + curlevel + '_handle').html(ddSliderSevs[Math.floor((x + (1/(2*n))) * n)]);
-					$('#ddLft' + curlevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
-					lspine.update();
-				}
-			});
-
-		ddSliders['ddL' + curlevel] = new Dragdealer('ddL' + curlevel,
-			{
-				steps: 7,
-				snap: false,
-				x: 0.5,
-				animationCallback: function(x, y) {
-					var ddLSevs = 'Gr 3 Antero|Gr 2 Antero|Gr 1 Antero|None|Gr 1 Retro|Gr 2 Retro|Gr 3 Retro'.split('|'),
-					nL = ddLSevs.length - 1;
-					var rgb = [];
-					$('#ddL' + curlevel + '_handle').html(ddLSevs[Math.floor((x + (1/(2*nL))) * nL)]);
-					switch(true) {
-						case (x < 0.5):
-							rgb = [41 + 428*x, 128 + 254*x, 185 + 140*x];
-							break;
-						case (x === 0.5):
-							rgb = [255, 255, 255];
-							break;
-						case (x > 0.5):
-							rgb = [255 - 126*(x-0.5), 255 - 396*(x-0.5), 255 - 424*(x-0.5)];
-							break;
-					}
-					$('#ddL' + curlevel + '_handle').css('background-color', 'rgb(' + parseInt(rgb[0]) + ', ' + parseInt(rgb[1]) + ', ' + parseInt(rgb[2]) + ')');
-					lspine.update();
-				}
-			});
-
-		// ddLevelEnabled[parseInt(curlevel)] = true;
 	};
+
+
 
 	$('body').on('keyup', '.bl_text_class', function() {
 		lspine.update();
