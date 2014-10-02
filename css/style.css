@@ -1,39 +1,34 @@
-body{
+body {
 	font-family: arial;
 	margin: 0px; /* for IE6 / IE7 */
 }
 
-a{
-	text-decoration:none;
-	cursor:pointer;
+a {
+	text-decoration: none;
+	cursor: pointer;
 }
 
 /* drag container */
-#main_container{
+#main_container {
 	margin: auto;
 	/* the following line centers the tables */
 	/* width: 730px; */
 }
 		/* container for the left table */
-		#main_container #left{
+		#main_container #left {
 			width: 72px; /* 7/27/14 130px → 100px → 80px */
 			height: 260px;
 			float: left;
 			margin-right: 5px; /* space between left and right tables */
 		}
 		/* container for the main table and message line below */
-		#main_container #right{
-			/* padding-left:auto; */ /* doesn't do much? */
+		#main_container #right {
 			padding-right: 0px;
-			/* width: 675px; */
-			/* float: left; */
-			/* padding-right: 0px; */
-			/* align div to the right */
 			margin-left: 10px; /* doesn't do much? */
 		}
 
 /* drag objects (DIV inside table cells) */
-.drag{
+.drag {
 	cursor: move;
 	margin: auto;
 	z-index: 10;
@@ -61,16 +56,12 @@ div#drag table { /* left table */
 }
 	/* right table */
 	div#drag #table2 {
-		/* align table to the right */
-		/* margin-left: auto; */
-		/* table-layout:fixed; */
-		/* overflow:hidden; */
-		/* white-space:nowrap; */
-		/* width:0px; */
+		table-layout: fixed;
+		/*width: 870px;*/
 	}
 
 /* table cells */
-div#drag td{
+div#drag td {
 	border-style: solid;
 	border-width: 1px;
 	border-color: white;
@@ -82,7 +73,7 @@ div#drag td{
 
 		/* overwrite border settings for left tables */
 		/* set all borders to 0px except border-bottom */
-		div#drag #table1 td{
+		div#drag #table1 td {
 			border-width: 0px 0px 1px 0px;
 		}
 
@@ -112,17 +103,14 @@ div#drag input {
 
 	/* height for input text in DIV element */
 	div#drag #bl input {
-		height: 15px; /* was 13px */
-		/* float: middle;  7/27/14 */
+		height: 15px;
 		display: table-cell;
-		vertical-align: middle;
 	}
 
 	/* height for dropdown menu in DIV element */
 	div#drag #d5 select {
 		height: 20px;
 	}
-
 
 /* descriptor DIV colors */
 .bl {
@@ -149,38 +137,31 @@ div#drag input {
 	background-color: white;
 }
 
-/* trash cell */
-/* .trash {
-	color: white;
-	text-transform:uppercase;
-	font-weight:bold;
-	background-color: #6386BD;
-} */
-
 /* preview pane */
-#preview{
+#preview {
 	background-color: white;
+	margin-top: 15px;
+	clear: both;
 }
 
 /* dark cells (first column and table header) */
-.dark{
+.dark {
 	color: #444;
 	background-color: #e0e0e0;
 }
-.button_container{
+.button_container {
 	padding-top: 10px;
 	text-align: right;
 }
 
 		/* "Save" button (deprecated 7/29/14) */
-		.button_container input{
+		.button_container input {
 			background-color: #6A93D4;
 			color: white;
 			border-width: 1px;
 			width: 40px;
 			padding: 0px;
 		}
-
 
 .t2 {
 	border: 2px solid SteelBlue;
@@ -191,22 +172,20 @@ div#drag input {
 	background-color: #e0e0e0;
 }
 
-/* ===== */
-
-#report_textarea{
+#report_textarea {
 	width: 70em;
 	height: 17em;
 	margin-bottom: 4px;
 }
 
 div.editable {
-    width: 1000px;
 	max-width: 1000px;
-    height: 200px;
-    border: 1px solid #ccc;
-    padding: 5px;
-	margin-left:10px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	margin-left: 10px;
 	color: black;
+	padding-top: 5px;
+	float: left;
 }
 
 label {
@@ -221,4 +200,52 @@ label {
 .inline {
 	color: white;
 	cursor: alias;
+}
+
+.inline div {
+	line-height: 32px;
+}
+
+.handle {
+	width: 20px;
+}
+
+.other {
+	color: white;
+	background-color: #7f8c8d;
+}
+
+.header-right {
+	float: right;
+	font-size: small;
+	text-align: right;
+}
+
+.header-title {
+	background-color: #eee;
+	padding: 20px;
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.cb {
+	font-variant: small-caps;
+	font-size: medium;
+	color: blue;
+}
+
+button {
+	height: 50px;
+}
+
+button#selectAllbtn {
+	width: 150px;
+}
+
+.footer {
+	clear: both;
+	padding-left: 15px;
+	font-size: x-small;
+	padding-top: 20px;
 }
