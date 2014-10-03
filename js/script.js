@@ -323,9 +323,9 @@ $(document).ready(function() {
 				concl =
 					lspine.helpers.capitalizer(high_sev) +
 					(high_sev_level.length < 3 ? (
-							' lumbar spondylosis, particularly at the ' +
+						' lumbar spondylosis, particularly at the ' +
 						concl.replace(/,(?=[^,]*$)/, ', and') +
-					'<br><br>'
+						'<br><br>'
 					) : (
 						' multi-level lumbar spondylosis as described above.' +
 						'<br><br>'
@@ -388,16 +388,10 @@ $(document).ready(function() {
 		// ===== ADD TALKSTATION [BRACKETS] ===== //
 		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
 			for (i = 1; i <= 5; i++) {
-				// add [brackets] to main report for easier editing in Talk
-				levels_text[i] = levels_text[i].replace(/(mild|moderate|severe|minimal|no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/ig, '[$1]');
-				levels_text[i] = levels_text[i].replace(/(\[mild\]-\[moderate\]|\[moderate\]-\[severe\]|\[mild\]-\[severe\])/ig, '[$1]');
-				levels_text[i] = levels_text[i].replace(/Grade ([0-9])/i, 'Grade [$1]');
+				levels_text[i] = levels_text[i].addBrackets();
 			}
 
-			// add [brackets] to conclusion sentence for easier editing in Talk
-			if (concl) {
-				concl = concl.replace(/b><br>(.*\.)<br>/igm, 'b><br> [$1]<br>');
-			}
+			concl = concl.addBrackets();
 		}
 
 
@@ -413,6 +407,14 @@ $(document).ready(function() {
 
 		// ===== UPDATE REPORT PREVIEW ===== //
 		document.getElementById('report_textarea').innerHTML = report_text;
+	};
+
+	// ===== ADD TALKSTATION [BRACKETS] ===== //
+	String.prototype.addBrackets = function() {
+		return this	.replace(/(mild|moderate|severe|minimal|no disc bulge or protrusion.|No neuroforaminal narrowing\.|No spinal canal stenosis\.)/ig, '[$1]')
+					.replace(/(\[mild\]-\[moderate\]|\[moderate\]-\[severe\]|\[mild\]-\[severe\])/ig, '[$1]')
+					.replace(/Grade ([0-9])/i, 'Grade [$1]')
+					.replace(/b><br>(.*\.)<br>/igm, 'b><br>[$1]<br>');
 	};
 
 	// ===== SELECT ALL BUTTON ===== //
