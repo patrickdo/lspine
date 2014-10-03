@@ -236,12 +236,12 @@ $(document).ready(function() {
 
 			// OTHER COLUMN //
 			for (i = 0; i <= dd.types.length; i++) {	// cycle through all sliders at each level
-				var curSlider = dd.sliders[dd.types[i] + curLevel.toString()];
+				var curSlider = dd.sliders[dd.types[i] + curLevel];
 				if (curSlider) {
-					var curSliderText = $('#' + dd.types[i] + curLevel.toString() + '_handle').text();
+					var curSliderText = $('#' + dd.types[i] + curLevel + '_handle').text();
 					if (curSliderText != 'None') {
 						o_text[curLevel] +=
-							' ' + $('#' + dd.types[i] + curLevel.toString() + '_handle').text() +
+							' ' + $('#' + dd.types[i] + curLevel + '_handle').text() +
 							' ' + dd.fullText[dd.types[i]] + '. ';
 					}
 				}
@@ -473,9 +473,9 @@ $(document).ready(function() {
 		left: "700px",
 		top: "50px",
 		onComplete:function() {
-			var curLevel = this.id.substring(2);	// this.id = 'of2'
+			var curLevel = parseInt(this.id.substring(2));	// this.id = 'of2'
 
-			if (!dd.levelEnabled[parseInt(curLevel)]) {
+			if (!dd.levelEnabled[curLevel]) {
 				dd.init(curLevel);						// initialize dd.sliders at curLevel if not already done
 			}
 		}
@@ -523,7 +523,7 @@ $(document).ready(function() {
 			}
 		});
 
-		dd.levelEnabled[parseInt(curLevel)] = true;	// only do it once per session so values aren't lost
+		dd.levelEnabled[curLevel] = true;	// only do it once per session so values aren't lost
 	};
 
 	// helper function to deal with closure inside loops while creating dd.sliders
