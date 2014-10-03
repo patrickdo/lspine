@@ -432,12 +432,12 @@ $(document).ready(function() {
 			}
 
 			// reset dd.sliders
-			if (dd.levelEnabled[parseInt(i + 1)]) {	// check if level is initialized, else will get error
+			if (dd.levelEnabled[i]) {	// check if level is initialized, else will get error
 				for (j = 0; j < dd.types.length - 1; j++) {
-					dd.sliders[dd.types[j] + parseInt(i + 1)].setValue(0, 0, true);
+					dd.sliders[dd.types[j] + i].setValue(0, 0, true);
 				}
 				// reset -listhesis to 'none'
-				dd.sliders[dd.types[dd.types.length - 1] + parseInt(i + 1)].setValue(0.5, 0, true);
+				dd.sliders[dd.types[dd.types.length - 1] + i].setValue(0.5, 0, true);
 			}
 		}
 
