@@ -3,12 +3,14 @@
 /* enable strict mode */
 "use strict";
 
+// global for console access
+var lspine = {},	// main object
+	dd = {};		// Dragdealer object
+
 $(document).ready(function() {
 	var redipsInit,			// define redipsInit
 		getContent,			// get content (DIV elements in TD)
 		divNodeList,		// node list of DIV elements in table2 (global variable needed in report() and visibility() function)
-		lspine = {},		// main object
-		dd = {};			// Dragdealer object
 
 	lspine = {
 		helpers: {},
