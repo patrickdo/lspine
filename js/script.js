@@ -123,7 +123,7 @@ $(document).ready(function() {
 	// ========================== //
 	lspine.update = function () {
 		//===DEFINE VARIABLES===//
-		var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curLevel, n_sev = [], s_sev, b_sev = [], other = [], p_text = [], concl = '',
+		var report_text, i, levels_text = [], h_text = [], n_text = [], s_text = [], o_text = [], b_text = [], curLevel, n_sev = [], s_sev, b_sev = [], p_text = [], concl = '', global_text = '',
 
 		// first 2 cols blank to align with lspine.table
 		plocations = '//right foraminal/right subarticular/right central/central/left central/left subarticular/left foraminal'.split('/'),
@@ -241,7 +241,7 @@ $(document).ready(function() {
 				var curSlider = dd.sliders[dd.types[i] + curLevel];
 				if (curSlider) {
 					var curSliderText = $('#' + dd.types[i] + curLevel + '_handle').text();
-					if (curSliderText != 'None') {
+					if (curSliderText !== 'None') {
 						o_text[curLevel] +=
 							' ' + $('#' + dd.types[i] + curLevel + '_handle').text() +
 							' ' + dd.fullText[dd.types[i]] + '. ';
@@ -322,16 +322,14 @@ $(document).ready(function() {
 				// generate conclusion sentence
 				concl =
 					lspine.helpers.capitalizer(high_sev) +
-					(
-						high_sev_level.length < 3 ?
+					(high_sev_level.length < 3 ? (
 							' lumbar spondylosis, particularly at the ' +
-							concl.replace(/,(?=[^,]*$)/, ', and')
-						:
-							' multi-level lumbar spondylosis as described above.'
-					) +
+						concl.replace(/,(?=[^,]*$)/, ', and') +
 					'<br><br>'
-					;
-
+					) : (
+						' multi-level lumbar spondylosis as described above.' +
+						'<br><br>'
+					));
 			} else {
 				concl = 'No significant degenerative change.<br><br>';
 			}
@@ -363,7 +361,7 @@ $(document).ready(function() {
 		}
 
 		// ===== GLOBAL TEXT ===== //
-		var global_text = '';
+		global_text = '';
 		if ($('#mild-spon').is(':checked')) {
 			global_text = '<br><br>Mild spondylosis throughout.';
 		}
@@ -475,7 +473,7 @@ $(document).ready(function() {
 		left: "700px",
 		top: "50px",
 		onComplete:function() {
-			var curLevel = parseInt(this.id.substring(2));	// this.id = 'of2'
+			var curLevel = parseInt(this.id.substring(2), 10);	// this.id = 'of2'
 
 			if (!dd.levelEnabled[curLevel]) {
 				dd.init(curLevel);						// initialize dd.sliders at curLevel if not already done
@@ -502,8 +500,7 @@ $(document).ready(function() {
 				anteroColor =	[41, 128, 185],
 				noneColor =		[255, 255, 255],
 				retroColor =	[192, 57, 43],
-				rgb = [],
-				i;
+				rgb = [];
 				$('#ddL' + curLevel + '_handle').html(dd.lSevs[Math.floor((x + (1/(2*nL))) * nL)]);
 				switch(true) {
 					case (x < 0.5):
@@ -520,7 +517,7 @@ $(document).ready(function() {
 						}
 						break;
 				}
-				$('#ddL' + curLevel + '_handle').css('background-color', 'rgb(' + parseInt(rgb[0]) + ', ' + parseInt(rgb[1]) + ', ' + parseInt(rgb[2]) + ')');
+				$('#ddL' + curLevel + '_handle').css('background-color', 'rgb(' + parseInt(rgb[0], 10) + ', ' + parseInt(rgb[1], 10) + ', ' + parseInt(rgb[2], 10) + ')');
 				lspine.update();
 			}
 		});
@@ -539,7 +536,7 @@ $(document).ready(function() {
 			snap: false,
 			animationCallback: function(x, y) {
 				$('#' + dd.types[_i] + _curLevel + '_handle').html(dd.sevs[Math.floor((x + (1/(2*n))) * n)]);
-				$('#' + dd.types[_i] + _curLevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x)) + ", " + parseInt(305*(1-x)) + ")");
+				$('#' + dd.types[_i] + _curLevel + '_handle').css("background-color", "rgb(255, " + parseInt(305*(1-x), 10) + ", " + parseInt(305*(1-x), 10) + ")");
 				lspine.update();
 			}
 		});
