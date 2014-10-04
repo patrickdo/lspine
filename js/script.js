@@ -322,14 +322,15 @@ $(document).ready(function() {
 				// generate conclusion sentence
 				concl =
 					lspine.helpers.capitalizer(high_sev) +
-					(high_sev_level.length < 3 ? (
-						' lumbar spondylosis, particularly at the ' +
-						concl.replace(/,(?=[^,]*$)/, ', and') +
-						'<br><br>'
-					) : (
-						' multi-level lumbar spondylosis as described above.' +
-						'<br><br>'
-					));
+					(high_sev_level.length < 3 ?
+						(' lumbar spondylosis, particularly at the ' +
+								concl.replace(/,(?=[^,]*$)/, ', and') +
+								'<br><br>'
+						) : (
+							' multi-level lumbar spondylosis as described above.' +
+							'<br><br>'
+						)
+					);
 			} else {
 				concl = 'No significant degenerative change.<br><br>';
 			}
@@ -361,29 +362,7 @@ $(document).ready(function() {
 		}
 
 		// ===== GLOBAL TEXT ===== //
-		global_text = '';
-		if ($('#mild-spon').is(':checked')) {
-			global_text = '<br><br>Mild spondylosis throughout.';
-		}
-		if ($('#mod-spon').is(':checked')) {
-			global_text = '<br><br>Moderate spondylosis throughout.';
-		}
-		if ($('#sev-spon').is(':checked')) {
-			global_text = '<br><br>Severe spondylosis throughout.';
-		}
-		if ($('#mild-spon').is(':checked') && $('#mod-spon').is(':checked')) {
-			global_text = '<br><br>Mild-moderate spondylosis throughout.';
-		}
-		if ($('#mod-spon').is(':checked') && $('#sev-spon').is(':checked')) {
-			global_text = '<br><br>Moderate-severe spondylosis throughout.';
-		}
-		if ($('#mild-spon').is(':checked') && $('#mod-spon').is(':checked') && $('#sev-spon').is(':checked')) {
-			global_text = '<br><br>Lumbar spondylosis throughout.';
-		}
-		if ($('#mild-spon').is(':checked') && $('#sev-spon').is(':checked')) {
-			global_text = '<br><br>Lumbar spondylosis throughout.';
-		}
-		levels_text[5] += global_text;
+		levels_text[5] += lspine.global();
 
 		// ===== ADD TALKSTATION [BRACKETS] ===== //
 		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
@@ -407,6 +386,17 @@ $(document).ready(function() {
 
 		// ===== UPDATE REPORT PREVIEW ===== //
 		document.getElementById('report_textarea').innerHTML = report_text;
+	};
+
+	lspine.global = function() {
+		var gSevSum = 0,
+			gSevs = '/Mild/Moderate/Mild-moderate/Severe/Lumbar/Moderate-severe/Lumbar'.split('/');
+		if ($('#mild-spon').is(':checked')) gSevSum += 1;
+		if ($('#mod-spon').is(':checked')) gSevSum += 2;
+		if ($('#sev-spon').is(':checked')) gSevSum += 4;
+
+		return	gSevSum ? '<br><br>' + gSevs[gSevSum] + ' spondylosis throughout.'
+						: '';
 	};
 
 	// ===== ADD TALKSTATION [BRACKETS] ===== //
