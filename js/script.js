@@ -244,19 +244,17 @@ $(document).ready(function() {
 			}
 
 			// STRING MANIPULATION
-			oText[curLevel] =
-				oText[curLevel]
-					.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')
-					.replace(/\b(\w+) right.*\1 left/i, '$1 bilateral')
-					.replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral')
-					.replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet')
-					.replace(/\. right and (.*) left facet/i, '. $1 bilateral facet')
-					.replace(/right and left /i, 'bilateral ')
-					.replace(/sev/ig, 'severe')
-					.replace(/mod/ig, 'moderate')
-					.replace(/Gr ([0-9])/, 'Grade $1')
-					.replace(/o list/, 'olist')
-					.replace(/L6/g, 'S1');
+			oText[curLevel] = oText[curLevel]
+				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')
+				.replace(/\b(\w+) right.*\1 left/i, '$1 bilateral')
+				.replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral')
+				.replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet')
+				.replace(/\. right and (.*) left facet/i, '. $1 bilateral facet')
+				.replace(/right and left /i, 'bilateral ')
+				.replace(/sev/ig, 'severe')
+				.replace(/mod/ig, 'moderate')
+				.replace(/Gr ([0-9])/, 'Grade $1')
+				.replace(/o list/, 'olist');
 
 		} // END OF CYCLE THROUGH DISC LEVELS
 
@@ -337,10 +335,10 @@ $(document).ready(function() {
 			levelsText[i] = lspine.helpers.capitalizer(levelsText[i].toLowerCase());
 
 			// fixes for listheses
-			levelsText[i] =
-				levelsText[i]
-					.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
-					.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1));
+			levelsText[i] = levelsText[i]
+				.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
+				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1))
+				.replace(/L6/, 'S1');
 
 			// convert first letter to lowercase because text starts with "There "
 			levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
@@ -462,7 +460,7 @@ $(document).ready(function() {
 		left: "700px",
 		top: "50px",
 		onComplete:function() {
-			var curLevel = parseInt(this.id.substring(2), 10);	// this.id = 'of2'
+			var curLevel = this.id.substring(2) * 1;	// this.id = 'of2'
 
 			if (!dd.levelEnabled[curLevel]) {
 				dd.init(curLevel);						// initialize dd.sliders at curLevel if not already done
