@@ -123,12 +123,11 @@ $(document).ready(function() {
 	// ========================== //
 	lspine.update = function() {
 		//===DEFINE VARIABLES===//
-		var reportText, i, levelsText = [], hText = [], pText = [], nText = [], sText = [], oText = [], bText = [], curLevel, nSev = [], sSev, bSev = [], concl = '',
+		var reportText, i, levelsText = [], hText = [], pText = [], nText = [], sText = [], oText = [], bText = [], curLevel, nSev = [], sSev, bSev = [], concl = '', nTemp = [],
 
 		// first 2 cols blank to align with lspine.table
 		pLocs = '//right foraminal/right subarticular/right central/central/left central/left subarticular/left foraminal'.split('/'),
 		nLocs = ['right','left'];
-
 
 		//===INITIALIZATION===//
 		for (i = 1; i <= 5; i++) {
@@ -139,18 +138,79 @@ $(document).ready(function() {
 			oText[i] = '';
 		}
 
-
 		//===CYCLE THROUGH DISC SPACES===//
 		for (curLevel = 1; curLevel <= 5; curLevel++) {
+			getHerniations();
+			getNFN();
+			getStenosis();
+			getOther();
+			strManipOther();
+		} // END OF CYCLE THROUGH DISC LEVELS
 
-			// DISC HERNIATIONS //
-			// BBDB
+
+		// ===== CONCLUSION SENTENCE ===== //
+		if (document.getElementById('conclusion').checked) {
+			generateConclusion();
+		} else {
+			concl = '';	// blank conclusion sentence if checkbox is unchecked
+		}
+
+
+		// ===== GENERATE SENTENCE FOR EACH LEVEL ===== //
+		for (i = 1; i <= 5; i++) {
+			hText[i] = hText[i].addOxfordComma();
+
+			// combine sentences
+			levelsText[i] = hText[i] + '. ' + nText[i] + '. ' + sText[i] + oText[i];
+
+			// toLowerCase() first to include editable DIV, then apply sentence case
+			levelsText[i] = lspine.helpers.capitalizer(levelsText[i].toLowerCase());
+
+			// fixes for listheses
+			levelsText[i] = levelsText[i]
+				.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
+				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1))
+				.replace(/L6/, 'S1');
+
+			// convert first letter to lowercase because text starts with "There "
+			levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
+
+			levelsText[i] = levelsText[i].removeCloneID();
+		}
+
+		// ===== GLOBAL TEXT ===== //
+		levelsText[5] += lspine.global();
+
+		// ===== ADD TALKSTATION [BRACKETS] ===== //
+		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
+			for (i = 1; i <= 5; i++) {
+				levelsText[i] = levelsText[i].addBrackets();
+			}
+
+			concl = concl.addBrackets();
+		}
+
+
+		// ===== GENERATE REPORT ====== //
+		reportText =
+			'<b>L1-L2</b>: There ' + levelsText[1] + '<br>' +
+			'<b>L2-L3</b>: There ' + levelsText[2] + '<br>' +
+			'<b>L3-L4</b>: There ' + levelsText[3] + '<br>' +
+			'<b>L4-L5</b>: There ' + levelsText[4] + '<br>' +
+			'<b>L5-S1</b>: There ' + levelsText[5] + '<br>' +
+			'<br>' +
+			concl;
+
+
+		// ===== UPDATE REPORT PREVIEW ===== //
+		document.getElementById('reportTextarea').innerHTML = reportText;
+
+		function getHerniations() {
 			bSev = getContent(lspine.table[curLevel][0]);
 			if (bSev) {
 				bText[curLevel] = 'is a ' + bSev + ' broad-based disc bulge';
 			}
 
-			// protrusions
 			pText = [];
 			for(i = 2; i <= 8; i++) {
 				if (getContent(lspine.table[curLevel][i])) {
@@ -190,11 +250,10 @@ $(document).ready(function() {
 					// hText already contains protrusion text!
 				}
 			}
+		}
 
-
-			// NEUROFORAMINAL NARROWING //
-			var nTemp = [];
-
+		function getNFN() {
+			nTemp = [];
 			for(i = 0; i <= 1; i++) {
 				nSev[i] = getContent(lspine.table[curLevel][1+8*i]).removeCloneID();
 				if (nSev[i]) {
@@ -219,16 +278,16 @@ $(document).ready(function() {
 				}
 				nText[curLevel] += ' neuroforaminal narrowing';
 			}
+		}
 
-
-			// SPINAL CANAL STENOSIS //
+		function getStenosis() {
 			sSev = getContent(lspine.table[curLevel][10]);
 			if (sSev) {
 				sText[curLevel] = sSev + ' spinal canal stenosis.';
 			}
+		}
 
-
-			// OTHER COLUMN //
+		function getOther() {
 			for (i = 0; i <= dd.types.length; i++) {	// cycle through all sliders at each level
 				var curSlider = dd.sliders[dd.types[i] + curLevel];
 
@@ -242,7 +301,9 @@ $(document).ready(function() {
 					}
 				}
 			}
+		}
 
+		function strManipOther() {
 			// STRING MANIPULATION
 			oText[curLevel] = oText[curLevel]
 				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')
@@ -255,14 +316,9 @@ $(document).ready(function() {
 				.replace(/mod/ig, 'moderate')
 				.replace(/Gr ([0-9])/, 'Grade $1')
 				.replace(/o list/, 'olist');
+		}
 
-		} // END OF CYCLE THROUGH DISC LEVELS
-
-
-		// ===== CONCLUSION SENTENCE ===== //
-		if (!document.getElementById('conclusion').checked) {
-			concl = '';	// blank conclusion sentence if checkbox is unchecked
-		} else {
+		function generateConclusion() {
 			var refsevs = 'mild/mild-moderate/moderate/moderate-severe/severe'.split('/'),
 				lumbarlevels = '/L1-2/L2-3/L3-4/L4-5/L5-S1'.split('/'),
 				nSevs = [], sSevs = [], sevMax, sevMaxLevels = [], cl, sevMatch = false;
@@ -323,55 +379,6 @@ $(document).ready(function() {
 			concl = '<b>CONCLUSION:</b><br>' + concl + '<br><br>';
 		}
 
-
-		// ===== GENERATE SENTENCE FOR EACH LEVEL ===== //
-		for (i = 1; i <= 5; i++) {
-			hText[i] = hText[i].addOxfordComma();
-
-			// combine sentences
-			levelsText[i] = hText[i] + '. ' + nText[i] + '. ' + sText[i] + oText[i];
-
-			// toLowerCase() first to include editable DIV, then apply sentence case
-			levelsText[i] = lspine.helpers.capitalizer(levelsText[i].toLowerCase());
-
-			// fixes for listheses
-			levelsText[i] = levelsText[i]
-				.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
-				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1))
-				.replace(/L6/, 'S1');
-
-			// convert first letter to lowercase because text starts with "There "
-			levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
-
-			levelsText[i] = levelsText[i].removeCloneID();
-		}
-
-		// ===== GLOBAL TEXT ===== //
-		levelsText[5] += lspine.global();
-
-		// ===== ADD TALKSTATION [BRACKETS] ===== //
-		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
-			for (i = 1; i <= 5; i++) {
-				levelsText[i] = levelsText[i].addBrackets();
-			}
-
-			concl = concl.addBrackets();
-		}
-
-
-		// ===== GENERATE REPORT ====== //
-		reportText =
-			'<b>L1-L2</b>: There ' + levelsText[1] + '<br>' +
-			'<b>L2-L3</b>: There ' + levelsText[2] + '<br>' +
-			'<b>L3-L4</b>: There ' + levelsText[3] + '<br>' +
-			'<b>L4-L5</b>: There ' + levelsText[4] + '<br>' +
-			'<b>L5-S1</b>: There ' + levelsText[5] + '<br>' +
-			'<br>' +
-			concl;
-
-
-		// ===== UPDATE REPORT PREVIEW ===== //
-		document.getElementById('reportTextarea').innerHTML = reportText;
 	};
 
 	lspine.global = function() {
