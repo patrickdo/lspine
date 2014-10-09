@@ -399,7 +399,7 @@ $(document).ready(function() {
 	};
 
 	String.prototype.removeCloneID = function() {
-		return this.replace(/c[0-9]/g, '');
+		return this.replace(/c[0-9]+/g, '');
 	};
 
 	// ===== SELECT ALL BUTTON ===== //
