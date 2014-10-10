@@ -122,14 +122,12 @@ $(document).ready(function() {
 	// ====== LSPINE.UPDATE ===== //
 	// ========================== //
 	lspine.update = function() {
-		//===DEFINE VARIABLES===//
-		var reportText, i, levelsText = [], hText = [], pText = [], nText = [], sText = [], oText = [], bText = [], curLevel, nSev = [], sSev, bSev = [], concl = '', nTemp = [],
-
+		var reportText, i, levelsText = [], hText = [], nText = [], sText = [], oText = [], bSev, bText = [], pText = [], curLevel, nSev = [], sSev, concl = '', nTemp = [],
 		// first 2 cols blank to align with lspine.table
 		pLocs = '//right foraminal/right subarticular/right central/central/left central/left subarticular/left foraminal'.split('/'),
 		nLocs = ['right','left'];
 
-		//===INITIALIZATION===//
+		// ===== INITIALIZATION ===== //
 		for (i = 1; i <= 5; i++) {
 			bText[i] = '';
 			hText[i] = '';
@@ -138,15 +136,14 @@ $(document).ready(function() {
 			oText[i] = '';
 		}
 
-		//===CYCLE THROUGH DISC SPACES===//
+		// ===== CYCLE THROUGH DISC SPACES ===== //
 		for (curLevel = 1; curLevel <= 5; curLevel++) {
 			getHerniations();
 			getNFN();
 			getStenosis();
 			getOther();
 			strManipOther();
-		} // END OF CYCLE THROUGH DISC LEVELS
-
+		}
 
 		// ===== CONCLUSION SENTENCE ===== //
 		if (document.getElementById('conclusion').checked) {
@@ -155,41 +152,16 @@ $(document).ready(function() {
 			concl = '';	// blank conclusion sentence if checkbox is unchecked
 		}
 
-
-		// ===== GENERATE SENTENCE FOR EACH LEVEL ===== //
-		for (i = 1; i <= 5; i++) {
-			hText[i] = hText[i].addOxfordComma();
-
-			// combine sentences
-			levelsText[i] = hText[i] + '. ' + nText[i] + '. ' + sText[i] + oText[i];
-
-			// toLowerCase() first to include editable DIV, then apply sentence case
-			levelsText[i] = lspine.helpers.capitalizer(levelsText[i].toLowerCase());
-
-			// fixes for listheses
-			levelsText[i] = levelsText[i]
-				.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
-				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1))
-				.replace(/L6/, 'S1');
-
-			// convert first letter to lowercase because text starts with "There "
-			levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
-
-			levelsText[i] = levelsText[i].removeCloneID();
-		}
-
-		// ===== GLOBAL TEXT ===== //
-		levelsText[5] += lspine.global();
+		generateSentences();
+		getGlobal();
 
 		// ===== ADD TALKSTATION [BRACKETS] ===== //
 		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
 			for (i = 1; i <= 5; i++) {
 				levelsText[i] = levelsText[i].addBrackets();
 			}
-
 			concl = concl.addBrackets();
 		}
-
 
 		// ===== GENERATE REPORT ====== //
 		reportText =
@@ -201,10 +173,10 @@ $(document).ready(function() {
 			'<br>' +
 			concl;
 
-
 		// ===== UPDATE REPORT PREVIEW ===== //
 		document.getElementById('reportTextarea').innerHTML = reportText;
 
+		// ===== LSPINE.UPDATE FUNCTIONS ===== //
 		function getHerniations() {
 			bSev = getContent(lspine.table[curLevel][0]);
 			if (bSev) {
@@ -304,7 +276,6 @@ $(document).ready(function() {
 		}
 
 		function strManipOther() {
-			// STRING MANIPULATION
 			oText[curLevel] = oText[curLevel]
 				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')
 				.replace(/\b(\w+) right.*\1 left/i, '$1 bilateral')
@@ -379,18 +350,40 @@ $(document).ready(function() {
 			concl = '<b>CONCLUSION:</b><br>' + concl + '<br><br>';
 		}
 
-	};
+		function generateSentences() {
+			for (i = 1; i <= 5; i++) {
+				hText[i] = hText[i].addOxfordComma();
 
-	lspine.global = function() {
-		var gSevSum = 0,
-			gSevs = '/Mild/Moderate/Mild-moderate/Severe/Lumbar/Moderate-severe/Lumbar'.split('/');
+				// combine sentences
+				levelsText[i] = hText[i] + '. ' + nText[i] + '. ' + sText[i] + oText[i];
 
-		if ($('#mild-spon').is(':checked')) gSevSum += 1;
-		if ($('#mod-spon').is(':checked')) gSevSum += 2;
-		if ($('#sev-spon').is(':checked')) gSevSum += 4;
+				// toLowerCase() first to include editable DIV, then apply sentence case
+				levelsText[i] = lspine.helpers.capitalizer(levelsText[i].toLowerCase());
 
-		return gSevSum	? '<br><br>' + gSevs[gSevSum] + ' spondylosis throughout.'
-						: '';
+				// fixes for listheses
+				levelsText[i] = levelsText[i]
+					.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
+					.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1))
+					.replace(/L6/, 'S1');
+
+				// convert first letter to lowercase because text starts with "There "
+				levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
+
+				levelsText[i] = levelsText[i].removeCloneID();
+			}
+		}
+
+		function getGlobal() {
+			var gSevSum = 0,
+				gSevs = '/Mild/Moderate/Mild-moderate/Severe/Lumbar/Moderate-severe/Lumbar'.split('/');
+
+			if ($('#mild-spon').is(':checked')) gSevSum += 1;
+			if ($('#mod-spon').is(':checked')) gSevSum += 2;
+			if ($('#sev-spon').is(':checked')) gSevSum += 4;
+
+			levelsText[5] += gSevSum	? '<br><br>' + gSevs[gSevSum] + ' spondylosis throughout.'
+										: '';
+		}
 	};
 
 	// ===== ADD TALKSTATION [BRACKETS] ===== //
@@ -468,7 +461,6 @@ $(document).ready(function() {
 		top: "50px",
 		onComplete:function() {
 			var curLevel = this.id.substring(2) * 1;	// this.id = 'of2'
-
 			if (!dd.levelEnabled[curLevel]) {
 				dd.init(curLevel);						// initialize dd.sliders at curLevel if not already done
 			}
