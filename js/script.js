@@ -264,12 +264,9 @@ $(document).ready(function() {
 
 		function strManipOther() {
 			levelsText[curLevel] = levelsText[curLevel]
-				.removeCloneIDs()
-				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')
-				.replace(/\b(\w+) right.*\1 left/ig, '$1 bilateral')
-				// .replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral')
+				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')	// 'fjh, right' → 'right fjh'
 				.replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet')
-				.replace(/\. right and (.*) left facet/i, '. $1 bilateral facet')
+				.replace(/\b(\w+) right and[^\.]*\1 left/ig, '$1 bilateral')
 				.replace(/right and left /i, 'bilateral ')
 				.replace(/(sev) /ig, '$1ere ')
 				.replace(/(mod) /ig, '$1erate ')
