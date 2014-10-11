@@ -114,36 +114,56 @@ $(document).ready(function() {
 	// ====== LSPINE.UPDATE ===== //
 	// ========================== //
 	lspine.update = function() {
-		//===DEFINE VARIABLES===//
-		var reportText, i, levelsText = [], hText = [], pText = [], nText = [], sText = [], oText = [], bText = [], curLevel, nSev = [], sSev, bSev = [], concl = '',
+		var curLevel, i, levelsText = [], concl = '', reportText;
 
-		// first 2 cols blank to align with lspine.table
-		pLocs = '//right foraminal/right subarticular/right central/central/left central/left subarticular/left foraminal'.split('/'),
-		nLocs = ['right','left'];
+		// ===== CYCLE THROUGH DISC SPACES ===== //
+		for (curLevel = 1; curLevel <= 5; curLevel++) {
+			levelsText[curLevel] = '';
+			getHerniations();
+			getNFN();
+			getStenosis();
+			getOther();
+			strManipOther();
+		}
+		getGlobal();
 
-
-		//===INITIALIZATION===//
-		for (i = 1; i <= 5; i++) {
-			bText[i] = '';
-			hText[i] = '';
-			nText[i] = '';
-			sText[i] = 'no spinal canal stenosis.';
-			oText[i] = '';
+		// ===== CONCLUSION SENTENCE ===== //
+		if (document.getElementById('conclusion').checked) {
+			generateConclusion();
+		} else {
+			concl = '';	// blank conclusion sentence if checkbox is unchecked
 		}
 
+		// ===== ADD TALKSTATION [BRACKETS] ===== //
+		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
+			for (i = 1; i <= 5; i++) {
+				levelsText[i] = levelsText[i].addBrackets();
+			}
+			concl = concl.addBrackets();
+		}
 
-		//===CYCLE THROUGH DISC SPACES===//
-		for (curLevel = 1; curLevel <= 5; curLevel++) {
+		// ===== GENERATE REPORT ====== //
+		reportText =
+			'<b>L1-L2</b>: There ' + levelsText[1] + '<br>' +
+			'<b>L2-L3</b>: There ' + levelsText[2] + '<br>' +
+			'<b>L3-L4</b>: There ' + levelsText[3] + '<br>' +
+			'<b>L4-L5</b>: There ' + levelsText[4] + '<br>' +
+			'<b>L5-S1</b>: There ' + levelsText[5] + '<br>' +
+			'<br>' +
+			concl;
 
-			// DISC HERNIATIONS //
-			// BBDB
-			bSev = getContent(lspine.table[curLevel][0]);
+		// ===== UPDATE REPORT PREVIEW ===== //
+		document.getElementById('reportTextarea').innerHTML = reportText;
+
+		// ===== LSPINE.UPDATE FUNCTIONS ===== //
+		function getHerniations() {
+			var bSev = getContent(lspine.table[curLevel][0]), pText = [], bText = '/////'.split('/'),
+				pLocs = '//right foraminal/right subarticular/right central/central/left central/left subarticular/left foraminal'.split('/');
 			if (bSev) {
 				bText[curLevel] = 'is a ' + bSev + ' broad-based disc bulge';
 			}
 
-			// protrusions
-			pText = [];
+			// pText = [];
 			for(i = 2; i <= 8; i++) {
 				if (getContent(lspine.table[curLevel][i])) {
 					pText[pText.length] = getContent(lspine.table[curLevel][i]) + ' ' + pLocs[i];
@@ -153,74 +173,68 @@ $(document).ready(function() {
 			// consolidate protrusions into a comma-separated phrase
 			switch(pText.length) {
 				case 0:
-					hText[curLevel] = '';
+					levelsText[curLevel] = '';
 					break;
 				case 1:
-					if (!bSev) hText[curLevel] = 'is ';
-					hText[curLevel] += 'a ' + pText + ' disc protrusion';
+					if (!bSev) levelsText[curLevel] = 'is ';
+					levelsText[curLevel] += 'a ' + pText + ' disc protrusion';
 					break;
 				case 2:
-					if (!bSev) hText[curLevel] = 'are ';
-					hText[curLevel] += pText.join(' and ') + ' disc protrusions';
+					if (!bSev) levelsText[curLevel] = 'are ';
+					levelsText[curLevel] += pText.join(' and ') + ' disc protrusions';
 					break;
 				default:
-					if (!bSev) hText[curLevel] = 'are ';
-					hText[curLevel] += pText.join(', ') + ' disc protrusions';
+					if (!bSev) levelsText[curLevel] = 'are ';
+					levelsText[curLevel] += pText.join(', ') + ' disc protrusions';
 			}
 
 			// combine BBDB and protrusion into one sentence
-			if(hText[curLevel] === '') {
+			if(levelsText[curLevel] === '') {
 				if(bText[curLevel] === '') {	// no protrusion, no bulge
-					hText[curLevel] = 'is no disc bulge or protrusion';
+					levelsText[curLevel] = 'is no disc bulge or protrusion';
 				} else {	// no protrusion, + bulge
-					hText[curLevel] = bText[curLevel];
+					levelsText[curLevel] = bText[curLevel];
 				}
 			} else {
 				if(bText[curLevel]) {	// + protrusion, + bulge
-					hText[curLevel] = bText[curLevel] + ' and ' + hText[curLevel];
+					levelsText[curLevel] = bText[curLevel] + ' and ' + levelsText[curLevel];
 				} else { // + protrusion, no bulge
-					// hText already contains protrusion text!
+					// levelsText already contains protrusion text!
 				}
 			}
+			levelsText[curLevel] += '. ';
+		}
 
-
-			// NEUROFORAMINAL NARROWING //
-			var nTemp = [];
-
+		function getNFN() {
+			var nTemp = [], nLocs = ['right','left'];
 			for(i = 0; i <= 1; i++) {
-				nSev[i] = getContent(lspine.table[curLevel][1+8*i]);
-				if (nSev[i]) {
+				if (getContent(lspine.table[curLevel][1+8*i])) {
 					nTemp[nTemp.length] = getContent(lspine.table[curLevel][1+8*i]) + ' ' + nLocs[i];
 				}
-
-				// consolidate NFNs into a phrase
-				switch (nTemp.length) {
-					case 0:
-						nText[curLevel] = 'no';
-						break;
-					case 1:
-						nText[curLevel] = nTemp;
-						break;
-					case 2:
-						nText[curLevel] = nTemp.join(' and ');
-						// combine 'X right and X left NFN' into 'X bilateral NFN'
-						if (nSev[0] === nSev[1] && nSev[0]) {
-							nText[curLevel] = nSev[0] + ' bilateral';
-						}
-						break;
-				}
-				nText[curLevel] += ' neuroforaminal narrowing';
 			}
 
-
-			// SPINAL CANAL STENOSIS //
-			sSev = getContent(lspine.table[curLevel][10]);
-			if (sSev) {
-				sText[curLevel] = sSev + ' spinal canal stenosis.';
+			// consolidate NFNs into a phrase
+			switch (nTemp.length) {
+				case 0:
+					levelsText[curLevel] += 'no';
+					break;
+				case 1:
+					levelsText[curLevel] += nTemp;
+					break;
+				case 2:
+					levelsText[curLevel] += nTemp.join(' and ');
+					break;
 			}
+			levelsText[curLevel] += ' neuroforaminal narrowing. ';
+		}
 
+		function getStenosis() {
+			levelsText[curLevel] +=
+				(getContent(lspine.table[curLevel][10]) || 'no') +
+				' spinal canal stenosis. ';
+		}
 
-			// OTHER COLUMN //
+		function getOther() {
 			for (i = 0; i <= dd.types.length; i++) {	// cycle through all sliders at each level
 				var curSlider = dd.sliders[dd.types[i] + curLevel];
 
@@ -228,33 +242,47 @@ $(document).ready(function() {
 					var curSliderText = $('#' + dd.types[i] + curLevel + '_handle').text();
 
 					if (curSliderText !== 'None') {
-						oText[curLevel] +=
-							' ' + $('#' + dd.types[i] + curLevel + '_handle').text() +
+						levelsText[curLevel] +=
+							$('#' + dd.types[i] + curLevel + '_handle').text() +
 							' ' + dd.fullText[dd.types[i]] + '. ';
 					}
 				}
 			}
+		}
 
-			// STRING MANIPULATION
-			oText[curLevel] = oText[curLevel]
-				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')
-				.replace(/\b(\w+) right.*\1 left/i, '$1 bilateral')
-				.replace(/\. right facet joint hypertrophy. Left/i, '. Bilateral')
+		function getGlobal() {
+			var gSevSum = 0,
+				gSevs = '/Mild/Moderate/Mild-moderate/Severe/Lumbar/Moderate-severe/Lumbar'.split('/');
+
+			if ($('#mild-spon').is(':checked')) gSevSum += 1;
+			if ($('#mod-spon').is(':checked')) gSevSum += 2;
+			if ($('#sev-spon').is(':checked')) gSevSum += 4;
+
+			levelsText[5] += gSevSum	? '<br><br>' + gSevs[gSevSum] + ' spondylosis throughout.'
+										: '';
+		}
+
+		function strManipOther() {
+			levelsText[curLevel] = levelsText[curLevel]
+				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')	// 'fjh, right' → 'right fjh'
 				.replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet')
-				.replace(/\. right and (.*) left facet/i, '. $1 bilateral facet')
+				.replace(/\b(\w+) right and[^\.]*\1 left/ig, '$1 bilateral')
 				.replace(/right and left /i, 'bilateral ')
-				.replace(/sev/ig, 'severe')
-				.replace(/mod/ig, 'moderate')
+				.replace(/(sev) /ig, '$1ere ')
+				.replace(/(mod) /ig, '$1erate ')
 				.replace(/Gr ([0-9])/, 'Grade $1')
-				.replace(/o list/, 'olist');
+				.replace(/o list/, 'olist')
+				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + curLevel + ' on L' + (curLevel + 1))
+				.replace(/L6/, 'S1')
+				.addOxfordComma();
+			levelsText[curLevel] = lspine.helpers.capitalizer(levelsText[curLevel].toLowerCase());
+			levelsText[curLevel] = levelsText[curLevel].substring(0, 1).toLowerCase() + levelsText[curLevel].substring(1);
+			levelsText[curLevel] = levelsText[curLevel].replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase));
+			levelsText[curLevel] = levelsText[curLevel].replace(/l([0-9])/g, 'L$1');
+			levelsText[curLevel] = levelsText[curLevel].replace(/s([0-9])/g, 'S$1');
+		}
 
-		} // END OF CYCLE THROUGH DISC LEVELS
-
-
-		// ===== CONCLUSION SENTENCE ===== //
-		if (!document.getElementById('conclusion').checked) {
-			concl = '';	// blank conclusion sentence if checkbox is unchecked
-		} else {
+		function generateConclusion() {
 			var refsevs = 'mild/mild-moderate/moderate/moderate-severe/severe'.split('/'),
 				lumbarlevels = '/L1-2/L2-3/L3-4/L4-5/L5-S1'.split('/'),
 				nSevs = [], sSevs = [], sevMax, sevMaxLevels = [], cl, sevMatch = false;
@@ -314,66 +342,6 @@ $(document).ready(function() {
 			}
 			concl = '<b>CONCLUSION:</b><br>' + concl + '<br><br>';
 		}
-
-
-		// ===== GENERATE SENTENCE FOR EACH LEVEL ===== //
-		for (i = 1; i <= 5; i++) {
-			hText[i] = hText[i].addOxfordComma();
-
-			// combine sentences
-			levelsText[i] = hText[i] + '. ' + nText[i] + '. ' + sText[i] + oText[i];
-
-			// toLowerCase() first to include editable DIV, then apply sentence case
-			levelsText[i] = lspine.helpers.capitalizer(levelsText[i].toLowerCase());
-
-			// fixes for listheses
-			levelsText[i] = levelsText[i]
-				.replace(/ (i+-?i*) /ig, String.call.bind(levelsText[1].toUpperCase))
-				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + i + ' on L' + (i + 1))
-				.replace(/L6/, 'S1');
-
-			// convert first letter to lowercase because text starts with "There "
-			levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
-		}
-
-		// ===== GLOBAL TEXT ===== //
-		levelsText[5] += lspine.global();
-
-		// ===== ADD TALKSTATION [BRACKETS] ===== //
-		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
-			for (i = 1; i <= 5; i++) {
-				levelsText[i] = levelsText[i].addBrackets();
-			}
-
-			concl = concl.addBrackets();
-		}
-
-
-		// ===== GENERATE REPORT ====== //
-		reportText =
-			'<b>L1-L2</b>: There ' + levelsText[1] + '<br>' +
-			'<b>L2-L3</b>: There ' + levelsText[2] + '<br>' +
-			'<b>L3-L4</b>: There ' + levelsText[3] + '<br>' +
-			'<b>L4-L5</b>: There ' + levelsText[4] + '<br>' +
-			'<b>L5-S1</b>: There ' + levelsText[5] + '<br>' +
-			'<br>' +
-			concl;
-
-
-		// ===== UPDATE REPORT PREVIEW ===== //
-		document.getElementById('reportTextarea').innerHTML = reportText;
-	};
-
-	lspine.global = function() {
-		var gSevSum = 0,
-			gSevs = '/Mild/Moderate/Mild-moderate/Severe/Lumbar/Moderate-severe/Lumbar'.split('/');
-
-		if ($('#mild-spon').is(':checked')) gSevSum += 1;
-		if ($('#mod-spon').is(':checked')) gSevSum += 2;
-		if ($('#sev-spon').is(':checked')) gSevSum += 4;
-
-		return gSevSum	? '<br><br>' + gSevs[gSevSum] + ' spondylosis throughout.'
-						: '';
 	};
 
 	// ===== ADD TALKSTATION [BRACKETS] ===== //
@@ -447,7 +415,6 @@ $(document).ready(function() {
 		top: "50px",
 		onComplete:function() {
 			var curLevel = this.id.substring(2) * 1;	// this.id = 'of2'
-
 			if (!dd.levelEnabled[curLevel]) {
 				dd.init(curLevel);						// initialize dd.sliders at curLevel if not already done
 			}
