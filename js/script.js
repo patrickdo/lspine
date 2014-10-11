@@ -97,25 +97,17 @@ $(document).ready(function() {
 			// childNode should be DIV with containing "drag" class name
 			if (cn.nodeName === 'DIV' && cn.className.indexOf('drag') > -1) { // and yes, it should be uppercase
 				// append DIV id to the result string
-				content += cn.id + '_';	// won't work without this line
+				content += cn.id;
 			}
-
-			// 7/24/14
-			// cn.className.indexOf('bl') == 5 if cell contains the editable DIV (w/ input box)
-			// cn.id is the ID of the DIV
-			// cells contain DIVs, which contain INPUT
-			// http://stackoverflow.com/questions/3586305/get-all-input-fields-inside-div-without-js-library
 
 			// return INPUT value if the editable DIV named 'bl' is found
 			if (cn.className.indexOf('bl') === 5) {
 				return document.getElementById(cn.id).getElementsByTagName('input')[0].value;
 			}
-
 		}
 
-		// 7/18/14 get rid of the trailing "_c0"
-		content = content.substring(0, content.length - 3);
-		return content;
+		// get rid of the trailing clone id "_c0"
+		return content.replace(/(c[0-9]+)+$/g,'');
 	};
 
 	// ========================== //
@@ -196,7 +188,7 @@ $(document).ready(function() {
 			var nTemp = [];
 
 			for(i = 0; i <= 1; i++) {
-				nSev[i] = getContent(lspine.table[curLevel][1+8*i]).removeCloneID();
+				nSev[i] = getContent(lspine.table[curLevel][1+8*i]);
 				if (nSev[i]) {
 					nTemp[nTemp.length] = getContent(lspine.table[curLevel][1+8*i]) + ' ' + nLocs[i];
 				}
@@ -267,18 +259,18 @@ $(document).ready(function() {
 				lumbarlevels = '/L1-2/L2-3/L3-4/L4-5/L5-S1'.split('/'),
 				nSevs = [], sSevs = [], sevMax, sevMaxLevels = [], cl, sevMatch = false;
 
-			// get a list of SS + NFN severities, removing clone c*
+			// get a list of SS + NFN severities
 			for(i = 1; i <= 5; i++) {
-				sSevs[i] = getContent(lspine.table[i][10]).removeCloneID();
-				nSevs[i] = getContent(lspine.table[i][1]).removeCloneID();
-				nSevs[i + 5] = getContent(lspine.table[i][9]).removeCloneID();
+				sSevs[i] = getContent(lspine.table[i][10]);
+				nSevs[i] = getContent(lspine.table[i][1]);
+				nSevs[i + 5] = getContent(lspine.table[i][9]);
 			}
 
 			// priority: 1) highest severity. 2) favor SS over NF when enumerating levels
 			for(i = 4; i >= 0; i--) {					// iterate backwards from most severe
 				if (sSevs.indexOf(refsevs[i]) > -1) {	// if there is an SS match ...
 					for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
-						if (getContent(lspine.table[cl][10]).removeCloneID() === refsevs[i]) {	// ... if there are other levels with equivalent SS severities
+						if (getContent(lspine.table[cl][10]) === refsevs[i]) {	// ... if there are other levels with equivalent SS severities
 							sevMaxLevels[sevMaxLevels.length] = lumbarlevels[cl];	// ... store them too
 						}
 					}
@@ -289,7 +281,7 @@ $(document).ready(function() {
 
 				if (nSevs.indexOf(refsevs[i]) > -1 && !sevMatch) {	// if there is an NFN match but no SS match...
 					for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
-						if (getContent(lspine.table[cl][1]).removeCloneID() === refsevs[i] || getContent(lspine.table[cl][9]).removeCloneID() === refsevs[i]) {	// ... if there are other levels with equivalent NFN severities
+						if (getContent(lspine.table[cl][1]) === refsevs[i] || getContent(lspine.table[cl][9]) === refsevs[i]) {	// ... if there are other levels with equivalent NFN severities
 							sevMaxLevels[sevMaxLevels.length] = lumbarlevels[cl];	// ... store them too
 						}
 					}
@@ -342,8 +334,6 @@ $(document).ready(function() {
 
 			// convert first letter to lowercase because text starts with "There "
 			levelsText[i] = levelsText[i].substring(0, 1).toLowerCase() + levelsText[i].substring(1);
-
-			levelsText[i] = levelsText[i].removeCloneID();
 		}
 
 		// ===== GLOBAL TEXT ===== //
@@ -396,10 +386,6 @@ $(document).ready(function() {
 
 	String.prototype.addOxfordComma = function() {
 		return this.replace(/,(?=[^,]*$)/, ', and');
-	};
-
-	String.prototype.removeCloneID = function() {
-		return this.replace(/c[0-9]+/g, '');
 	};
 
 	// ===== SELECT ALL BUTTON ===== //
