@@ -163,7 +163,6 @@ $(document).ready(function() {
 				bText[curLevel] = 'is a ' + bSev + ' broad-based disc bulge';
 			}
 
-			// pText = [];
 			for(i = 2; i <= 8; i++) {
 				if (getContent(lspine.table[curLevel][i])) {
 					pText[pText.length] = getContent(lspine.table[curLevel][i]) + ' ' + pLocs[i];
@@ -267,9 +266,8 @@ $(document).ready(function() {
 				.replace(/facet joint hypertrophy, (\w+)\b/ig, '$1 facet joint hypertrophy')	// 'fjh, right' → 'right fjh'
 				.replace(/ facet joint hypertrophy. (.*) facet/, ' and $1 facet')
 				.replace(/\b(\w+) right and[^\.]*\1 left/ig, '$1 bilateral')
-				.replace(/right and left /i, 'bilateral ')
-				.replace(/(sev) /ig, '$1ere ')
-				.replace(/(mod) /ig, '$1erate ')
+				.replace(/sev /ig, 'severe ')
+				.replace(/mod /ig, 'moderate ')
 				.replace(/Gr ([0-9])/, 'Grade $1')
 				.replace(/o list/, 'olist')
 				.replace(/(\. [^\.]*listhesis)/g, '$1 of L' + curLevel + ' on L' + (curLevel + 1))
