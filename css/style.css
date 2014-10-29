@@ -253,3 +253,13 @@ button#selectAllbtn {
 	font-size: x-small;
 	padding-top: 20px;
 }
+
+div > span {
+	line-height: 30px; /* vertically align '←' within dragdealer */
+	float: left;
+	cursor: pointer;
+}
+
+span + span {
+	float: right; /* for '→' within dragdealer */
+}
