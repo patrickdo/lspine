@@ -538,6 +538,7 @@ $(document).ready(function() {
 			.css("left", (e.pageX - 20) + "px");
 	});
 
+	document.getElementById('entirelevel').checked = false;
 	redipsInit();
 	lspine.update();
 });

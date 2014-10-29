@@ -8,6 +8,10 @@ a {
 	cursor: pointer;
 }
 
+td > a {
+	cursor: help;
+}
+
 /* drag container */
 #main_container {
 	margin: auto;
@@ -248,4 +252,14 @@ button#selectAllbtn {
 	padding-left: 15px;
 	font-size: x-small;
 	padding-top: 20px;
+}
+
+div > span {
+	line-height: 30px; /* vertically align '←' within dragdealer */
+	float: left;
+	cursor: pointer;
+}
+
+span + span {
+	float: right; /* for '→' within dragdealer */
 }
