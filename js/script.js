@@ -247,6 +247,10 @@ $(document).ready(function() {
 					}
 				}
 			}
+
+			if ($('#cbCsp' + curLevel).is(':checked')) {	// CSP
+				levelsText[curLevel] += 'Congenitally short pedicles. ';
+			}
 		}
 
 		function getGlobal() {
@@ -380,6 +384,11 @@ $(document).ready(function() {
 			}
 		}
 
+		// clear "other" checkboxes
+		for (i = 1; i <= 5; i++) {
+			document.getElementById('cbCsp' + i).checked = false;
+		}
+
 		// clear "all levels" checkboxes
 		for (i = 0; i < allLevelCBs.length; i++) {
 			document.getElementById(allLevelCBs[i]).checked = false;
@@ -406,7 +415,7 @@ $(document).ready(function() {
 	$('.inline').colorbox({
 		inline: true,
 		width: "280px",
-		height: "540px",
+		height: "585px",
 		opacity: 0.4,
 		speed: 0,
 		left: "700px",
@@ -487,7 +496,8 @@ $(document).ready(function() {
 		lspine.update();
 	});
 
-	$('#conclusion, #talk-brackets, #mild-spon, #mod-spon, #sev-spon').click(function() {
+	$('input').click(function() {
+	// $('#conclusion, #talk-brackets, #mild-spon, #mod-spon, #sev-spon').click(function() {
 		lspine.update();
 	});
 
