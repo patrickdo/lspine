@@ -114,7 +114,7 @@ $(document).ready(function() {
 	// ====== LSPINE.UPDATE ===== //
 	// ========================== //
 	lspine.update = function() {
-		var curLevel, i, levelsText = [], concl = '', reportText;
+		var curLevel, i, levelsText = [], reportText;
 
 		// ===== CYCLE THROUGH DISC SPACES ===== //
 		for (curLevel = 1; curLevel <= 5; curLevel++) {
@@ -127,19 +127,11 @@ $(document).ready(function() {
 		}
 		getGlobal();
 
-		// ===== CONCLUSION SENTENCE ===== //
-		if (document.getElementById('conclusion').checked) {
-			generateConclusion();
-		} else {
-			concl = '';	// blank conclusion sentence if checkbox is unchecked
-		}
-
 		// ===== ADD TALKSTATION [BRACKETS] ===== //
 		if (document.getElementById('talk-brackets').checked) {	// make sure checkbox is checked
 			for (i = 1; i <= 5; i++) {
 				levelsText[i] = levelsText[i].addBrackets();
 			}
-			concl = concl.addBrackets();
 		}
 
 		// ===== GENERATE REPORT ====== //
@@ -150,10 +142,14 @@ $(document).ready(function() {
 			'<b>L4-L5</b>: There ' + levelsText[4] + '<br>' +
 			'<b>L5-S1</b>: There ' + levelsText[5] + '<br>' +
 			'<br>' +
-			concl;
+			'<b>CONCLUSION:</b><br><br>';
+
+		// ===== SAVE/RESTORE ADDED TEXT ===== //
+		lspine.addedText = /(L5-S1.*?)(<br>.*)/.exec(document.getElementById('textareaReport').innerHTML);
+		if (lspine.addedText) reportText = reportText.replace(/(L5-S1.*?)(<br>.*)/, '$1' + lspine.addedText[2]);
 
 		// ===== UPDATE REPORT PREVIEW ===== //
-		document.getElementById('reportTextarea').innerHTML = reportText;
+		document.getElementById('textareaReport').innerHTML = reportText;
 
 		// ===== LSPINE.UPDATE FUNCTIONS ===== //
 		function getHerniations() {
@@ -284,66 +280,6 @@ $(document).ready(function() {
 			levelsText[curLevel] = levelsText[curLevel].replace(/s([0-9])/g, 'S$1');
 		}
 
-		function generateConclusion() {
-			var refsevs = 'mild/mild-moderate/moderate/moderate-severe/severe'.split('/'),
-				lumbarlevels = '/L1-2/L2-3/L3-4/L4-5/L5-S1'.split('/'),
-				nSevs = [], sSevs = [], sevMax, sevMaxLevels = [], cl, sevMatch = false;
-
-			// get a list of SS + NFN severities
-			for(i = 1; i <= 5; i++) {
-				sSevs[i] = getContent(lspine.table[i][10]);
-				nSevs[i] = getContent(lspine.table[i][1]);
-				nSevs[i + 5] = getContent(lspine.table[i][9]);
-			}
-
-			// priority: 1) highest severity. 2) favor SS over NF when enumerating levels
-			for(i = 4; i >= 0; i--) {					// iterate backwards from most severe
-				if (sSevs.indexOf(refsevs[i]) > -1) {	// if there is an SS match ...
-					for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
-						if (getContent(lspine.table[cl][10]) === refsevs[i]) {	// ... if there are other levels with equivalent SS severities
-							sevMaxLevels[sevMaxLevels.length] = lumbarlevels[cl];	// ... store them too
-						}
-					}
-					sevMax = refsevs[i];
-					i = -1;	// exit loop. if there is a match, don't look for lower severity matches
-					sevMatch = true;
-				}
-
-				if (nSevs.indexOf(refsevs[i]) > -1 && !sevMatch) {	// if there is an NFN match but no SS match...
-					for(cl = 1; cl <= 5; cl++) {		// ... look through all levels ...
-						if (getContent(lspine.table[cl][1]) === refsevs[i] || getContent(lspine.table[cl][9]) === refsevs[i]) {	// ... if there are other levels with equivalent NFN severities
-							sevMaxLevels[sevMaxLevels.length] = lumbarlevels[cl];	// ... store them too
-						}
-					}
-					sevMax = refsevs[i];
-					i = -1;	// exit loop. if there is a match, don't look for lower severity matches
-				}
-			}
-
-			// list the levels where highest severity is present
-			if (sevMax) {
-				switch(sevMaxLevels.length) {
-					case 1:
-						concl = sevMaxLevels + ' level';	// maybe this converts it to a string
-						break;
-					case 2:
-						concl = sevMaxLevels.join(' and ') + ' levels';
-						break;
-					default:
-						concl = sevMaxLevels.join(', ') + ' levels';
-				}
-
-				concl = concl.replace(/-(\d).*\1/g, '');	// combine Lx-y and Ly-z → Lx-z
-
-				// generate conclusion sentence
-				concl =	lspine.helpers.capitalizer(sevMax) +
-						(sevMaxLevels.length < 3	? ' lumbar spondylosis, particularly at the ' + concl + '.'
-													: ' multi-level lumbar spondylosis as described above.');
-			} else {
-				concl = 'No significant degenerative change.';
-			}
-			concl = '<b>CONCLUSION:</b><br>' + concl + '<br><br>';
-		}
 	};
 
 	// ===== ADD TALKSTATION [BRACKETS] ===== //
@@ -360,7 +296,7 @@ $(document).ready(function() {
 
 	// ===== SELECT ALL BUTTON ===== //
 	lspine.selectAll = function() {
-		document.getElementById('reportTextarea').focus();
+		document.getElementById('textareaReport').focus();
 		document.execCommand('SelectAll');
 	};
 
@@ -394,6 +330,12 @@ $(document).ready(function() {
 			document.getElementById(allLevelCBs[i]).checked = false;
 		}
 
+		// clear remaining checkboxes
+		document.getElementById('entirelevel').checked = false;
+		document.getElementById('talk-brackets').checked = false;
+
+		// clear textarea (needed for saving/restoring added text)
+		document.getElementById('textareaReport').innerHTML = '';
 		lspine.update();
 	};
 
